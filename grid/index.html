@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid 布局 500382200707297107</title>
+    <style>
+      .grid {
+        width: 90vw;
+        height: 500px;
+        border: 1px solid #000;
+
+        display: grid;
+        grid-template-columns: 200px 200px 200px;
+        grid-template-rows: 100px 100px 100px;
+        /* gap: 40px; */
+        grid-template-areas:
+          'a b c'
+          'd e f'
+          'g h i';
+
+        justify-content: center;
+        align-content: center;
+        grid-auto-rows: 50px;
+      }
+      .item {
+        width: 50px;
+        height: 50px;
+        font-size: 32px;
+        text-align: center;
+        line-height: 50px;
+        border: 1px solid #000;
+      }
+      .item1 {
+        background-color: rgb(236, 136, 136);
+        justify-self: center;
+        align-self: center;
+      }
+      .item2 {
+        background-color: rgb(236, 206, 136);
+      }
+      .item3 {
+        background-color: rgb(213, 236, 136);
+      }
+      .item4 {
+        background-color: rgb(171, 236, 136);
+      }
+      .item5 {
+        background-color: rgb(136, 236, 201);
+      }
+      .item6 {
+        background-color: rgb(136, 223, 236);
+      }
+      .item7 {
+        background-color: rgb(136, 181, 236);
+      }
+      .item8 {
+        background-color: rgb(186, 136, 236);
+      }
+      .item9 {
+        background-color: rgb(236, 136, 208);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-wrap">
+      <div class="grid">
+        <div class="item item1">1</div>
+        <div class="item item2">2</div>
+        <div class="item item3">3</div>
+        <div class="item item4">4</div>
+        <div class="item item5">5</div>
+        <div class="item item6">6</div>
+        <div class="item item7">7</div>
+        <div class="item item8">8</div>
+        <div class="item item9">9</div>
+      </div>
+    </div>
+  </body>
+</html>
