@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      /* 效果1 */
+      .box1 {
+        width: 100vw;
+        height: 100vh;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url(./images/img3.jpeg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .box1 > .glass {
+        width: 90%;
+        height: 20%;
+        border-radius: 20px;
+        /* 毛玻璃特效 */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000000;
+      }
+      /* 效果2 */
+      .box2 {
+        width: 100vw;
+        height: 100vh;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url(./images/img5.jpeg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .box2 > .glass {
+        width: 90%;
+        height: 20%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+      }
+      .box2 > .glass::after {
+        content: '';
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 20px;
+        background-image: url(./images/img5.jpeg);
+        position: absolute;
+        z-index: -1;
+        filter: blur(20px);
+        background-position: center top;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box box1">
+        <div class="glass">山有木兮木有枝，心悦君兮君不知。</div>
+      </div>
+      <div class="box box2">
+        <div class="glass">山有木兮木有枝，心悦君兮君不知。</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        width: 50%;
+        margin: 20px auto;
+      }
+      /* 利用vw */
+      .box1 > img {
+        width: 50vw;
+        height: 50vw;
+        border-radius: 20px;
+        object-fit: cover;
+      }
+      /* 利用pading-bottom百分比以父元素宽度参照 */
+      .box2 {
+        width: 50%;
+        padding-bottom: 50%;
+        overflow: hidden;
+        position: relative;
+        border-radius: 20px;
+      }
+      .box2 > img {
+        position: absolute;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+      /* 利用伪元素使用max-height */
+      .box3 {
+        width: 50%;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        max-height: 500px;
+        max-width: 500px;
+      }
+      .box3::after {
+        content: '';
+        display: block;
+        padding-bottom: 100%;
+      }
+      .box3 > img {
+        position: absolute;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box box1">
+        <img src="./images/img1.jpeg" alt="" />
+      </div>
+      <div class="box box2">
+        <img src="./images/img2.jpeg" alt="" />
+      </div>
+      <div class="box box3">
+        <img src="./images/img3.jpg" alt="" />
+      </div>
+    </div>
+  </body>
+</html>
