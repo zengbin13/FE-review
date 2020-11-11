@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue 实现</title>
+  </head>
+  <body>
+    <p>app之外</p>
+    <div id="app">
+      <h1 @click="handleClick(333,22)">标题</h1>
+      <p title="222" v-model="333">{{message}}</p>
+    </div>
+    <script src="./vue/Observer.js"></script>
+    <script src="./vue/Compiler.js"></script>
+    <script src="./vue/Vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          message: 'message',
+        },
+      });
+    </script>
+  </body>
+</html>

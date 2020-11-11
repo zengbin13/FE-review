@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    .fade-enter-active {
+      transition: all 1.3s ease;
+    }
+    .fade-enter-to,
+    .fade-leave {
+      opacity: 1;
+    }
+    .fade-leave-active {
+      transition: all 1.5s ease-in-out;
+    }
+    .fade-leave-to {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+  </style>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <div id="app">
+      <button @click="handleToogle">toggle</button>
+      <transition name="fade">
+        <p v-if="show">{{message}}</p>
+      </transition>
+    </div>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          show: true,
+          message:
+            '对于生产环境，我们推荐链接到一个明确的版本号和构建文件，以避免新版本造成的不可预期的破坏：',
+        },
+        methods: {
+          handleToogle() {
+            this.show = !this.show;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
