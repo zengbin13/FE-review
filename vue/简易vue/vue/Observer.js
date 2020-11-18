@@ -7,29 +7,38 @@ class Observer {
   observer(data) {
     //非对象
     if (!data || typeof data !== 'object') {
-      throw new Error('data属性应为一个对象');
       return;
     }
     //获取data对象上的键值数组并对进行遍历
     Object.keys(data).forEach(key => {
-      // 调用数据劫持方法
+      // 劫持 - 实现数据响应式
       this.defineReactive(data, key, data[key]);
-      // 递归劫持data对象
-      if (typeof data[key] === 'object') {
-        this.observer(data[key]);
-      }
+      // 深度劫持
+      this.observer(data[key]);
     });
   }
+  // 数据响应式
   defineReactive(data, key, value) {
-    // 保存this
     const _this = this;
-    // 添加观察者
-    // let dep = new Dep()
+    // 每个变化的数据都对应一个数组，该数组存放所有更新操作
+    let dep = new Dep();
     // 数据劫持
     Object.defineProperty(data, key, {
       enumerable: true, //可枚举的
       configurable: true, //可删除的
-      get() {},
+      // 取值
+      get() {
+        //订阅数据变化时，往dep添加观察者
+        Dep.target && dep.addSub(Dep.target);
+        return value;
+      },
+      set(newValue) {
+        if (newValue !== value) {
+          _this.observer(newValue); //重新赋值为对象时，深度劫持
+          value = newValue;
+          dep.notify(); //通知所有人数据更新
+        }
+      },
     });
   }
 }
@@ -51,7 +60,7 @@ class Dep {
   }
 }
 
-// Watcher订阅者 存储更新前的值 在值更新时执行实例的callback用于视图更新 —— data每个属性使用位置
+// Watcher订阅者 对数据进行观察以及保存数据修改需要触发的回调
 class Watcher {
   constructor(vm, variable, callback) {
     // 保存vm实例

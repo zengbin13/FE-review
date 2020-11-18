@@ -9,7 +9,10 @@
     <p>app之外</p>
     <div id="app">
       <h1 @click="handleClick(333,22)">标题</h1>
-      <p title="222" v-model="333">{{message}}</p>
+      <p>{{other}}</p>
+      <input type="text" v-model="other" />
+      <p title="222" @click="handleClick">{{userInfo.nickname}}</p>
+      <p>{{userInfo.age}}</p>
     </div>
     <script src="./vue/Observer.js"></script>
     <script src="./vue/Compiler.js"></script>
@@ -18,7 +21,16 @@
       let vm = new Vue({
         el: '#app',
         data: {
-          message: 'message',
+          other: '其他信息',
+          userInfo: {
+            nickname: '小明',
+            age: 18,
+          },
+        },
+        methods: {
+          handleClick() {
+            alert(22222);
+          },
         },
       });
     </script>

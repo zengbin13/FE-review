@@ -11,6 +11,8 @@ class Compiler {
       let fragment = this.vNodeFragment(this.el);
       // 调用compiler方法进行编译
       this.compile(fragment);
+      // 编译完成后添加到真实DOM
+      this.el.appendChild(fragment);
     }
   }
   // DOM文档片段
@@ -87,10 +89,6 @@ const CompilerUtil = {
     // 通过reduce方法递归遍历vm.$data, 拿到最终在vm实例中的属性值
     return variable.reduce((prev, next) => prev[next], vm.$data);
   },
-  // 双向数据绑定 v-model的简单实现
-  model(node, vm, variable) {
-    // console.log('v-model');
-  },
   // 添加事件
   addEvent(node, event, method, vm) {
     node.removeAttribute('@' + event);
@@ -101,6 +99,77 @@ const CompilerUtil = {
   },
   // 编译文本节点
   text(node, vm, variable) {
-    console.log(variable);
+    // 文本节点的修改函数
+    let updateFn = this.textUpdater;
+    // 获取文本节点变量的值
+    let value = this.getTextValue(vm, variable);
+    // 定义正则
+    let reg = /\{\{(.+?)\}\}/g;
+    //通过正则匹配变量， 给变量添加观察者
+    variable.replace(reg, ($0, $1) => {
+      // 当解析模板遇到变量时, 使用观察者和监听该变量
+      new Watcher(vm, $1, newValue => {
+        //观察者回调函数，当数据发生改变时触发该回调
+        updateFn && updateFn(node, newValue);
+      });
+    });
+    //第一次设置值
+    updateFn && updateFn(node, value);
+  },
+  // 文本编译的回调函数
+  textUpdater(node, value) {
+    node.textContent = value;
+  },
+  // input编译的回调函数
+  modelUpdater(node, value) {
+    node.value = value;
+  },
+  getTextValue(vm, variable) {
+    // 通过正则匹配获得属性名
+    let reg = /\{\{([^}]+)\}\}/g;
+    return variable.replace(reg, ($0, $1) => {
+      // 通过属性名，调用getValue获得属性值
+
+      return this.getValue(vm, $1);
+    });
+  },
+  // 获取vm实例对应的值
+  getValue(vm, variable) {
+    variable = variable.split('.');
+    //通过reduce方法递归vm.$data 获取属性值
+    return variable.reduce((prev, next) => prev[next], vm.$data);
+  },
+  //设置value
+  setValue(vm, variable, newValue) {
+    variable = variable.split('.');
+    return variable.reduce((prev, next, index) => {
+      if (index === variable.length - 1) {
+        // 给当前属性设置值
+        return (prev[next] = newValue);
+      }
+      return prev[next];
+    }, vm.$data);
+  },
+  // 双向数据绑定
+  model(node, vm, variable) {
+    // 获取双向数据绑定修改的方法
+    let updateFn = this.modelUpdater;
+    // 获取对应的值
+    let value = this.getValue(vm, variable);
+    // 添加订阅者
+    new Watcher(vm, variable, newValue => {
+      // 数据修改时，触发当前回调修改元素节点的值
+      updateFn && updateFn(node, newValue);
+    });
+    //将V-model属性从DOM节点上删除
+    node.removeAttribute('v-model');
+    //给当前元素节点添加input事件
+    node.addEventListener('input', e => {
+      let value = e.target.value;
+      //更新到节点
+      this.setValue(vm, variable, value);
+    });
+    // 初次渲染时 设置一次
+    updateFn && updateFn(node, value);
   },
 };

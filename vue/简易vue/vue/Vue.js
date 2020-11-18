@@ -10,11 +10,11 @@ class Vue {
     this.$methods = this.$options.methods || {};
 
     // 进行数据劫持
-    // new Observer(this.$data);
+    new Observer(this.$data);
 
     // 对数据和方法进行代理
-    // this.proxyData(this.$options.data);
-    // this.proxyData(this, this.$options.methods);
+    this.proxyData(this.$data);
+    this.proxyData(this.$methods);
 
     // 若具有el属性, 自动调用$mount方法 挂载到DOM节点上
     if (this.$options.el) {
@@ -36,6 +36,7 @@ class Vue {
     this.$el = $el;
     // 通过Compiler编译器进行编译
     new Compiler(this.$el, this);
+    // 返回当前vm实例 确保外部能够拿到正确的实例
     return this;
   }
 
