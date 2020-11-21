@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .img {
+            width: 100vw;
+            background: url('./images/loading.gif') no-repeat center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="./images/img1.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img2.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img3.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img4.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img5.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img1.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img2.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img3.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img4.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img5.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img1.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img2.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img3.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img4.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img5.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img1.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img2.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img3.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img4.jpeg" alt="" class="img" loading='lazy'>
+        <img src="./images/img5.jpeg" alt="" class="img" loading='lazy'>
+        
+    </div>
+    <script src="./lodash.js"></script>
+    <!-- <script>
+        //加载可视区域图片
+        lazyLoad()
+        //页面滚动时，节流加载
+        document.addEventListener('scroll', _.throttle(lazyLoad, 1000)
+)
+
+        function lazyLoad() {
+            let imgs = [...document.querySelectorAll('.img')]
+            imgs.forEach(item => {
+                if (item.getBoundingClientRect().top < document.documentElement.clientHeight) {
+                    item.src = item.dataset.src
+                }
+            })
+        }
+
+
+    </script> -->
+</body>
+
+</html>
