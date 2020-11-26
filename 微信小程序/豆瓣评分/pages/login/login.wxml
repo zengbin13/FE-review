@@ -1,0 +1,4 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <image src="../../assets/imgs/ic_launcher.png"></image>
+</view>
