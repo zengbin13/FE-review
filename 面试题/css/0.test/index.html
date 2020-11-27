@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
 
             min-height: 100vh;
         }
-        /*多行文本溢出*/
-        p {
-        position: relative;
-        line-height: 1.5em;
-        /*高度为需要显示的行数*行高，比如这里我们显示两行，则为3*/
-        height: 3em;
-        overflow: hidden;
-        }
-
-        p:after {
-        content: '...';
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background-color: #fff;
-        }
     </style>
 </head>
+
 <body>
-    <p>Lorem ipsum dosit amet consectetur adipisicing elit. Perspiciatis harum aspernatur, fugit repudiandae itaque sapiente id magnam. Vel praesentium aliquid repellendus asperiores? Quasi laboriosam quae voluptatem tenetur, sed animi error!id repellendus asperiores? Quasi laboriosam quae voluptatem tenetur, sed animi error!</p>
+    <div>闭包</div>
+    <script>
+        function foo() {
+            var myName = "yyyy"
+            let test1 = 1
+            const test2 = 2
+            var innerBar = {
+                getName: function () {
+                    console.log(test1)
+                    return myName
+                },
+                setName: function (newName) {
+                    myName = newName
+                }
+            }
+            return innerBar
+        }
+        var bar = foo()
+        bar.setName("xxxx")
+        bar.getName()
+        console.log(bar.getName())
+    </script>
 </body>
+
 </html>

@@ -13,12 +13,18 @@
 			};
 		},
 		methods:{
-			handleTap() {
-				this.$utils.getUniPush()
+			async handleTap() {
+				let res = await this.$service.index.get_user_info()
+				console.log(res);
 			},
 			handleTap2() {
-				let token = this.$storage.getSync('token') || ''
-				console.log('');
+				uni.request({
+					url:'http://api.liangbian.club/api/getUserInfo',
+					method:'post',
+					success(res) {
+						console.log(res);
+					}
+				})
 			}
 		}
 	}

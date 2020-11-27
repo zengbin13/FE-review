@@ -76,13 +76,10 @@ const storage = {
 	},
 	
 	//获取用户token信息
-	getToken() {
-		return storage.getSync('token')
-	},
+	getTokenInfo: () => storage.getSync('tokenInfo'),
 	//设置用户token信息
-	setToken(token) {
-		storage.setSync('token', token)
-	},
+	setTokenInfo: (tokenInfo) => storage.setSync('tokenInfo', tokenInfo),
+	
 	//获取用户信息
 	getUserInfo() {
 		return storage.getSync('userInfo')

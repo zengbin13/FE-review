@@ -21,21 +21,31 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, 
+		{
+			"path": "pages/login/login",
+			"style": {}
+		}, {
+			"path": "pages/login/forget",
+			"style": {}
+		}, {
+			"path": "pages/login/register",
+			"style": {}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uView",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom" //取消默认的原生导航栏
 	},
 	"tabBar": {
 		"color": "#909399",
 		"selectedColor": "#303133",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/index.png",
 				"selectedIconPath": "static/index-selected.png",
