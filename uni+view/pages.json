@@ -24,21 +24,42 @@
 		}, 
 		{
 			"path": "pages/login/login",
-			"style": {}
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}, {
 			"path": "pages/login/forget",
-			"style": {}
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}, {
 			"path": "pages/login/register",
-			"style": {}
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
-	],
+	    ,{
+            "path" : "pages/login/upload-userinfo",
+            "style" :                                                 
+            {
+                "navigationBarTitleText": "上传个人资料",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uView",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"navigationStyle": "custom" //取消默认的原生导航栏
+		"backgroundColor": "#F8F8F8"
+		//"navigationStyle": "custom" //取消默认的原生导航栏
 	},
 	"tabBar": {
 		"color": "#909399",

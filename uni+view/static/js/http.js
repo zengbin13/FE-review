@@ -7,7 +7,8 @@ const imgDomain = config.imgDomain
 
 //获取授权参数
 function getHeader() {
-	let token = storage.getSync('token') || 'c27ab676a72963aa5b975fecd21dc8e2'
+	let token = storage.getSync('token') || ''
+	//c8940cca70b53f2a667de5511bbdc5f9
 	let header = {
 		'content-type': 'application/json',
 		'accessToken': token

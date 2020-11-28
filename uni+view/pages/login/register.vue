@@ -26,7 +26,6 @@
 					type="number"
 					maxlength="4"
 					placeholder="验证码"
-					
 					isShowCode
 					ref="runCode"
 					@setCode="getVerCode()"

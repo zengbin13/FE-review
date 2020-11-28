@@ -5,6 +5,10 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+//vuex
+import store from './store'
+Vue.prototype.$store = store
+
 // 引入全局uView
 import uView from 'uview-ui'
 Vue.use(uView);
@@ -32,6 +36,7 @@ setTimeout(() => {
 // #endif
 
 const app = new Vue({
+	store,
     ...App
 })
 app.$mount()

@@ -164,9 +164,9 @@
 					return this.codeText;
 				}else{
 					if(this.second<10){
-						return '0'+this.second;
+						return '0'+this.second + '后重新获取';
 					}else{
-						return this.second;
+						return this.second + '后重新获取';;
 					}
 				}
 				
@@ -202,12 +202,14 @@
 		margin-left: 20rpx;
 	}
 	.vercode {
-		color: rgba(0,0,0,0.7);
+		/* color: rgba(0,0,0,0.7); */
+		color: #ff7243;
 		font-size: 24rpx;
 		/* line-height: 100rpx; */
 	}
 	.vercode-run {
-		color: rgba(0,0,0,0.4) !important;
+		/* color: rgba(0,0,0,0.4) !important; */
+		color: #ff724390;
 	}
 	.oBorder{
 	    border: none;
