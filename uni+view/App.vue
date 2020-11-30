@@ -14,5 +14,12 @@
 
 <style lang="scss">
 	@import "uview-ui/index.scss";
+	@import "@/static/css/iconfont.css";
 	/*每个页面公共css */
+	// .male {
+	// 	color: $male-color !important;
+	// }
+	// .female {
+	// 	color: $female-color !important;
+	// }
 </style>

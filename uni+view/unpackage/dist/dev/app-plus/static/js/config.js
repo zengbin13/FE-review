@@ -1,4 +1,5 @@
 export default {
-	domain: 'http://api.liangbian.club/api/',
-	imgDomain: 'http://api.liangbian.club/api/synthesisImg'
+	domain: 'http://apis.liangbian.club',
+	imgDomain: 'http://apis.liangbian.club',
+	uploadDomain: 'http://apis.liangbian.club/api/uploadpic'
 }

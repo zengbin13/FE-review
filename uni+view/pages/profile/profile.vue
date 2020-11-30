@@ -2,6 +2,7 @@
 	<view>
 		<u-button @tap="handleTap">点击</u-button>
 		<u-button @tap="handleTap2">点击2</u-button>
+		<u-button @tap="handleTap3">点击3</u-button>
 	</view>
 </template>
 
@@ -18,12 +19,14 @@
 				console.log(res);
 			},
 			handleTap2() {
-				uni.request({
-					url:'http://api.liangbian.club/api/getUserInfo',
-					method:'post',
-					success(res) {
-						console.log(res);
-					}
+				uni.navigateTo({
+					url:"/pages/login/upload-userinfo"
+				})
+			},
+			handleTap3() {
+				uni.clearStorage()
+				uni.navigateTo({
+					url:"/pages/login/login"
 				})
 			}
 		}

@@ -15,7 +15,7 @@ const storage = {
 	set(key, value) {
 		if(value) {
 			uni.setStorage({
-				key: getFullKey(key),
+				key: storage.getFullKey(key),
 				data: value
 			})
 		} else {
@@ -25,7 +25,7 @@ const storage = {
 	//获取缓存-异步
 	get(key, func) {
 		uni.getStorage({
-			key: getFullKey(key),
+			key: storage.getFullKey(key),
 			success(res) {
 				func(res.data)
 			}
@@ -34,7 +34,7 @@ const storage = {
 	//移除缓存-异步
 	romove(key) {
 		uni.removeStorage({
-			key:getFullKey(key)
+			key:storage.getFullKey(key)
 		})
 	},
 	//获取当前缓存-异步
@@ -76,13 +76,10 @@ const storage = {
 	},
 	
 	//获取用户token信息
-	getToken() {
-		return storage.getSync('token')
-	},
+	getTokenInfo: () => storage.getSync('tokenInfo'),
 	//设置用户token信息
-	setToken(token) {
-		storage.setSync('token', token)
-	},
+	setTokenInfo: (tokenInfo) => storage.setSync('tokenInfo', tokenInfo),
+	
 	//获取用户信息
 	getUserInfo() {
 		return storage.getSync('userInfo')

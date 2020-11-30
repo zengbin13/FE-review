@@ -2,6 +2,8 @@
  * 通用公共js库，常量值和通用函数
  */
 const utils = {
+	//加载状态延时
+	delay: null,
 	//显示成功提示
 	showToast(title) {
 		uni.showToast({

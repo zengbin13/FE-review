@@ -22,11 +22,11 @@
 				<wInput
 					v-model="verCode"
 					type="number"
-					maxlength="4"
+					maxlength="6"
 					placeholder="验证码"
 					
 					isShowCode
-					codeText="获取重置码"
+					codeText="获取验证码"
 					setTime="30"
 					ref="runCode"
 					@setCode="getVerCode()"
@@ -65,8 +65,7 @@
 			_this= this;
 		},
 		methods: {
-			getVerCode(){
-				//获取验证码
+			async getVerCode(){
 				if (_this.phoneData.length != 11) {
 				     uni.showToast({
 				        icon: 'none',
@@ -75,22 +74,11 @@
 				    });
 				    return false;
 				}
-				console.log("获取验证码")
+				let res = await this.$service.login.send_sms({mobile: _this.phoneData})
+				if(res.data.code === 0) {
+					this.$utils.showToast(res.data.msg)
+				}
 				this.$refs.runCode.$emit('runCode'); //触发倒计时（一般用于请求成功验证码后调用）
-				uni.showToast({
-				    icon: 'none',
-					position: 'bottom',
-				    title: '模拟倒计时触发'
-				});
-				
-				setTimeout(function(){
-					_this.$refs.runCode.$emit('runCode',0); //假装模拟下需要 终止倒计时
-					uni.showToast({
-					    icon: 'none',
-						position: 'bottom',
-					    title: '模拟倒计时终止'
-					});
-				},3000)
 			},
 			startRePass() {
 				//重置密码
@@ -114,7 +102,7 @@
 			        });
 			        return false;
 			    }
-				if (this.verCode.length != 4) {
+				if (this.verCode.length < 5) {
 				    uni.showToast({
 				        icon: 'none',
 						position: 'bottom',
@@ -122,20 +110,37 @@
 				    });
 				    return false;
 				}
-				console.log("重置密码成功")
+				this.rePass()	
+			},
+			async rePass() {
 				_this.isRotate=true
 				setTimeout(function(){
 					_this.isRotate=false
 				},3000)
-				
-				
+				let params = {
+					mobile: this.phoneData,
+					password: this.passData,
+					code: this.verCode
+				}
+				let res = await this.$service.login.edit_pass(params)
+				if(res.data.code === 0) {
+					this.$utils.showToast(res.data.msg)
+					setTimeout(() => {
+						uni.navigateBack({
+							delta:1
+						})
+					}, 1500)
+				}
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	@import url("../../components/watch-login/css/icon.css");
 	@import url("./css/main.css");
+	.content {
+		// justify-content: start !important;
+	}
 </style>
 
