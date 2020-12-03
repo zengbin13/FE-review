@@ -21,11 +21,18 @@ const login = {
 	bind_phone_data: params => http.request('POST', '/api/userAuthsMobile', params),
 	
 }
+const mall = {
+	//商品数据
+	get_goods_list: () => http.request('GET', 'api/getList'),
+	//商品分类
+	get_goods_cart: () => http.request('GET', '/api/cateList'),
+}
 const profile = {
 	//用户信息
 	
 }
 export default {
 	login,
-	index
+	index,
+	mall
 }

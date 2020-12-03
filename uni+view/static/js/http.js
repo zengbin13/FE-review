@@ -44,6 +44,7 @@ function request(method, url, params, loadingText) {
 			fail(err) {
 				loadingText && uni.hideLoading()
 				utils.showToast('网络不给力，请稍后再试~');
+				console.log(err);
 				reject(err);
 			},
 		})
@@ -60,6 +61,7 @@ function checkResult(res) {
 	}
 	//未登录
 	if (res.data.code === 1001) {
+		console.log(res.data.code);
 		uni.reLaunch({
 			url: '/pages/login/login'
 		})

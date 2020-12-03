@@ -73,6 +73,33 @@
 					"enablePullDownRefresh": false
 				}  
         }
+        ,{
+            "path" : "pages/mall/mall",
+            "style" : {
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent",
+						"searchInput": {
+							"disabled": true,
+							"align":"center",
+							"placeholder":"请输入你需要的商品",
+							"placeholderColor":"#606266",
+							"backgroundColor":"rgba(231, 231, 231,.7)",
+							"borderRadius":"16px"
+						},
+						"buttons":[
+							{
+								"type":"none",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text": "\ue64e",
+								"background": "rgba(231, 231, 231,.7)",
+								"color":"#606266"
+							}
+						]
+					}
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -96,6 +123,12 @@
 				"iconPath": "static/center.png",
 				"selectedIconPath": "static/center-selected.png",
 				"text": "我"
+			},
+			{
+				"pagePath": "pages/mall/mall",
+				"iconPath": "static/center.png",
+				"selectedIconPath": "static/center-selected.png",
+				"text": "商城"
 			},
 			{
 				"pagePath": "pages/profile/profile",
