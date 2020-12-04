@@ -23,7 +23,7 @@ const login = {
 }
 const mall = {
 	//商品数据
-	get_goods_list: () => http.request('GET', 'api/getList'),
+	get_goods_list: () => http.request('GET', '/api/getList'),
 	//商品分类
 	get_goods_cart: () => http.request('GET', '/api/cateList'),
 }
