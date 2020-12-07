@@ -100,6 +100,15 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/mall/orders",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": true
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

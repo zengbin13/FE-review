@@ -62,6 +62,19 @@ export default {
 		this.windowHeight = systemInfo.windowHeight;
 		this.init();
 	},
+	//点击导航栏 buttons 时触发
+	onNavigationBarButtonTap(e) {
+		if(e.index === 0) {
+			uni.navigateTo({
+				url: './orders'
+			})
+		}
+	},
+	computed: {
+		curBgColor() {
+			return this.bannerList[this.currentIndex].bgColor;
+		}
+	},
 	components: {
 		goodsItem
 	},
@@ -93,11 +106,7 @@ export default {
 			} 
 		}
 	},
-	computed: {
-		curBgColor() {
-			return this.bannerList[this.currentIndex].bgColor;
-		}
-	}
+
 };
 </script>
 
