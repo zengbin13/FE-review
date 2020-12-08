@@ -68,9 +68,13 @@
 </template>
 
 <script>
+	// 登录
 	let _this;
 	import wInput from '../../components/watch-login/watch-input.vue' //input
 	import wButton from '../../components/watch-login/watch-button.vue' //button
+	// 环信IM
+	let WebIM = require("../../utils/WebIM")["default"];
+	let disp = require("../../utils/broadcast");
 	
 	export default {
 		data() {
@@ -238,6 +242,15 @@
 					sex: data.sex,
 					state: data.state,
 				}
+				// IM登录
+				getApp().globalData.conn.open({
+				  apiUrl: WebIM.config.apiURL,
+				  user: data.account_number,
+				  pwd: data.invite_code,
+				  // grant_type: this.loginMode,
+				  grant_type: 'password',
+				  appKey: WebIM.config.appkey
+				});
 				this.$storage.setSync('token', data.token)
 				this.$storage.setSync('state', state)
 				
@@ -247,6 +260,7 @@
 					token: data.token,
 					userInfo: userInfo
 				})
+
 				uni.reLaunch({
 					url:'../index/index'
 				})

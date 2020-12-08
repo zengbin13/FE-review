@@ -27,12 +27,47 @@ const mall = {
 	//商品分类
 	get_goods_cart: () => http.request('GET', '/api/cateList'),
 }
+//im
+const im = {
+	//获取好友列表
+	get_friend_list: params => http.request('GET', '/im/getFriendList', params),
+	//发送文字消息
+	sendMessage: params => http.request('POST', '/im/sendMessage', params),
+	//获取资料卡
+	getUserInfo: (account_number) => http.request('GET', '/im/getUserInfo', {
+		account_number
+	}),
+	//发送文件信息
+	sendFileMsg: (params) => http.request('POST', '/im/sendFileMsg', params),
+	//修改好友备注
+	editRemarks: (params) => http.request('POST', '/im/editRemarks', params),
+	//上线通知
+	onlineNotice: (params) => http.request('POST', '/im/onlineNotice', params),
+	//判断是否为好友
+	ifUserFriend: (uid) => http.request('GET', '/im/ifUserFriend', {
+		uid
+	}),
+	//上传cid
+	unipush: (cid) => http.request('POST', '/api/updateDeviceId', {
+		cid
+	}),
+	//删除好友
+	delFriend: (to_uid) => http.request('POST', '/im/delFriend', {
+		to_uid
+	}),
+	//推送
+	mgsUserPush: (params) => http.request('POST', '/im/mgsUserPush', params),
+	//消息置顶
+	friendToTop: (params) => http.request('POST', '/im/friendToTop', params),
+}
+
 const profile = {
 	//用户信息
-	
 }
+
 export default {
 	login,
 	index,
-	mall
+	mall,
+	im
 }

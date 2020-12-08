@@ -22,6 +22,33 @@ Vue.prototype.$storage = storage;
 Vue.prototype.$service = service;
 Vue.prototype.$utils = utils;
 
+// IM
+Vue.mixin({
+	methods: {
+		setData: function(obj, callback) {
+			let that = this;
+			let keys = [];
+			let val, data;
+			Object.keys(obj).forEach(function(key) {
+				keys = key.split('.');
+				val = obj[key];
+				data = that.$data;
+				keys.forEach(function(key2, index) {
+					if (index + 1 == keys.length) {
+						that.$set(data, key2, val);
+					} else {
+						if (!data[key2]) {
+							that.$set(data, key2, {});
+						}
+					}
+					data = data[key2];
+				})
+			});
+			callback && callback();
+		} 
+	}
+});
+
 //网络监听
 // #ifndef MP-TOUTIAO
 setTimeout(() => {
