@@ -1,4 +1,4 @@
-## new 操作符
+### new 操作符
 
 **new进行步骤**
 
@@ -38,4 +38,16 @@ function _new(fn, ..arg) {
 - 对于实例对象来说，都是通过 new 产生的
 
 
+
+###  查找英文文章中出现频率最高的单词
+
+```js
+function findMostWord(article) {
+    //合法判断
+    if(!article) return;
+    //参数处理
+    article = article.trim().toLowerCase()
+    
+}
+```
 

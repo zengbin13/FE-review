@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<view class="friend-item" v-for="(friend, index) in friendList" :key="friend.account">
-			<u-avatar :src="friend.avatar"></u-avatar>
-			<text>{{friend.u_nickname}}</text>
+		<view class="friend-item" v-for="(friend, index) in friendList" :key="friend.account + index" @tap="goChatroom(index)">
+			<u-avatar :src="friend.avatar" mode="square" size="80" :show-level="Boolean(friend.level)"></u-avatar>
+			<text class="nickname">{{friend.u_nickname}}</text>
 		</view>
 	</view>
 </template>
@@ -51,6 +51,18 @@ export default {
 		this.getFriendList()
 	},
 	methods: {
+		// 前往聊天室
+		goChatroom(index) {
+			let curFriend = this.friendList[index]
+			let username = {
+				myName: uni.getStorageSync('myUsername'),
+				your: curFriend.account.toLowerCase()
+			}
+			console.log(username);
+			uni.redirectTo({
+				url: `../chatroom/chatroom?username=${JSON.stringify(username)}`
+			})
+		},
 		// 获取好友列表 
 		async getFriendList() {
 			let params = {
@@ -188,4 +200,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+	.friend-item {
+		padding: 10rpx 30rpx;
+		border-bottom: 1rpx solid #e4e4e4;
+		display: flex;
+		align-items: center;
+		.nickname {
+			padding-left: 30rpx;
+		}
+	}
+</style>

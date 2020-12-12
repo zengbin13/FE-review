@@ -12,8 +12,10 @@
 	left: 0;
 	right: 0;
 	bottom: 170rpx; */
-	margin-bottom: 170rpx;
+	margin-bottom: 180rpx;
+	
 	background-color: #FAFAFA;
+	border: 1px solid #09BB07;
 }
 
 .scroll_view_X,

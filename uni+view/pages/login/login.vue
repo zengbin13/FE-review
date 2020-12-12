@@ -243,6 +243,10 @@
 					state: data.state,
 				}
 				// IM登录
+				uni.setStorage({
+				  key: "myUsername",
+				  data: data.account_number.toLowerCase()
+				});
 				getApp().globalData.conn.open({
 				  apiUrl: WebIM.config.apiURL,
 				  user: data.account_number,

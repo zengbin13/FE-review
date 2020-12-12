@@ -528,7 +528,8 @@ export default {
 					disp.fire('em.error.sendMsgErr', error);
 				}
 			}
-		});
+		}
+		);
 		this.globalData.checkIsIPhoneX();
 	},
 
@@ -540,4 +541,5 @@ export default {
 @import 'uview-ui/index.scss';
 @import '@/static/css/iconfont.css';
 /*每个页面公共css */
+@import 'app.css';
 </style>

@@ -53,8 +53,6 @@ Vue.mixin({
 // #ifndef MP-TOUTIAO
 setTimeout(() => {
 	uni.onNetworkStatusChange(function(res){
-		console.log(res.networkType);
-		console.log(res.isConnected);
 		store.commit('networkChange', {
 			isConnected: res.isConnected
 		}) 

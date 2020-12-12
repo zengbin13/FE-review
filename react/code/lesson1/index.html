@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="app1"></div>
+    <div id="app2"></div>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+    <script type="text/babel">
+        /* ReactDOM.render */ 
+        let message = 'hello world2';
+        ReactDOM.render(<h1>{message}</h1>, document.getElementById('app'))
+
+        /* state */
+        class Clock extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    date: new Date()
+                }
+            }
+            componentDidMount() {
+                this.timerID = setInterval(() => {
+                    this.tick()
+                }, 1000);
+            }
+            componentWillUnmount() {
+                clearInterval(this.timerID)
+            }
+            render() {
+                return (
+                    <div>
+                        <h3>hello, world</h3>
+                        <p>It is {this.state.date.toLocaleTimeString()}</p>
+                    </div>
+                )
+            }
+            tick() {
+                this.setState({
+                    date: new Date()
+                })
+            }
+        }
+        ReactDOM.render(<Clock />, document.getElementById('app1'))
+
+        /* 事件绑定 */
+        class Toggle extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    isToggleOn: true,
+                }
+                this.handleClick = this.handleClick.bind(this)
+            }
+            render() {
+                return (
+                    <button onClick={this.handleClick}>{this.state.isToggleOn ? 'on' : 'off' }</button>
+                )
+            }
+            handleClick() {
+                console.log(this);
+                this.setState({
+                    isToggleOn: !this.isToggleOn
+                })
+            }
+        }
+        ReactDOM.render(<Toggle />, document.getElementById('app2'))
+    </script>
+</body>
+
+</html>

@@ -34,8 +34,8 @@ const im = {
 	//发送文字消息
 	sendMessage: params => http.request('POST', '/im/sendMessage', params),
 	//获取资料卡
-	getUserInfo: (account_number) => http.request('GET', '/im/getUserInfo', {
-		account_number
+	get_user_info: account => http.request('GET', '/im/getUserInfo', {
+		account_number: account
 	}),
 	//发送文件信息
 	sendFileMsg: (params) => http.request('POST', '/im/sendFileMsg', params),

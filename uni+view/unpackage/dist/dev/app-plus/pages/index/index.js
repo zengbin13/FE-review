@@ -507,6 +507,66 @@ module.exports = {
   "icon-icon-right": {
     "content:before": "\"\\e601\""
   },
+  "container": {
+    "height": 100,
+    "display": "flex",
+    "flexDirection": "column",
+    "alignItems": "center",
+    "justifyContent": "space-between",
+    "paddingTop": "200rpx",
+    "paddingRight": 0,
+    "paddingBottom": "200rpx",
+    "paddingLeft": 0,
+    "boxSizing": "border-box"
+  },
+  "f": {
+    "flex": 1
+  },
+  "f-row": {
+    "display": "flex",
+    "flexDirection": "row"
+  },
+  "em-unread-spot": {
+    "width": "32rpx",
+    "height": "32rpx",
+    "backgroundColor": "#FF0000",
+    "position": "relative",
+    "borderRadius": 50,
+    "left": "110rpx",
+    "top": "4rpx",
+    "color": "#ffffff",
+    "fontSize": "24rpx",
+    "textAlign": "center",
+    "lineHeight": "32rpx"
+  },
+  "em-unread-spot-litleFont": {
+    "fontSize": "16rpx"
+  },
+  "chatRoom_tab": {
+    "width": 100,
+    "height": "94rpx",
+    "backgroundColor": "#ffffff",
+    "position": "fixed",
+    "bottom": 0,
+    "right": 0,
+    "borderTop": "1px solid rgba(173,185,193,0.5)",
+    "display": "flex",
+    "justifyContent": "space-around"
+  },
+  "chatRoom_tab_X": {
+    "width": 100,
+    "height": "142rpx",
+    "backgroundColor": "#ffffff",
+    "position": "fixed",
+    "bottom": 0,
+    "right": 0,
+    "borderTop": "1px solid rgba(173,185,193,0.5)",
+    "display": "flex",
+    "justifyContent": "space-around"
+  },
+  "tableBar": {
+    "flex": 1
+  },
   "u-relative": {
     "position": "relative"
   },
