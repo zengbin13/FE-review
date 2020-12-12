@@ -103,8 +103,8 @@
 	let disp = require('@/utils/broadcast');
 	var WebIM = require('@/utils/WebIM')['default'];
 	let isfirstTime = true;
+	let friendList = []
 	import swipeDelete from '@/components/swipedelete/swipedelete';
-	
 	export default {
 		data() {
 			return {
@@ -144,6 +144,7 @@
 			}
 		},
 		onLoad() {
+			this.getFriendList()
 			let me = this;
 		
 			//监听加好友申请
@@ -206,13 +207,21 @@
 			}
 		},
 		methods: {
+			// 获取好友列表
+			async getFriendList() {
+				let params = {
+					limit: 1000
+				}
+				let res = await this.$service.im.get_friend_list(params)
+				friendList = res.data.data
+				this.$storage.set('friendList', friendList)
+			},
 			async getImUserInfo(account) {
 				let res = await this.$service.im.get_user_info(account)
 				console.log(res.data.data.chatView);
 				return res.data.data.chatView
 			},
 			clickMailList() {
-				
 				uni.navigateTo({
 					url: './mail-list/mail-list'
 				})
@@ -298,16 +307,18 @@
 					let curChatMsgs = historyChatMsgs.concat(newChatMsgs);
 					if (curChatMsgs.length) {
 						let lastChatMsg = curChatMsgs[curChatMsgs.length - 1];
-						let notSelfMsg = curChatMsgs.find( item => {
-							return !item.style
-						})
-						if(notSelfMsg) {
-							lastChatMsg.msg.ext = notSelfMsg.msg.ext
-						} else {
-							let toInfo = this.getImUserInfo(lastChatMsg.info.to)
-							lastChatMsg.msg.ext.headImageUrl = toInfo.to_avatar
+						if(lastChatMsg.style) {
+							let selfMsg = friendList.find(item => lastChatMsg.info.to.toUpperCase() === item.account )
+							let ext = {
+								headImageUrl: selfMsg.avatar,
+								username: selfMsg.u_nickname,
+								friend_id: selfMsg.friend_id,
+								userid: selfMsg.to_id
+							}
+							lastChatMsg.msg.ext = ext
+							console.log(333, lastChatMsg);
 						}
-						console.log(333, lastChatMsg);
+						
 						lastChatMsg.unReadCount = newChatMsgs.length;
 						
 						if (lastChatMsg.unReadCount > 99) {
