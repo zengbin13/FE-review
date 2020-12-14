@@ -31,14 +31,14 @@ const mall = {
 const im = {
 	//获取好友列表
 	get_friend_list: params => http.request('GET', '/im/getFriendList', params),
+	//发送文件信息
+	send_file_msg: (params) => http.request('POST', '/im/sendFileMsg', params),
 	//发送文字消息
 	sendMessage: params => http.request('POST', '/im/sendMessage', params),
 	//获取资料卡
 	get_user_info: account => http.request('GET', '/im/getUserInfo', {
 		account_number: account
 	}),
-	//发送文件信息
-	sendFileMsg: (params) => http.request('POST', '/im/sendFileMsg', params),
 	//修改好友备注
 	editRemarks: (params) => http.request('POST', '/im/editRemarks', params),
 	//上线通知

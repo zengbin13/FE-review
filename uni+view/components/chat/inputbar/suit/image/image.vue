@@ -2,6 +2,7 @@
 	<view></view>
 </template>
 <script>
+	import config from '@/static/js/config.js'
 	let WebIM = require("../../../../../utils/WebIM")["default"];
 	let msgType = require("../../../msgtype");
 	let disp = require("../../../../../utils/broadcast");
@@ -66,7 +67,6 @@
 				var token = WebIM.conn.context.accessToken;
 				uni.getImageInfo({
 					src: res.tempFilePaths[0],
-
 					success(res) {
 						var allowType = {
 							jpg: true,
@@ -81,10 +81,11 @@
 						var index = res.path.lastIndexOf(".");
 						var filetype = ~index && res.path.slice(index + 1) || "";
 						console.log('图片信息：', res)
-
 						if (filetype.toLowerCase() in allowType || res.type in allowType) {
+							
+							// 获取图片信息后，给后台发送文件信息
 							uni.uploadFile({
-								url: "https://a1-hsb.easemob.com/" + str[0] + "/" + str[1] + "/chatfiles",
+								url: "",
 								filePath: tempFilePaths[0],
 								fileType: 'image',
 								name: "file",
@@ -107,7 +108,11 @@
 										// }
 									}
 									var data = res.data;
-									var dataObj = JSON.parse(data);
+									// var dataObj = JSON.parse(data);
+									var dataObj = {
+										data: res.data
+									}
+									console.log(222222, dataObj);
 									var id = WebIM.conn.getUniqueId(); // 生成本地消息 id
 
 									var msg = new WebIM.message(msgType.IMAGE, id);
@@ -136,12 +141,12 @@
 									if (me.chatType == msgType.chatType.CHAT_ROOM) {
 										msg.setGroup("groupchat");
 									}
-
 									WebIM.conn.send(msg.body);
 									let obj = {
 										msg: msg,
 										type: msgType.IMAGE
 									}
+									console.log(222, obj);
 									me.saveSendMsg(obj);
 								},
 								fail: (err) => {
@@ -154,6 +159,16 @@
 						}
 					}
 				});
+			},
+			async sendFileMsg() {
+				console.log(this.username);
+				// let params = {
+				// 	msg_type: 'img',
+				// 	type: 'users',
+				// 	to_uid: '',
+				// 	file: ''
+				// }
+				// let res = await this.$service.im.send_file_msg()
 			},
 			saveSendMsg(evt) {
 				msgStorage.saveMsg(evt.msg, evt.type);

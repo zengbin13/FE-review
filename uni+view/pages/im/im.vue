@@ -316,9 +316,9 @@
 								userid: selfMsg.to_id
 							}
 							lastChatMsg.msg.ext = ext
-							console.log(333, lastChatMsg);
 						}
 						
+						// console.log(333, lastChatMsg);
 						lastChatMsg.unReadCount = newChatMsgs.length;
 						
 						if (lastChatMsg.unReadCount > 99) {

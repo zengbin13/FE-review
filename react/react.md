@@ -237,3 +237,187 @@ ReactDOM.render(<Clock />, document.getElementById('app'))
 ```
 
 > 不能使用 `return false`阻止默认行为，必须显式使用 `e.preventDefault`
+
+```jsx
+class Toggle extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isToggleOn: true,
+        }
+        this.handleClick = this.handleClick.bind(this)
+    }
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+            	{this.state.isToggleOn ? 'on' : 'off' }
+			</button>
+        )
+    }
+    handleClick() {
+        this.setState(state => ({
+            isToggleOn: !state.isToggleOn
+        }))
+    }
+}
+ReactDOM.render(<Toggle />, document.getElementById('app'))
+```
+
+**处理class中函数this**
+
+> class方法中默认不会绑定this，在JSX中作为事件回调使用，函数this为 `undefined`
+
+- **bind**
+
+  ```jsx
+  this.handleClick = this.handleClick.bind(this)
+  ```
+
+  ```html
+  <button onClick={this.handleClick.bind(this, id)}>改变文本</button>
+  ```
+
+- **箭头函数**
+
+  ```html
+  <button onClick={ (e) => this.handleClick(id, e) }>改变文本</button>
+  ```
+
+  - 问题：每次渲染该元素时，都将创建不同的回调函数，当该回调函数作为prop传递给子组件时，该元素可能进行额外的渲染
+
+- **class fileds**
+
+  ```js
+  handleClick = () => {
+      console.log(this)
+  }
+  ```
+
+  
+
+### 条件渲染
+
+React中条件渲染使用 **if 运算符** 或 **条件运算符**去创建元素来表现当前的状态
+
+**if语句**
+
+```jsx
+if(isLoggedIn) {
+    return <UserGreeting />
+} else {
+    return <GuestGreeting />
+}
+```
+
+**元素变量**
+
+- 可以使用变量来储存元素，可以有条件地渲染组件的一部分而其他部分不会改变
+
+  ```jsx
+  render() {
+      const isLoggedIn = this.state.isLoggedIn;
+      let button;
+      if (isLoggedIn) {      
+          button = <LogoutButton onClick={this.handleLogoutClick} />;
+      } else {
+          button = <LoginButton onClick={this.handleLoginClick} />;
+      }
+      return (
+        <div>
+          <Greeting isLoggedIn={isLoggedIn} />
+          {button}      
+        </div>
+      );
+    }
+  ```
+
+**与运算符 &&** 
+
+```jsx
+{unreadMessages.length > 0 &&
+    <h2>
+        You have {unreadMessages.length} unread messages.
+    </h2>
+}
+```
+
+- `true && expression` 总是会返回 expression
+- `false && expression` 总是会返回 false
+
+**三目运算符**
+
+```jsx
+return (
+    <div>
+      The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.
+    </div>
+  );
+```
+
+```jsx
+ return (
+    <div>
+      {isLoggedIn
+        ? <LogoutButton onClick={this.handleLogoutClick} />
+        : <LoginButton onClick={this.handleLoginClick} />
+      }
+    </div>
+ );
+```
+
+-   `condition ? true : false`
+
+
+
+**阻止组件渲染** 
+
+- `render` 方法直接返回 `null`，不进行任何渲染
+
+```jsx
+function WarningBanner(props) {
+  if (!props.warn) {    return null;  }
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+```
+
+- `{-{false}-{undefined}-{null}-{NaN}-{0}-{''}-}`
+
+
+
+### 列表渲染
+
+可以通过使用 {} 在 JSX 内构建一个元素集合
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  <li key={number.toString()}>
+     {number}
+  </li>
+);
+ReactDOM.render(
+  <ul>{listItems}</ul>,
+  document.getElementById('root')
+);
+```
+
+
+
+## JSX核心语法
+
+```jsx
+const element = <h2>hello world</h2>
+```
+
+- JSX是一种JavaScript的语法扩展（extension）
+  - 用于描述UI界面
+  - 可以和JavaScript融合在一起使用
+
+**书写规范**
+
+- **顶层只能有一个根元素**——包裹原生div或者Fragment组件
+- 为方便阅读在JSX外层包裹小括号

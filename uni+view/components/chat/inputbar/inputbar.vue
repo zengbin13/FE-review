@@ -26,10 +26,10 @@
 		<view class="send_image" @tap="sendImage">
 			<image src="/static/images/pic.png" style="height:20px; width: 20px"></image>
 		</view>
-    <!-- <view class="send_image" @tap="sendVideo">
+<!-- 		<view class="send_image" @tap="sendVideo">
 			<image src="/static/images/video.png" style="height:20px; width: 20px"></image>
-		</view> -->
-		<!-- <view class="send_image" bind:tap="sendLocation">
+		</view>
+		<view class="send_image" bind:tap="sendLocation">
 			<image src="../../../static/images/iconLocation2x.png" style="height:18px;"/>
 		</view> -->
 		<view class="v-record" @tap="callVideo" v-if="username.groupId">

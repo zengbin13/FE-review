@@ -9804,6 +9804,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _swipedelete = _interopRequireDefault(__webpack_require__(/*! @/components/swipedelete/swipedelete */ 112));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
 //
 //
@@ -9905,7 +9906,7 @@ var _swipedelete = _interopRequireDefault(__webpack_require__(/*! @/components/s
 //
 //
 //
-var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpack_require__(/*! @/utils/WebIM */ 32)['default'];var isfirstTime = true;var _default = { data: function data() {return { search_btn: false, search_chats: false, show_mask: false, yourname: '', unReadSpotNum: 0, unReadNoticeNum: 0, messageNum: 0, unReadTotalNotNum: 0, arr: [], show_clear: false, member: '', isIPX: false, gotop: true, input_code: '' };}, components: { swipeDelete: _swipedelete.default }, props: {}, watch: { unReadSpotNum: function unReadSpotNum(value) {if (value) {uni.setTabBarBadge({ index: 2, text: String(value) });} else {uni.removeTabBarBadge({ index: 2 });}} }, onLoad: function onLoad() {var me = this; //监听加好友申请
+var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpack_require__(/*! @/utils/WebIM */ 32)['default'];var isfirstTime = true;var friendList = [];var _default = { data: function data() {return { search_btn: false, search_chats: false, show_mask: false, yourname: '', unReadSpotNum: 0, unReadNoticeNum: 0, messageNum: 0, unReadTotalNotNum: 0, arr: [], show_clear: false, member: '', isIPX: false, gotop: true, input_code: '' };}, components: { swipeDelete: _swipedelete.default }, props: {}, watch: { unReadSpotNum: function unReadSpotNum(value) {if (value) {uni.setTabBarBadge({ index: 2, text: String(value) });} else {uni.removeTabBarBadge({ index: 2 });}} }, onLoad: function onLoad() {this.getFriendList();var me = this; //监听加好友申请
     disp.on('em.subscribe', function () {me.setData({ messageNum: getApp().globalData.saveFriendList.length, unReadTotalNotNum: getApp().globalData.saveFriendList.length + getApp().globalData.saveGroupInvitedList.length });}); //监听解散群
     disp.on('em.invite.deleteGroup', function () {me.listGroups();me.getRoster(); // me.getChatList()
       me.setData({ arr: me.getChatList(), messageNum: getApp().globalData.saveFriendList.length });}); //监听未读消息数
@@ -9916,7 +9917,15 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
       // 	unReadSpotNum: getApp().globalData.unReadMessageNum > 99 ? '99+' : getApp().globalData.unReadMessageNum,
       // });
     });this.getRoster();}, onShow: function onShow() {// this.getChatList()
-    this.setData({ arr: this.getChatList(), unReadSpotNum: getApp().globalData.unReadMessageNum > 99 ? '99+' : getApp().globalData.unReadMessageNum, messageNum: getApp().globalData.saveFriendList.length, unReadNoticeNum: getApp().globalData.saveGroupInvitedList.length, unReadTotalNotNum: getApp().globalData.saveFriendList.length + getApp().globalData.saveGroupInvitedList.length });if (getApp().globalData.isIPX) {this.setData({ isIPX: true });}}, methods: { getImUserInfo: function getImUserInfo(account) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return _this.$service.im.get_user_info(account);case 2:res = _context.sent;__f__("log", res.data.data.chatView, " at pages/im/im.vue:211");return _context.abrupt("return", res.data.data.chatView);case 5:case "end":return _context.stop();}}}, _callee);}))();}, clickMailList: function clickMailList() {uni.navigateTo({ url: './mail-list/mail-list' });
+    this.setData({ arr: this.getChatList(), unReadSpotNum: getApp().globalData.unReadMessageNum > 99 ? '99+' : getApp().globalData.unReadMessageNum, messageNum: getApp().globalData.saveFriendList.length, unReadNoticeNum: getApp().globalData.saveGroupInvitedList.length, unReadTotalNotNum: getApp().globalData.saveFriendList.length + getApp().globalData.saveGroupInvitedList.length });if (getApp().globalData.isIPX) {this.setData({ isIPX: true });}}, methods: { // 获取好友列表
+    getFriendList: function getFriendList() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var params, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:params = { limit: 1000 };_context.next = 3;return _this.$service.im.get_friend_list(params);case 3:res = _context.sent;friendList = res.data.data;_this.$storage.set('friendList', friendList);case 6:case "end":return _context.stop();}}}, _callee);}))();}, getImUserInfo: function getImUserInfo(account) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return _this2.$service.im.get_user_info(account);case 2:res = _context2.sent;
+                __f__("log", res.data.data.chatView, " at pages/im/im.vue:221");return _context2.abrupt("return",
+                res.data.data.chatView);case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+    clickMailList: function clickMailList() {
+      uni.navigateTo({
+        url: './mail-list/mail-list' });
+
     },
     clickChatroom: function clickChatroom() {
       var username = {
@@ -9944,7 +9953,7 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
           me.getChatList();
         },
         error: function error(err) {
-          __f__("log", err, " at pages/im/im.vue:246");
+          __f__("log", err, " at pages/im/im.vue:255");
         } });
 
     },
@@ -9980,7 +9989,7 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
         },
 
         error: function error(err) {
-          __f__("log", err, " at pages/im/im.vue:282");
+          __f__("log", err, " at pages/im/im.vue:291");
         } };
 
       WebIM.conn.getRoster(rosters);
@@ -9997,30 +10006,32 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
         var newChatMsgs = uni.getStorageSync(member[i].name + myName) || [];
         var historyChatMsgs = uni.getStorageSync('rendered_' + member[i].name + myName) || [];
         var curChatMsgs = historyChatMsgs.concat(newChatMsgs);
-        if (curChatMsgs.length) {
-          var lastChatMsg = curChatMsgs[curChatMsgs.length - 1];
-          var notSelfMsg = curChatMsgs.find(function (item) {
-            return !item.style;
-          });
-          if (notSelfMsg) {
-            lastChatMsg.msg.ext = notSelfMsg.msg.ext;
-          } else {
-            var toInfo = this.getImUserInfo(lastChatMsg.info.to);
-            lastChatMsg.msg.ext.headImageUrl = toInfo.to_avatar;
-          }
-          __f__("log", 333, lastChatMsg, " at pages/im/im.vue:310");
-          lastChatMsg.unReadCount = newChatMsgs.length;
+        if (curChatMsgs.length) {(function () {
+            var lastChatMsg = curChatMsgs[curChatMsgs.length - 1];
+            if (lastChatMsg.style) {
+              var selfMsg = friendList.find(function (item) {return lastChatMsg.info.to.toUpperCase() === item.account;});
+              var ext = {
+                headImageUrl: selfMsg.avatar,
+                username: selfMsg.u_nickname,
+                friend_id: selfMsg.friend_id,
+                userid: selfMsg.to_id };
 
-          if (lastChatMsg.unReadCount > 99) {
-            lastChatMsg.unReadCount = '99+';
-          }
+              lastChatMsg.msg.ext = ext;
+            }
 
-          var dateArr = lastChatMsg.time.split(' ')[0].split('-');
-          var timeArr = lastChatMsg.time.split(' ')[1].split(':');
-          var month = dateArr[2] < 10 ? '0' + dateArr[2] : dateArr[2];
-          lastChatMsg.dateTimeNum = "".concat(dateArr[1]).concat(month).concat(timeArr[0]).concat(timeArr[1]).concat(timeArr[2]);
-          lastChatMsg.time = "".concat(dateArr[1], "\u6708").concat(dateArr[2], "\u65E5 ").concat(timeArr[0], "\u65F6").concat(timeArr[1], "\u5206");
-          array.push(lastChatMsg);
+            // console.log(333, lastChatMsg);
+            lastChatMsg.unReadCount = newChatMsgs.length;
+
+            if (lastChatMsg.unReadCount > 99) {
+              lastChatMsg.unReadCount = '99+';
+            }
+
+            var dateArr = lastChatMsg.time.split(' ')[0].split('-');
+            var timeArr = lastChatMsg.time.split(' ')[1].split(':');
+            var month = dateArr[2] < 10 ? '0' + dateArr[2] : dateArr[2];
+            lastChatMsg.dateTimeNum = "".concat(dateArr[1]).concat(month).concat(timeArr[0]).concat(timeArr[1]).concat(timeArr[2]);
+            lastChatMsg.time = "".concat(dateArr[1], "\u6708").concat(dateArr[2], "\u65E5 ").concat(timeArr[0], "\u65F6").concat(timeArr[1], "\u5206");
+            array.push(lastChatMsg);})();
         }
       }
 
@@ -10029,18 +10040,18 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
         var _historyChatMsgs = uni.getStorageSync('rendered_' + listGroups[_i].groupid + myName) || [];
         var _curChatMsgs = _historyChatMsgs.concat(_newChatMsgs);
         if (_curChatMsgs.length) {
-          var _lastChatMsg = _curChatMsgs[_curChatMsgs.length - 1];
-          _lastChatMsg.unReadCount = _newChatMsgs.length;
-          if (_lastChatMsg.unReadCount > 99) {
-            _lastChatMsg.unReadCount = '99+';
+          var lastChatMsg = _curChatMsgs[_curChatMsgs.length - 1];
+          lastChatMsg.unReadCount = _newChatMsgs.length;
+          if (lastChatMsg.unReadCount > 99) {
+            lastChatMsg.unReadCount = '99+';
           }
-          var _dateArr = _lastChatMsg.time.split(' ')[0].split('-');
-          var _timeArr = _lastChatMsg.time.split(' ')[1].split(':');
-          var _month = _dateArr[2] < 10 ? '0' + _dateArr[2] : _dateArr[2];
-          _lastChatMsg.time = "".concat(_dateArr[1], "\u6708").concat(_dateArr[2], "\u65E5 ").concat(_timeArr[0], "\u65F6").concat(_timeArr[1], "\u5206");
-          _lastChatMsg.dateTimeNum = "".concat(_dateArr[1]).concat(_month).concat(_timeArr[0]).concat(_timeArr[1]).concat(_timeArr[2]);
-          _lastChatMsg.groupName = listGroups[_i].groupname;
-          array.push(_lastChatMsg);
+          var dateArr = lastChatMsg.time.split(' ')[0].split('-');
+          var timeArr = lastChatMsg.time.split(' ')[1].split(':');
+          var month = dateArr[2] < 10 ? '0' + dateArr[2] : dateArr[2];
+          lastChatMsg.time = "".concat(dateArr[1], "\u6708").concat(dateArr[2], "\u65E5 ").concat(timeArr[0], "\u65F6").concat(timeArr[1], "\u5206");
+          lastChatMsg.dateTimeNum = "".concat(dateArr[1]).concat(month).concat(timeArr[0]).concat(timeArr[1]).concat(timeArr[2]);
+          lastChatMsg.groupName = listGroups[_i].groupname;
+          array.push(lastChatMsg);
         }
       }
 
@@ -10124,7 +10135,7 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
     },
     into_chatRoom: function into_chatRoom(event) {
       var detail = JSON.parse(event.currentTarget.dataset.item); //群聊的chatType居然是singlechat？脏数据？ 等sdk重写后整理一下字段
-      __f__("log", 'detail', detail, " at pages/im/im.vue:426");
+      __f__("log", 'detail', detail, " at pages/im/im.vue:437");
       if (detail.chatType == 'groupchat' || detail.chatType == 'chatRoom' || detail.groupName) {
         this.into_groupChatRoom(detail);
       } else {
@@ -10179,7 +10190,7 @@ var disp = __webpack_require__(/*! @/utils/broadcast */ 38);var WebIM = __webpac
         confirmText: '删除',
         success: function success(res) {
           if (res.confirm) {
-            __f__("log", nameList, " at pages/im/im.vue:481");
+            __f__("log", nameList, " at pages/im/im.vue:492");
             uni.setStorageSync(nameList.your + myName, '');
             uni.setStorageSync('rendered_' + nameList.your + myName, '');
             // if (currentPage[0]) {
@@ -13860,10 +13871,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
+/* WEBPACK VAR INJECTION */(function(__f__) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 14));
 
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! @/static/js/config.js */ 71));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
 var WebIM = __webpack_require__(/*! ../../../../../utils/WebIM */ 32)["default"];
 var msgType = __webpack_require__(/*! ../../../msgtype */ 149);
 var disp = __webpack_require__(/*! ../../../../../utils/broadcast */ 38);
@@ -13907,7 +13919,7 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
         sourceType: ["album"],
 
         success: function success(res) {
-          __f__("log", '选择的图片', res, " at components/chat/inputbar/suit/image/image.vue:48");
+          __f__("log", '选择的图片', res, " at components/chat/inputbar/suit/image/image.vue:49");
           me.upLoadImage(res);
         } });
 
@@ -13928,7 +13940,6 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
       var token = WebIM.conn.context.accessToken;
       uni.getImageInfo({
         src: res.tempFilePaths[0],
-
         success: function success(res) {
           var allowType = {
             jpg: true,
@@ -13943,10 +13954,11 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
           var index = res.path.lastIndexOf(".");
           var filetype = ~index && res.path.slice(index + 1) || "";
           __f__("log", '图片信息：', res, " at components/chat/inputbar/suit/image/image.vue:83");
-
           if (filetype.toLowerCase() in allowType || res.type in allowType) {
+
+            // 获取图片信息后，给后台发送文件信息
             uni.uploadFile({
-              url: "https://a1-hsb.easemob.com/" + str[0] + "/" + str[1] + "/chatfiles",
+              url: "",
               filePath: tempFilePaths[0],
               fileType: 'image',
               name: "file",
@@ -13956,7 +13968,7 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
                 Authorization: "Bearer " + token },
 
               success: function success(res) {
-                __f__("log", '上传图片成功', res, " at components/chat/inputbar/suit/image/image.vue:97");
+                __f__("log", '上传图片成功', res, " at components/chat/inputbar/suit/image/image.vue:98");
                 if (res.statusCode == 400) {
                   // 图片上传阿里云检验不合法
                   // var errData = JSON.parse(res.data);
@@ -13969,7 +13981,11 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
                   // }
                 }
                 var data = res.data;
-                var dataObj = JSON.parse(data);
+                // var dataObj = JSON.parse(data);
+                var dataObj = {
+                  data: res.data };
+
+                __f__("log", 222222, dataObj, " at components/chat/inputbar/suit/image/image.vue:115");
                 var id = WebIM.conn.getUniqueId(); // 生成本地消息 id
 
                 var msg = new WebIM.message(msgType.IMAGE, id);
@@ -13998,25 +14014,35 @@ var msgStorage = __webpack_require__(/*! ../../../msgstorage */ 147);var _defaul
                 if (me.chatType == msgType.chatType.CHAT_ROOM) {
                   msg.setGroup("groupchat");
                 }
-
                 WebIM.conn.send(msg.body);
                 var obj = {
                   msg: msg,
                   type: msgType.IMAGE };
 
+                __f__("log", 222, obj, " at components/chat/inputbar/suit/image/image.vue:149");
                 me.saveSendMsg(obj);
               },
               fail: function fail(err) {
-                __f__("log", '上传失败', err, " at components/chat/inputbar/suit/image/image.vue:148");
+                __f__("log", '上传失败', err, " at components/chat/inputbar/suit/image/image.vue:153");
               },
               complete: function complete(err) {
-                __f__("log", '上传完成', err, " at components/chat/inputbar/suit/image/image.vue:151");
+                __f__("log", '上传完成', err, " at components/chat/inputbar/suit/image/image.vue:156");
               } });
 
           }
         } });
 
     },
+    sendFileMsg: function sendFileMsg() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                __f__("log", _this.username, " at components/chat/inputbar/suit/image/image.vue:164");
+                // let params = {
+                // 	msg_type: 'img',
+                // 	type: 'users',
+                // 	to_uid: '',
+                // 	file: ''
+                // }
+                // let res = await this.$service.im.send_file_msg()
+              case 1:case "end":return _context.stop();}}}, _callee);}))();},
     saveSendMsg: function saveSendMsg(evt) {
       msgStorage.saveMsg(evt.msg, evt.type);
     } } };exports.default = _default2;
@@ -20954,14 +20980,14 @@ var mall = {
 var im = {
   //获取好友列表
   get_friend_list: function get_friend_list(params) {return _http.default.request('GET', '/im/getFriendList', params);},
+  //发送文件信息
+  send_file_msg: function send_file_msg(params) {return _http.default.request('POST', '/im/sendFileMsg', params);},
   //发送文字消息
   sendMessage: function sendMessage(params) {return _http.default.request('POST', '/im/sendMessage', params);},
   //获取资料卡
   get_user_info: function get_user_info(account) {return _http.default.request('GET', '/im/getUserInfo', {
       account_number: account });},
 
-  //发送文件信息
-  sendFileMsg: function sendFileMsg(params) {return _http.default.request('POST', '/im/sendFileMsg', params);},
   //修改好友备注
   editRemarks: function editRemarks(params) {return _http.default.request('POST', '/im/editRemarks', params);},
   //上线通知
