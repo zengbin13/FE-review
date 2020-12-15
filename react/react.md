@@ -293,7 +293,12 @@ ReactDOM.render(<Toggle />, document.getElementById('app'))
   }
   ```
 
-  
+**事件参数传递**
+
+- 获取event对象
+- 获取更多参数
+
+
 
 ### 条件渲染
 
@@ -420,4 +425,34 @@ const element = <h2>hello world</h2>
 **书写规范**
 
 - **顶层只能有一个根元素**——包裹原生div或者Fragment组件
+
 - 为方便阅读在JSX外层包裹小括号
+
+- **JSX嵌入变量**
+
+  - 变量是Number、String、Array类型时，可以直接显示
+  - 变量是null、undefined、Boolean类型时，内容为空
+  - 对象类型不能作为子元素
+
+- **JSX嵌入表达式**
+
+  - 运算表达式 、三元运算符、执行一个函数
+
+  
+
+### JSX的本质
+
+所有的JSX最终都会被转换成**React.createElement**的函数调用
+
+`React.createElement(component, props, ...children)`
+
+- component：ReactElement的类型，原生标签或者自定义组件元素
+- props：JSX中的属性，以对象形式存储
+- children : 存放标签中的内容，以数组形式存储
+
+
+
+### 虚拟DOM的创建过程
+
+- 通过 React.createElement 最终创建出来一个 ReactElement对象
+- React利用ReactElement对象组成了一个JavaScript的对象树，即**虚拟DOM**

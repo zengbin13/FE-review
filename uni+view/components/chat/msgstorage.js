@@ -158,7 +158,6 @@ msgStorage.saveMsg = function (sendableMsg, type, receiveMsg) {
     renderableMsg.msg.token = sendableMsg.accessToken; //如果是音频则请求服务器转码
   }
 
-
   save();
 
   function save() {

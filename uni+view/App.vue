@@ -539,7 +539,12 @@ export default {
 
 <style lang="scss">
 @import 'uview-ui/index.scss';
-@import '@/static/css/iconfont.css';
+
 /*每个页面公共css */
+@import '@/static/css/iconfont.css';
+//多色图标
+@import '@/static/css/iconfont-weapp-icon.css';
+
+//环信IM样式
 @import 'app.css';
 </style>
