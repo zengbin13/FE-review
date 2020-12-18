@@ -547,4 +547,9 @@ export default {
 
 //环信IM样式
 @import 'app.css';
+
+.status-bar {
+  height: var(--status-bar-height);
+  width: 100%;
+}
 </style>

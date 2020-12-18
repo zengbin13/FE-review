@@ -105,6 +105,36 @@ function upload(url, filepath, params, loadingText) {
 		})
 	})
 }
+// 上传图片
+function uploadImg(count) {
+	let resImgs = []
+	uni.chooseImage({
+		count, 
+		sizeType: ['compressed'], 
+		sourceType: ['album'], 
+		success: function (res) {
+			res.tempFilePaths.forEach(imgUrl => {
+				uni.uploadFile({
+					url: config.imgDomain,
+					filePath: imgUrl,
+					name: 'image',
+					header:{
+						accessToken: uni.getStorageSync('token')
+					},
+					success: res => {
+						let jsonRes = JSON.parse(res.data)
+						if(jsonRes.code === 0) {
+							resImgs.push(jsonRes.data.url)
+						} else {
+							uni.showToast(jsonRes.msg)
+						}
+					}
+				})
+			})
+			return resImgs;
+		},
+	});
+}
 
 //http请求
 const http = {

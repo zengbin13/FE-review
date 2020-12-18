@@ -37,7 +37,7 @@ export default {
 			});
 		},
 
-		sendImage2() {
+		sendImage() {
 			var me = this;
 			uni.chooseImage({
 				count: 1,
@@ -58,7 +58,7 @@ export default {
 		getSendToParam() {
 			return this.isGroupChat() ? this.username.groupId : this.username.your.toLowerCase();
 		},
-		sendImage() {
+		sendImage1() {
 			let _self = this
 			uni.chooseImage({
 				count: 1,

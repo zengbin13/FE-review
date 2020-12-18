@@ -4,7 +4,7 @@
 		<view class="f-row">
 			<input
 				class="f news"
-				type="text"
+				type="textarea"
 				cursor-spacing="65"
 				confirm-type="send"
 				v-model="inputMessage"

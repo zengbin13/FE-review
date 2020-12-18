@@ -1,8 +1,10 @@
 import http from '@/static/js/http.js'
 
 const index = {
-	//个人信息
-	get_user_info: () => http.request('POST', '/api/getUserInfo')
+	// 个人信息
+	get_user_info: () => http.request('POST', '/api/getUserInfo'),
+	// 觅约列表
+	get_seek_list: params => http.request('POST', '/api/getInviteList', params),
 }
 const login = {
 	//获取验证码
@@ -62,12 +64,16 @@ const im = {
 }
 
 const profile = {
-	//用户信息
+	// 资料信息
+	get_card_info: () => http.request('GET', '/api/getInfo'),
+	// 编辑资料信息
+	save_user_info: (params) => http.request('POST', '/api/saveUserInfo', params),
 }
 
 export default {
 	login,
 	index,
 	mall,
-	im
+	im,
+	profile
 }

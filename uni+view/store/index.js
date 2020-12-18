@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import service from '@/static/js/service.js'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,17 @@ let store = new Vuex.Store({
 			state.userInfo = payload.userInfo
 			uni.setStorageSync('token', payload.token);
 			uni.setStorageSync('userInfo', payload.userInfo);
+		},
+		// 更新userinfo
+		updateUserInfo() {
+			
+		}
+	},
+	actions:{
+		// 更新userinfo
+		async getUserInfo() {
+			let res = await service.index.get_user_info()
+			console.log(222, res);
 		}
 	}
 })

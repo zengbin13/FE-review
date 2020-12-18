@@ -1,6 +1,7 @@
 {
 	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue",
+		"tags" : "@/components/tags/tags.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -17,8 +18,10 @@
 		}, {
 			"path": "pages/profile/profile",
 			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 
 		}, 
@@ -141,6 +144,71 @@
             {
                 "navigationBarTitleText": "消息",
                 "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/wallet",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "钱包",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/member/member",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "会员中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/profile/release",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发布",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/profile/apply",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "申请",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/profile/anonymous",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "匿名",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/setting/setting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/profile/editCardInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "app-plus": {
+                	"titleNView": false
+                }
             }
             
         }

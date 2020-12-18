@@ -23,6 +23,7 @@
 		<!-- 输入昵称密码 -->
 		<view class="form-wrap">
 			<u-input  class="input" placeholder="昵称" placeholder-style="color: #ff7243;" v-model="registerData.nickname" :clearable="false" maxlength="10" trim />
+			<u-input  class="input" placeholder="生日" placeholder-style="color: #ff7243;" v-model="registerData.nickname" :clearable="false" maxlength="10" trim v-show="gender === 2"/>
 			<u-input  class="input" type="password" placeholder="密码" placeholder-style="color: #ff7243;" v-model="registerData.password" :clearable="false" maxlength="20"/>
 			<u-button shape="circle" ripple class="btn" @tap="handleRegister">进入两边</u-button>
 		</view>
