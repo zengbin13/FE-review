@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "邀约合伙人",
+  "bounce": "none",
+  "titleNView": false,
+  "usingComponents": {
+    "load-more": "/components/load-more"
+  }
+}

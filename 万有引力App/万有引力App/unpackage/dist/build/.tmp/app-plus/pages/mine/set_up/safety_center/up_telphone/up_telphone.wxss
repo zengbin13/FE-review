@@ -1,0 +1,53 @@
+
+.mobile_item {
+	padding: 30rpx;
+	padding-top: 94rpx;
+}
+.mobile_item .title {
+	color: #333;
+	display: block;
+	font-size: 54rpx;
+}
+.mobile_item .menu {
+	color: #999;
+	display: block;
+	font-size: 30rpx;
+	margin-top: 35rpx;
+}
+.mobile_list {
+	margin-top: 60rpx;
+	padding-bottom: 28rpx;
+	border-bottom: 1px solid #eee;
+}
+.mobile_list .int {
+	color: #333;
+	display: block;
+	font-size: 30rpx;
+}
+.mobile_list:first-child .int {
+	width: 70%;
+	float: left;
+}
+.mobile_list .code {
+	float: right;
+	color: #09BFB2;
+	display: block;
+	font-size: 26rpx;
+	margin-right: 40rpx;
+}
+.mobile_btn {
+	color: #fff;
+	width: 455rpx;
+	height: 93rpx;
+	display: block;
+	margin: 0 auto;
+	font-size: 34rpx;
+	text-align: center;
+	line-height: 93rpx;
+	margin-top: 200rpx;
+	border-radius: 50rpx;
+	box-shadow: -1rpx 10rpx 15rpx 3rpx rgba(51, 145, 255, 0.2);
+	background: -webkit-linear-gradient(330deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+	background: linear-gradient(120deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+}
+

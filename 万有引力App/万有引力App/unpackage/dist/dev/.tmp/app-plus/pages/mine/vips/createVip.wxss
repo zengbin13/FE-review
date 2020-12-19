@@ -1,0 +1,137 @@
+
+.vip_top_head {
+	float: left;
+	width: 100rpx;
+	height: 100rpx;
+	display: block;
+	overflow: hidden;
+	border-radius: 50%;
+	margin-right: 25rpx;
+}
+.vip_top_head .img {
+	width: 100rpx;
+	height: 100rpx;
+	display: block;
+}
+.vip_top_info {
+	float: left;
+}
+.vip_top_info .info .name {
+	float: left;
+	color: #000;
+	display: block;
+	font-size: 32rpx;
+	font-weight: bold;
+}
+.vip_top_info .info .level {
+	float: left;
+	color: #379a6c;
+	height: 35rpx;
+	display: block;
+	margin-top: 5rpx;
+	font-size: 22rpx;
+	margin-left: 30rpx;
+	line-height: 35rpx;
+	padding: 0rpx 22rpx;
+	border-radius: 20rpx;
+	background-color: #58c792;
+}
+.vip_top_info .info .level.novip {
+	color: #6d6d6d;
+	background-color: #e0dfe4;
+}
+.vip_top_info .time {
+	color: #000;
+	display: block;
+	font-size: 24rpx;
+	margin-top: 10rpx;
+}
+.vip_top_centet {
+	display: table;
+	margin: 0 auto;
+}
+.vip_top {
+	padding: 60rpx 0;
+	border-bottom: 20rpx solid #f2f3f7;
+}
+.vip_item {
+	display: table;
+	margin: 0 auto;
+	margin-top: 120rpx;
+}
+.vip_list {
+	float: left;
+	width: 270rpx;
+	height: 315rpx;
+	text-align: center;
+	position: relative;
+	border-radius: 10rpx;
+	border: 1px solid #c9c9c9;
+}
+.vip_list.cur {
+	border-color: #85d9b8;
+	background-color: #e7f8f0;
+}
+.vip_list:first-child {
+	margin-right: 30rpx;
+}
+.vip_list .month {
+	color: #333;
+	display: block;
+	font-size: 26rpx;
+	font-weight: bold;
+	margin-top: 50rpx;
+}
+.vip_list .price {
+	color: #333;
+	display: block;
+	font-size: 52rpx;
+	font-weight: bold;
+	margin-top: 20rpx;
+}
+.vip_list .month_price {
+	color: #a7a7a7;
+	display: block;
+	font-size: 26rpx;
+	font-weight: bold;
+	margin-top: 50rpx;
+}
+.vip_list .discount {
+	right: -2rpx;
+	top: -30rpx;
+	width: 160rpx;
+	height: 60rpx;
+	display: block;
+	color: #d6bb7a;
+	font-size: 26rpx;
+	text-align: center;
+	line-height: 60rpx;
+	position: absolute;
+	border-top-right-radius: 20rpx;
+	border-bottom-left-radius: 20rpx;
+	background: -webkit-linear-gradient(330deg, rgba(64, 63, 68, 1) 0%, rgba(44, 45, 47, 1) 100%);
+	background: linear-gradient(120deg, rgba(64, 63, 68, 1) 0%, rgba(44, 45, 47, 1) 100%);
+}
+.vip_btn {
+	color: #fff;
+	height: 100rpx;
+	display: block;
+	margin: 0 32rpx;
+	font-size: 32rpx;
+	text-align: center;
+	margin-top: 100rpx;
+	line-height: 100rpx;
+	border-radius: 10rpx;
+	background-color: #5bcc94;
+}
+.vip_brief {
+	margin: 0 32rpx;
+	margin-top: 50rpx;
+}
+.vip_brief .p {
+	color: #919191;
+	display: block;
+	font-size: 26rpx;
+	line-height: 200%;
+}
+

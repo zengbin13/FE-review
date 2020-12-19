@@ -1,0 +1,19 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#fff",
+  "backgroundColor": "#fff",
+  "navigationBarTitleText": "提现",
+  "bounce": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "fontSrc": "/static/icon/iconfont.ttf",
+        "text": "提现记录",
+        "width": "150upx",
+        "fontSize": "26upx",
+        "color": "#333333"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

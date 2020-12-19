@@ -1,0 +1,8 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "支付",
+  "bounce": "none",
+  "usingComponents": {}
+}

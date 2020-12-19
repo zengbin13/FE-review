@@ -22,7 +22,6 @@
 		},
 		mounted() {
 			console.log(222);
-			this.test()
 			this.getSeekList()
 		},
 		components: {
@@ -35,16 +34,10 @@
 					limit: 10,
 					recommend: 1
 				}
-				console.log(params);
-				console.log(this.$service);
-				let res = await this.$service.index.get_seek_list(params)
-				this.seekList = res.data.data
-				console.log(this.seekList);
+				console.log(service);
+				// let res = await service.index.get_seek_list(params)
+				// console.log(res);
 			},
-			// test() {
-			// 	console.log(this);
-			// 	console.log(this.$service);
-			// }
 		}
 	}
 </script>

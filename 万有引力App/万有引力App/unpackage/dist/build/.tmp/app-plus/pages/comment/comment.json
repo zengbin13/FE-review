@@ -1,0 +1,8 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "transparent",
+  "backgroundColor": "transparent",
+  "navigationBarTitleText": "详情",
+  "bounce": "none",
+  "usingComponents": {}
+}

@@ -1,0 +1,41 @@
+
+.cirFree_btn {
+	color: #fff;
+	width: 455rpx;
+	height: 93rpx;
+	display: block;
+	margin: 0 auto;
+	font-size: 34rpx;
+	text-align: center;
+	line-height: 93rpx;
+	margin-top: 200rpx;
+	border-radius: 50rpx;
+	background-color: #D8D8D8;
+	box-shadow: -1rpx 10rpx 15rpx 3rpx rgba(51, 145, 255, 0.2);
+}
+.cirFree_btn.cur {
+	background: -webkit-linear-gradient(330deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+	background: linear-gradient(120deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+}
+.pay_list .img {
+	/* top: 18upx; */
+	float: right;
+	width: 60rpx;
+	height: 60rpx;
+	display: block;
+	margin: 0 32rpx;
+	position: relative;
+}
+.pay_list .pay_info {
+	width: 96%;
+	float: right;
+	padding: 27rpx 0;
+	border-bottom: 1px solid #eee;
+}
+.pay_list .pay_info .name {
+	color: #333;
+	float: left;
+	display: block;
+	font-size: 34rpx;
+}
+

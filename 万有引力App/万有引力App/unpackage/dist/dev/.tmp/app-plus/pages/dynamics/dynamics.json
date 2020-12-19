@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "动态",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "avatar": "/components/avatar",
+    "load-more": "/components/load-more",
+    "auth-level": "/components/authLevel"
+  }
+}

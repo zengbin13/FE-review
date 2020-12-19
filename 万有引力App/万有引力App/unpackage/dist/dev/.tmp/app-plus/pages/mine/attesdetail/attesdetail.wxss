@@ -1,0 +1,43 @@
+
+.attestdetail_p image {
+	width: 100%;
+	display: block;
+}
+.attest_bottom {
+	height: 130rpx;
+}
+.attest_fixed {
+	bottom: 0;
+	width: 100%;
+	z-index: 999;
+	position: fixed;
+	background-color: #fff;
+}
+.attest_btn {
+	line-height: 90rpx;
+	padding: 20rpx 32rpx;
+	box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .5);
+}
+.attest_btn .price {
+	float: left;
+	color: #ff3434;
+	display: block;
+	font-size: 32rpx;
+	font-weight: bold;
+}
+.attest_btn .btn {
+	width: 70%;
+	float: right;
+	color: #fff;
+	height: 90rpx;
+	font-size: 36rpx;
+	text-align: center;
+	line-height: 90rpx;
+	border-radius: 10rpx;
+	background-color: #01B7AA;
+}
+.attestdetail_p {
+	padding: 23rpx;
+	overflow: hidden;
+}
+

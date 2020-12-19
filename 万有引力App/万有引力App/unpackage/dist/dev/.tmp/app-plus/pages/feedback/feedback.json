@@ -1,0 +1,19 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "反馈",
+  "bounce": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "fontSrc": "/static/icon/iconfont.ttf",
+        "text": "反馈记录",
+        "width": "150upx",
+        "fontSize": "26upx",
+        "color": "#333333"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

@@ -1,0 +1,20 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "发布主题",
+  "bounce": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "fontSrc": "/static/icon/iconfont.ttf",
+        "text": "发布",
+        "width": "120upx",
+        "fontSize": "38upx",
+        "color": "rgba(9,191,178,1)",
+        "background": "rgba(0,0,0,0)"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

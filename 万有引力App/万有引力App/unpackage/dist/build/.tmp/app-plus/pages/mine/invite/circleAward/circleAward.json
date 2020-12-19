@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#f9f9f9",
+  "backgroundColor": "#f9f9f9",
+  "navigationBarTitleText": "推广记录",
+  "bounce": "none",
+  "usingComponents": {
+    "load-more": "/components/load-more"
+  }
+}

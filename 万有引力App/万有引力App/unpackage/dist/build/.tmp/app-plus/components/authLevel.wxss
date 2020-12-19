@@ -1,0 +1,8 @@
+
+.level_img {
+	width: 22rpx;
+	height: 25rpx;
+	margin-left: 11rpx;
+	display: inline-block;
+}
+

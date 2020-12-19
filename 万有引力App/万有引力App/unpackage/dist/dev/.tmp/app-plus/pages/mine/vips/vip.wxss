@@ -1,0 +1,133 @@
+
+page {
+		background-color: #f9f9f9;
+}
+.vip_top_head {
+		float: left;
+		width: 81rpx;
+		height: 81rpx;
+		display: block;
+		overflow: hidden;
+		border-radius: 50%;
+}
+.vip_top_head .img {
+		width: 81rpx;
+		height: 81rpx;
+		display: block;
+}
+.vip_top {
+		padding: 41rpx 30rpx;
+		background-color: #fff;
+}
+.vip_top_info {
+		float: left;
+		margin-left: 20rpx;
+}
+.vip_top_info .name {
+		color: #2F2E2E;
+		display: block;
+		font-size: 28rpx;
+}
+.vip_top_info .time {
+		color: #999;
+		display: block;
+		font-size: 24rpx;
+		margin-top: 4rpx;
+}
+.vip_list .action {
+		top: 30rpx;
+		right: 30rpx;
+		width: 73rpx;
+		/* height: 45upx; */
+		/* display: block; */
+		position: absolute;
+		/* border-radius: 30upx; */
+		/* background-color: #ddd; */
+}
+
+	/* .vip_list .action.cur {
+		background-color: #2ac7bc;
+	}
+
+	.vip_list .action .bar {
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 45upx;
+		height: 45upx;
+		display: block;
+		position: absolute;
+		border-radius: 50%;
+		background-color: #fff;
+		-webkit-transform: scale(0.9, 0.9);
+		-ms-transform: scale(0.9, 0.9);
+		transform: scale(0.9, 0.9);
+		-webkit-transition: all 0.3s ease-in-out 0s;
+		-o-transition: all 0.3s ease-in-out 0s;
+		transition: all 0.3s ease-in-out 0s;
+	}
+
+	.vip_list .action.cur .bar {
+		left: 28upx;
+		-webkit-transition: all 0.3s ease-in-out 0s;
+		-o-transition: all 0.3s ease-in-out 0s;
+		transition: all 0.3s ease-in-out 0s;
+	}
+ */
+.vip_item {
+		padding: 0 30rpx;
+		margin-top: 18rpx;
+		background-color: #fff;
+}
+.vip_item .vip_list {
+		padding: 20rpx 0;
+		position: relative;
+}
+.vip_item .vip_lists {
+		border-bottom: 1px solid #E7E7E7;
+}
+.vip_item .vip_list .vip_menu {
+		margin-bottom: 17rpx;
+}
+.vip_item .vip_list .vip_menu .img {
+		top: 3rpx;
+		float: left;
+		width: 35rpx;
+		height: 35rpx;
+		display: block;
+		position: relative;
+}
+.vip_item .vip_list .vip_menu .title {
+		float: left;
+		color: #2F2E2E;
+		display: block;
+		font-size: 26rpx;
+		font-weight: bold;
+		margin-left: 22rpx;
+}
+.vip_item .vip_list .vip_menu .enjoy {
+		float: right;
+		color: #29C2B7;
+		display: block;
+		font-size: 22rpx;
+}
+.vip_item .vip_list .p {
+		color: #999;
+		display: block;
+		font-size: 26rpx;
+		line-height: 37rpx;
+		margin-left: 55rpx;
+}
+.vip_btn {
+		color: #fff;
+		height: 100rpx;
+		display: block;
+		margin: 0 32rpx;
+		font-size: 32rpx;
+		text-align: center;
+		margin-top: 100rpx;
+		line-height: 100rpx;
+		border-radius: 10rpx;
+		background-color: #5bcc94;
+}
+

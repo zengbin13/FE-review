@@ -1,0 +1,64 @@
+<template>
+	<div>
+		<!-- 推荐区域 -->
+		<view class="">
+			<text>推荐</text>
+			<text>微信客服推荐专区</text>
+		</view>
+		<!-- <text>{{seekList[0].nickname}}</text> -->
+		<scroll-view scroll-y="true" class="recommend-wrap">
+			<!-- #ifdef APP-PLUS -->
+			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
+			<!-- #endif -->
+			<!-- #ifndef APP-PLUS -->
+			<view class="recommend-seek">
+				<seekItem v-for="(item, index) in seekList" :seekInfo="item"/>
+			</view>
+			<!-- #endif -->
+		</scroll-view>
+	</div>
+</template>
+
+<script>
+	import service from '@/static/js/service.js'
+	import seekItem from '@/components/seek-item/seek-item';
+	export default {
+		data() {
+			return {
+				seekList: []
+			}
+		},
+		mounted() {
+			this.getSeekList()
+		},
+		components: {
+			seekItem
+		},
+		methods:{
+			// 觅约推荐
+			async getSeekList() {
+				let params = {
+					limit: 10,
+					recommend: 1
+				}
+				let res = await service.index.get_seek_list(params)
+				this.seekList = res.data.data
+				console.log(this.seekList[0]);
+			},
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.recommend-wrap {
+		display: flex;
+		flex-direction: row;
+	}
+	// .recommend-seek {
+	// 	display: flex;
+	// 	flex-direction: row;
+	// }
+	// .seek-item {
+	// 	display: inline-block;
+	// }
+</style>

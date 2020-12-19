@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "圈子成员",
+  "bounce": "none",
+  "usingComponents": {
+    "load-more": "/components/load-more"
+  }
+}

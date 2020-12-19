@@ -1,0 +1,100 @@
+
+.cirmanage_top {
+	padding: 29rpx 30rpx;
+	padding-top: 0;
+	border-bottom: 16rpx solid #F1F1F1;
+}
+.cirmanage_top .cirmanage_head {
+	float: left;
+	width: 149rpx;
+	height: 149rpx;
+	display: block;
+	overflow: hidden;
+	border-radius: 8rpx;
+}
+.cirmanage_top .cirmanage_head .img {
+	width: 149rpx;
+	height: 149rpx;
+	display: block;
+}
+.cirmanage_top .cirmanage_info {
+	float: left;
+	width: 75%;
+	margin-left: 16rpx;
+}
+.cirmanage_top .cirmanage_info .title {
+	color: #333;
+	display: block;
+	font-size: 36rpx;
+	font-weight: bold;
+}
+.cirmanage_top .cirmanage_info .num {
+	color: #999;
+	display: block;
+	font-size: 24rpx;
+	margin-top: 26rpx;
+}
+.cirmanage_top .cirmanage_info .time {
+	color: #999;
+	display: block;
+	margin-top: 5rpx;
+	font-size: 24rpx;
+}
+.cirmanage_top .cirmanage_content {
+	color: #999;
+	font-size: 26rpx;
+	margin-top: 24rpx;
+	line-height: 37rpx;
+}
+.cirmanage_top .cirmanage_content .title {
+	color: #333;
+}
+.setUp_list {
+	padding: 30rpx;
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+.setUp_list:last-child {
+	margin-top: 0;
+}
+.setUp_list .name {
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 30rpx;
+}
+.setUp_list .method {
+	float: right;
+	color: #666;
+	display: block;
+	font-size: 30rpx;
+	margin-right: 20rpx;
+}
+.setUp_list .img {
+	float: right;
+	width: 16rpx;
+	height: 26rpx;
+	display: block;
+	margin-top: 8rpx;
+}
+.setUp_list .num {
+	float: right;
+	color: #999;
+	display: block;
+	font-size: 28rpx;
+	margin-top: 2rpx;
+	margin-right: 13rpx;
+}
+.setUp_btn {
+	color: #333;
+	width: 100%;
+	height: 104rpx;
+	font-size: 34rpx;
+	margin-top: 36rpx;
+	text-align: center;
+	line-height: 104rpx;
+	background-color: #fff;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+}
+

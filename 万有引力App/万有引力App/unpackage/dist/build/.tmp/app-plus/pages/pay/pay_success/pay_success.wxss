@@ -1,0 +1,37 @@
+
+page {
+	background-color: #fff;
+}
+.pay_success {
+	border-top: 20rpx solid #F5F5F5;
+}
+.pay_success .img {
+	width: 188rpx;
+	height: 147rpx;
+	display: block;
+	margin: 0 auto;
+	padding-top: 89rpx;
+}
+.pay_success .title {
+	color: #333;
+	display: block;
+	font-size: 36rpx;
+	font-weight: bold;
+	margin-top: 51rpx;
+	text-align: center;
+}
+.pay_btn .btn {
+	color: #fff;
+	width: 364rpx;
+	height: 88rpx;
+	display: block;
+	margin: 0 auto;
+	font-size: 30rpx;
+	text-align: center;
+	margin-top: 290rpx;
+	line-height: 88rpx;
+	border-radius: 44rpx;
+	background: -webkit-linear-gradient(330deg, rgba(255, 144, 62, 1) 0%, rgba(255, 66, 55, 1) 100%);
+	background: linear-gradient(120deg, rgba(255, 144, 62, 1) 0%, rgba(255, 66, 55, 1) 100%);
+}
+

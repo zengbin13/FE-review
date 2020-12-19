@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "",
+  "bounce": "none",
+  "titleNView": false,
+  "usingComponents": {
+    "load-more": "/components/load-more",
+    "auth-level": "/components/authLevel"
+  }
+}

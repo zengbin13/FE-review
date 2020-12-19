@@ -1,0 +1,7 @@
+{
+  "navigationBarTextStyle": "white",
+  "titleNView": false,
+  "usingComponents": {
+    "navigation": "/components/navigation"
+  }
+}

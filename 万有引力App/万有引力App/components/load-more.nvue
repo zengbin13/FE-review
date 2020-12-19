@@ -1,0 +1,475 @@
+<template>
+	<cell>
+		<view class="inner_bot" v-if="loadingType==0 || loadingType==2">
+			<text class="inner_bot-i"></text>
+			<text class="inner_bot-span" :style="{'color':color}" v-if="loadingType==0">{{contentText.down}}</text>
+			<!-- 	<text class="span" :style="{'color':color}" v-if="loadingType==1">{{contentText.refresh}}</text> -->
+			<text class="inner_bot-span" :style="{'color':color}" v-if="loadingType==2">{{contentText.nomore}}</text>
+			<!-- <text class="span" :style="{'color':color}" v-if="loadingType==3">{{contentText.nodata}}</text> -->
+			<text class="inner_bot-i"></text>
+		</view>
+		<view class="demoBox" v-if="loadingType==1">
+			<!-- <view class="demoBox-demoList">
+				<view class="demoBox-demoItem">
+					<view class="demoBox-container google-animation-9">
+						<view class="demoBox-shape demoBox-shape-4">
+							<view class="demoBox-shape-4-top demoBox-shape-4-view"></view>
+							<view class="demoBox-shape-4-bottom demoBox-shape-4-view"></view>
+							<view class="demoBox-shape-4-eye demoBox-shape-4-view"></view>
+						</view>
+						<view class="demoBox-shape demoBox-shape-1"></view>
+						<view class="demoBox-shape demoBox-shape-2"></view>
+						<view class="demoBox-shape demoBox-shape-3"></view>
+					</view>
+				</view>
+			</view> -->
+			<text class="demoBox-more">{{contentText.refresh}}</text>
+		</view>
+		<view class="g_web" v-if="loadingType==3">
+			<view class="team-box">
+				<view class="success-box success-box1">
+					<view class="success-img" :style="{'padding-top':nodataTop+'px'}">
+						<image :src="'/static/service-img/'+icon" class="success-img-img"></image>
+					</view>
+					<text class="success-img-span" v-if="!!nodata">{{nodata}}</text>
+				</view>
+			</view>
+		</view>
+		<view class="bottom_null" v-else-if="loadingType==-1"></view>
+	</cell>
+</template>
+
+<script>
+	export default {
+		name: "load-more",
+		props: {
+			loadingType: {
+				//上拉的状态：0-loading前；1-loading中；2-没有更多了 3-还没有数据额
+				type: Number,
+				default: 0
+			},
+			icon: {
+				type: String,
+				default: "nodata.png"
+			},
+			nodata: {
+				type: String,
+				default: "还没有数据额"
+			},
+			nodataTop: {
+				type: Number,
+				default: 100
+			},
+			showImage: {
+				type: Boolean,
+				default: true
+			},
+			color: {
+				type: String,
+				default: "#777"
+			},
+			contentText: {
+				type: Object,
+				default () {
+					return {
+						down: "上拉显示更多",
+						refresh: "正在加载...",
+						nomore: "没有更多数据了"
+						//nodata: "还没有数据额"
+					};
+				}
+			},
+		},
+		data() {
+			return {
+				serviceImgUrl: '/static/service-img/'
+			}
+		}
+	}
+</script>
+
+<style>
+	/*加载动画*/
+
+	.demoBox-demoList {
+		/* max-width: 600px; */
+		/* margin: 0 auto; */
+		/* display: flex; */
+		/* flex-flow: row wrap; */
+		align-items: center;
+		justify-content: center;
+	}
+
+	.demoBox-demoItem {
+		/* width: calc(33.3% - 10px); */
+		margin: 5px 0;
+		/* display: flex; */
+		justify-content: center;
+	}
+
+	.demoBox-container {
+		width: 30px;
+		height: 30px;
+		position: relative;
+	}
+
+	.demoBox-shape-1 {
+		background-color: #1875e5
+	}
+
+	.demoBox-shape-2 {
+		background-color: #c5523f
+	}
+
+	.demoBox-shape-3 {
+		background-color: #499255
+	}
+
+	.demoBox-shape-4 {
+		background-color: #f2b736
+	}
+
+	@keyframes Animation9Shape4Top {
+		0% {
+			-webkit-transform: rotate(-30deg);
+			transform: rotate(-30deg)
+		}
+
+		100% {
+			-webkit-transform: rotate(0);
+			transform: rotate(0)
+		}
+	}
+
+	@keyframes Animation9Shape4Bottom {
+		0% {
+			-webkit-transform: rotate(45deg);
+			transform: rotate(45deg)
+		}
+
+		100% {
+			-webkit-transform: rotate(0);
+			transform: rotate(0)
+		}
+	}
+
+	@keyframes Animation9Shape4 {
+		0% {
+			left: -40px;
+			transform: rotateY(0)
+		}
+
+		45% {
+			left: 50px;
+			transform: rotateY(0)
+		}
+
+		50% {
+			left: 50px;
+			transform: rotateY(180deg)
+		}
+
+		95% {
+			left: -40px;
+			transform: rotateY(180deg)
+		}
+
+		100% {
+			left: -40px;
+			transform: rotateY(0)
+		}
+	}
+
+	@keyframes Animation9Shape1 {
+		0% {
+			opacity: 1
+		}
+
+		17% {
+			opacity: 1
+		}
+
+		19% {
+			opacity: 0
+		}
+
+		30% {
+			opacity: 0
+		}
+
+		40% {
+			opacity: 1
+		}
+
+		85% {
+			opacity: 1
+		}
+
+		90% {
+			opacity: 0
+		}
+
+		95% {
+			opacity: 0
+		}
+
+		100% {
+			opacity: 1
+		}
+	}
+
+	@keyframes Animation9Shape2 {
+		0% {
+			opacity: 1
+		}
+
+		20% {
+			opacity: 1
+		}
+
+		22% {
+			opacity: 0
+		}
+
+		35% {
+			opacity: 0
+		}
+
+		45% {
+			opacity: 1
+		}
+
+		75% {
+			opacity: 1
+		}
+
+		80% {
+			opacity: 0
+		}
+
+		90% {
+			opacity: 0
+		}
+
+		100% {
+			opacity: 1
+		}
+	}
+
+	@keyframes Animation9Shape3 {
+		0% {
+			opacity: 1
+		}
+
+		27% {
+			opacity: 1
+		}
+
+		29% {
+			opacity: 0
+		}
+
+		40% {
+			opacity: 0
+		}
+
+		64% {
+			opacity: 1
+		}
+
+		65% {
+			opacity: 1
+		}
+
+		70% {
+			opacity: 0
+		}
+
+		80% {
+			opacity: 0
+		}
+
+		100% {
+			opacity: 1
+		}
+	}
+
+	.google-animation-9 {
+		/* display: flex; */
+		align-items: center;
+	}
+
+	.demoBox-shape {
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		border-radius: 50%
+	}
+
+	.demoBox-shape-1 {
+		left: -5px;
+		/* animation: Animation9Shape1 7s linear infinite; */
+	}
+
+	.demoBox-shape-2 {
+		left: 15px;
+		/* animation: Animation9Shape2 7s linear infinite; */
+	}
+
+	.demoBox-shape-3 {
+		left: 35px;
+		/* animation: Animation9Shape3 7s linear infinite; */
+	}
+
+	.demoBox-shape-4 {
+		width: 30px;
+		height: 30px;
+		left: -40px;
+		background-color: transparent !important;
+		z-index: 2;
+		/* animation: Animation9Shape4 7s linear infinite; */
+	}
+
+	.demoBox-shape-4-view {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
+
+	.demoBox-shape-4-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #fbbc05;
+		/* clip: rect(0 30px 15px 0); */
+		/* -webkit-transform: rotate(-30deg); */
+		transform: rotate(-30deg);
+		/* animation: Animation9Shape4Top .4s ease infinite alternate; */
+	}
+
+	.demoBox-shape-4-bottom {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #fbbc05;
+		/* clip: rect(15px 30px 30px 0); */
+		/* -webkit-transform: rotate(45deg); */
+		transform: rotate(45deg);
+		/* animation: Animation9Shape4Bottom .4s ease infinite alternate */
+	}
+
+	.demoBox-shape-4-eye {
+		width: 5px;
+		height: 5px;
+		background-color: rgba(0, 0, 0, .8);
+		border-radius: 50%;
+		position: absolute;
+		top: 5px;
+		right: 10px
+	}
+
+	.demoBox {
+		margin-top: 40upx;
+		/* display: flex; */
+		flex-direction: row;
+		justify-content: center;
+
+	}
+
+	.demoBox-more {
+		color: #999;
+		font-size: 22upx;
+	}
+
+
+	/*下单成功*/
+	.success-box {
+		/* display: flex; */
+		flex-direction: column;
+		justify-content: center;
+		padding-bottom: 40upx;
+	}
+
+	.success-img {
+		padding-top: 200upx;
+		/* display: flex; */
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.success-img-img {
+		width: 265upx;
+		height: 301upx;
+			/* display: block; */
+	}
+
+	.success-box-span {
+		/* display: block; */
+		text-align: center;
+		height: 34upx;
+		font-size: 36upx;
+		margin-top: 64upx;
+		font-family: PingFang;
+		font-weight: bold;
+		color: rgba(70, 183, 124, 1);
+	}
+
+	.success-box-p {
+		height: 31upx;
+		font-size: 32upx;
+		text-align: center;
+		margin-top: 24upx;
+		font-family: PingFang;
+		font-weight: 400;
+		color: rgba(153, 153, 153, 1);
+	}
+
+	/*购物车*/
+
+	.success-box-p {
+		text-align: center;
+		color: #333;
+		font-size: 32upx;
+		/* margin-top: 56upx; */
+	}
+
+	.success-img-span {
+		text-align: center;
+		/* display: block; */
+		margin-top: 16upx;
+		color: #999;
+		font-size: 24upx;
+		font-weight: 500;
+	}
+
+	.inner_bot {
+		/* display: table; */
+		/* margin: 0 auto; */
+		padding-top: 75upx;
+		padding-bottom: 65upx;
+		/* display: flex; */
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.inner_bot-i {
+		width: 24upx;
+		height: 1px;
+		top: 15upx;
+		position: relative;
+		/* display: inline-block; */
+		background-color: #ccc;
+	}
+
+	.inner_bot-span {
+		color: #999;
+		width: 200upx;
+		font-size: 24upx;
+		text-align: center;
+		/* display: inline-block; */
+	}
+
+	.bottom_null {
+		height: 20rpx;
+	}
+</style>

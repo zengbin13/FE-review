@@ -1,0 +1,1 @@
+<view><block wx:if="{{isLoad&&!isPay}}"><pay vue-id="1" price="{{price}}" weixin="{{weixin}}" alipay="{{alipay}}" payWay="{{payWay}}" data-event-opts="{{[['^toPay',[['toPay']]]]}}" bind:toPay="__e" bind:__l="__l"></pay></block></view>

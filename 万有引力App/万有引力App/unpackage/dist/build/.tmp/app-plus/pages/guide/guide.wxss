@@ -1,0 +1,31 @@
+
+.guide {
+	height: 100%;
+}
+.guide .img {
+	width: 100%;
+	display: block;
+}
+.jump-over,
+.experience {
+	position: absolute;
+	height: 60rpx;
+	line-height: 60rpx;
+	padding: 0 40rpx;
+	border-radius: 30rpx;
+	font-size: 32rpx;
+	color: #454343;
+	border: 1px solid #fff;
+	z-index: 999;
+	background-color: #fff;
+}
+.jump-over {
+	right: 45rpx;
+	top: 125rpx;
+}
+.experience {
+	right: 50%;
+	margin-right: -105rpx;
+	bottom: 0;
+}
+

@@ -1,0 +1,899 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/guide/guide",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "欢迎页",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "首页",
+				"navigationBarBackgroundColor": "#01b7aa",
+				"backgroundColor": "#01b7aa",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"autoBackButton": "false", //去掉原生自带的back icon
+						"buttons": [{ //右边的icon，最多3个
+								"fontSrc": "/static/icon/iconfont.ttf",
+								"text": "\ue610",
+								"width": "85upx",
+								"fontSize": "33upx",
+								"color": "rgba(214,243,241,1)",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/icon/iconfont.ttf",
+								"text": "\ue654",
+								"width": "70upx",
+								"fontSize": "63upx",
+								"color": "rgba(214,243,241,1)",
+								"background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				// "navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				// "navigationBarTitleText": "登录",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/circle/circle",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "引力圈",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/dynamics/dynamics",
+			"style": {
+				"navigationBarTitleText": "动态",
+				"enablePullDownRefresh": true
+			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTextStyle": "white",
+				// "navigationBarBackgroundColor": "transparent",
+				"navigationBarTitleText": "我的",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/sysInfo/sysInfo",
+			"style": {
+				"navigationBarTitleText": "动态",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/sysInfo/sysInfoDetail/sysInfoDetail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "系统消息详情",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/noticeDetail/noticeDetail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "公告详情",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_not/circle_not",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "圈子",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_list/circle_list",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "圈子",
+				"navigationBarBackgroundColor": "#f9f9f9",
+				"backgroundColor": "#f9f9f9",
+				"app-plus": {
+					"titleNView": {
+						"bounce": "none",
+						"autoBackButton": "true", //去掉原生自带的back icon
+						"buttons": [{ //右边的icon，最多3个
+								"fontSrc": "/static/icon/iconfont.ttf",
+								"text": "\ue790",
+								"width": "80upx",
+								"fontSize": "42upx",
+								"color": "rgba(51,51,51,1)",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/icon/iconfont.ttf",
+								"text": "\ue691",
+								"width": "50upx",
+								"fontSize": "42upx",
+								"color": "rgba(51,51,51,1)",
+								"background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_detail/circle_detail",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "主题",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/myWallet/myWallet",
+			"style": {
+				"navigationBarTitleText": "我的余额",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/attestation/attestation",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "认证中心",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/attesdetail/attesdetail",
+			"style": {
+				"navigationBarTitleText": "认证详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/set_up",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "设置",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/attesdetail/certification/certification",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "实名认证",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_user/circle_user",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "圈子成员",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_manage/circle_manage",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "圈子管理",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/code/code",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "圈子二维码",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/ranking/ranking",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "排行榜",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
+			"path": "pages/mine/vips/createVip",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "我的会员",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/vips/vip",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "我的会员",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/vips/openVip",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "我的会员",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/pay/pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/circleCreate",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "选择圈子类型",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/circleRule/circleRule",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "圈子规则",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/circleFree/circleFree",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "完善圈子信息",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/edit/edit",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "修改圈子信息",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/circlePay/circlePay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "设置付费信息",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/theme/theme",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "发布主题",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"buttons": [{ //右边的icon，最多3个
+							"fontSrc": "/static/icon/iconfont.ttf",
+							"text": "发布",
+							"width": "120upx",
+							"fontSize": "38upx",
+							"color": "rgba(9,191,178,1)",
+							"background": "rgba(0,0,0,0)"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/theme/theme_pay/theme_pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "发布主题",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"autoBackButton": "true", //去掉原生自带的back icon
+						"buttons": [{ //右边的icon，最多3个
+							"fontSrc": "/static/icon/iconfont.ttf",
+							"text": "发布",
+							"width": "120upx",
+							"fontSize": "38upx",
+							"color": "rgba(9,191,178,1)",
+							"background": "rgba(0,0,0,0)"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/mine/invite/invite",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "推广邀请",
+				"navigationBarBackgroundColor": "#fe7c0a",
+				"backgroundColor": "#fe7c0a",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/safety_center/safety_center",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "安全中心",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/safety_center/up_telphone/up_telphone",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "修改手机号",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/about_us/about_us",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "关于我们",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/agreement/agreement",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "用户协议",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/news/news",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "消息通知",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/set_up/news/set_news/set_news",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "通知类型设置",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/invite_partner/invite_partner",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "邀约合伙人",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/tg_setup/tg_setup",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "奖励金计划",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/tg_record/tg_record",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#f9f9f9",
+				"backgroundColor": "#f9f9f9",
+				"navigationBarTitleText": "推广记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mobile/mobile",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "transparent",
+				"backgroundColor": "transparent",
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/comment/comment",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "transparent",
+				"backgroundColor": "transparent",
+				"navigationBarTitleText": "详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/collect/collect",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "我的收藏",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/mine/myWallet/recharge/recharge",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "充值",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/myWallet/withdraw/withdraw",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "提现",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"buttons": [{ //右边的icon，最多3个
+							"fontSrc": "/static/icon/iconfont.ttf",
+							"text": "提现记录",
+							"width": "150upx",
+							"fontSize": "26upx",
+							"color": "#333333"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/circleCreate/editRule/editRule",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "圈子权限设置",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/dynamics/myDynamics/myDynamics",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "我的主题",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/free_theme/free_theme",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "帖子详情",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/pay/pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/vips/pay/pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/free_theme/pay/pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_list/bounty_pay/bounty_pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/up_info/up_info",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#fff",
+				"backgroundColor": "#fff",
+				"navigationBarTitleText": "修改信息",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/image-cropper/image-cropper",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#000000",
+				"backgroundColor": "#000000",
+				"navigationBarTitleText": "选择图片",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_manage/circle_type/circle_type",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "设置圈子类型",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_manage/set_rule/set_rule",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "设置规则",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/attesdetail/pay/pay",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/pay/pay_success/pay_success",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "支付成功",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/budget_detailed/budget_detailed",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "收支记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/login/dx_login/dx_login",
+			"style": {
+				"navigationBarTextStyle": "white",
+				// "navigationBarBackgroundColor": "transparent",
+				"navigationBarTitleText": "短信登录",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/mine/myWallet/withdraw/withdraw_record/withdraw_record",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "提现记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/circle/circle_manage/invitation_list/invitation_list",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#f9f9f9",
+				"backgroundColor": "#f9f9f9",
+				"navigationBarTitleText": "邀请榜",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "网络请求",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/invite/circleAward/circleAward",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#f9f9f9",
+				"backgroundColor": "#f9f9f9",
+				"navigationBarTitleText": "推广记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/invite/terraceAwardGravitation/terraceAwardGravitation",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#f9f9f9",
+				"backgroundColor": "#f9f9f9",
+				"navigationBarTitleText": "推广记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/mine/attestation/record/record",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "认证记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "反馈",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"buttons": [{ //右边的icon，最多3个
+							"fontSrc": "/static/icon/iconfont.ttf",
+							"text": "反馈记录",
+							"width": "150upx",
+							"fontSize": "26upx",
+							"color": "#333333"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/feedback/record/record",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "反馈记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/feedback/detail/detail",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "反馈详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "万有引力",
+		"navigationBarBackgroundColor": "#01b7aa",
+		"backgroundColor": "#01b7aa"
+	},
+	"tabBar": {
+		"color": "#818181",
+		"selectedColor": "#01b7aa",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/service-img/home.png",
+				"selectedIconPath": "static/service-img/homes.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/circle/circle",
+				"iconPath": "static/service-img/circle.png",
+				"selectedIconPath": "static/service-img/circles.png",
+				"text": "圈子"
+			},
+			{
+				"pagePath": "pages/dynamics/dynamics",
+				"iconPath": "static/service-img/dynamics.png",
+				"selectedIconPath": "static/service-img/dynamicss.png",
+				"text": "动态"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/service-img/my.png",
+				"selectedIconPath": "static/service-img/mys.png",
+				"text": "我的"
+			}
+		]
+	}
+}

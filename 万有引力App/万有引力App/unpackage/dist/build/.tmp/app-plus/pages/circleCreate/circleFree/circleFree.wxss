@@ -1,0 +1,138 @@
+
+.cirFree_itm {
+	padding-bottom: 50rpx;
+}
+.cirFree_top {
+	height: 424rpx;
+	position: relative;
+	background-color: #F9F9F9;
+}
+.cirFree_tops {
+	display: none;
+}
+.cirFree_top.cur {
+	display: block;
+}
+.cirFree_top .bg {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 424rpx;
+	display: block;
+	position: absolute;
+}
+.cirFree_topx .bg {
+	top: 14%;
+	left: 30%;
+	width: 304rpx;
+	height: 304rpx;
+	display: block;
+	position: absolute;
+}
+.cirFree_upload {
+	top: 60rpx;
+	z-index: 99;
+	width: 304rpx;
+	height: 304rpx;
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+	background-color: #fff;
+}
+.cirFree_tops .cirFree_upload {
+	top: 60rpx;
+	z-index: 99;
+	width: 500rpx;
+	height: 304rpx;
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+	background-color: #fff;
+}
+.cirFree_upload.opacity {
+	opacity: 0.3;
+}
+.cirFree_upload .img {
+	width: 64rpx;
+	height: 53rpx;
+	display: block;
+	margin: 0 auto;
+	padding-top: 93rpx;
+}
+.cirFree_upload .title {
+	color: #333;
+	display: block;
+	font-size: 30rpx;
+	margin-top: 23rpx;
+}
+.cirFree_list {
+	position: relative;
+	padding: 28rpx 32rpx;
+	border-bottom: 1px solid #eee;
+}
+.cirFree_list .name {
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 34rpx;
+}
+.cirFree_list .int {
+	width: 75%;
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 32rpx;
+	margin-left: 32rpx;
+}
+.cirFree_list .text {
+	float: left;
+	width: 75%;
+	color: #333;
+	height: 280rpx;
+	display: block;
+	font-size: 32rpx;
+	margin-top: 8rpx;
+	margin-left: 32rpx;
+	line-height: 180%;
+}
+.cirFree_btn {
+	color: #fff;
+	width: 455rpx;
+	height: 93rpx;
+	display: block;
+	margin: 0 auto;
+	font-size: 34rpx;
+	text-align: center;
+	line-height: 93rpx;
+	margin-top: 200rpx;
+	border-radius: 50rpx;
+	background-color: #D8D8D8;
+	box-shadow: -1rpx 10rpx 15rpx 3rpx rgba(51, 145, 255, 0.2);
+}
+.cirFree_btn.cur {
+	background: -webkit-linear-gradient(330deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+	background: linear-gradient(120deg, rgba(28, 210, 197, 1) 0%, rgba(4, 186, 173, 1) 100%);
+}
+.circle_sel {
+	padding: 20rpx 32rpx;
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+.circle_sel .title {
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 34rpx;
+}
+.circle_sel .img {
+	float: right;
+	width: 15rpx;
+	height: 24rpx;
+	display: block;
+	margin-top: 10rpx;
+}
+.circle_sel.cur .img {
+	-webkit-transform: rotate(90deg);
+	        transform: rotate(90deg);
+}
+

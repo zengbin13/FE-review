@@ -1,0 +1,10 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "提现记录",
+  "bounce": "none",
+  "usingComponents": {
+    "load-more": "/components/load-more"
+  }
+}

@@ -1,0 +1,454 @@
+
+.circleDel .navigation.status-bar .goBack .img {
+		color: #999;
+}
+.cirdel_item .cirdel_top .cirdel_top_head {
+		float: left;
+		width: 72rpx;
+		height: 72rpx;
+		display: block;
+		/* overflow: hidden; */
+		border-radius: 50%;
+		margin-right: 16rpx;
+		position: relative;
+}
+.cirdel_item .cirdel_top .cirdel_top_head .img {
+		width: 72rpx;
+		height: 72rpx;
+		border-radius: 50%;
+		display: block;
+}
+.cirdel_item {
+		padding: 0 27rpx;
+		margin-top: 24rpx;
+}
+.cirdel_item .cirdel_top_info {
+		float: left;
+}
+.cirdel_item .cirdel_top_info .name {
+		color: #333;
+		display: block;
+		font-size: 26rpx;
+}
+.cirdel_item .cirdel_top_info .name_tag {
+		color: #fff;
+		background: #07BDB0;
+		margin-left: 10rpx;
+		padding: 2rpx 8rpx;
+		width: 53rpx;
+		height: 32rpx;
+		border-radius: 4px;
+		/* display: block; */
+		font-size: 20rpx;
+		text-align: center;
+}
+.cirdel_item .cirdel_top_info .time {
+		color: #999;
+		display: block;
+		font-size: 22rpx;
+		margin-top: 5rpx;
+}
+.cirdel_itm .cirdel_p {
+		color: #333;
+		display: block;
+		font-size: 26rpx;
+		margin-top: 19rpx;
+		line-height: 37rpx;
+}
+.cirdel_img {
+		margin-top: 19rpx;
+}
+.cirdel_img .img {
+		float: left;
+		width: 219rpx;
+		height: 219rpx;
+		display: block;
+		margin-right: 23rpx;
+}
+.cirdel_img .img:nth-child(3n) {
+		margin-right: 0;
+}
+.cirdel_itm {
+		padding-bottom: 28rpx;
+		border-bottom: 1px solid #E7E7E7;
+}
+.cirdel_list {
+		padding-top: 28rpx;
+		margin-bottom: 32rpx;
+}
+.cirdel_list_menu .cirdel_list_head {
+		float: left;
+		width: 63rpx;
+		height: 63rpx;
+		display: block;
+		margin-right: 16rpx;
+		position: relative;
+}
+.cirdel_list_menu .cirdel_list_head .img {
+		width: 63rpx;
+		height: 63rpx;
+		display: block;
+		overflow: hidden;
+		border-radius: 50%;
+}
+.cirdel_list_menu .cirdel_list_info {
+		float: left;
+		width: 84%;
+}
+.cirdel_list_menu .cirdel_list_info .name {
+		color: #393939;
+		display: block;
+		font-size: 24rpx;
+}
+.cirdel_list_menu .cirdel_list_info .name .time {
+		color: #ccc;
+		margin-left: 19rpx;
+		display: inline-block;
+}
+.cirdel_list_menu .cirdel_list_info .title {
+		color: #393939;
+		display: block;
+		font-size: 24rpx;
+}
+.cirdel_list .cirdel_list_nivo {
+		margin-top: 15rpx;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_num {
+		float: left;
+		width: 165rpx;
+		height: 60rpx;
+		color: #999;
+		display: block;
+		font-size: 24rpx;
+		line-height: 60rpx;
+		text-align: center;
+		margin-left: 72rpx;
+		border-radius: 30rpx;
+		background-color: #f4f4f4;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_num .img {
+		top: 5rpx;
+		width: 14rpx;
+		height: 26rpx;
+		position: relative;
+		margin-left: 13rpx;
+		display: inline-block;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_fabulous {
+		float: right;
+		margin-top: 15rpx;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_fabulous .like_fabulous {
+		float: left;
+		color: #999;
+		font-size: 23rpx;
+		margin-right: 38rpx;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_fabulous .like_fabulous .img {
+
+		top: -5rpx;
+		width: 36rpx;
+		height: 36rpx;
+		position: relative;
+		margin-right: 8rpx;
+		display: inline-block;
+		vertical-align: middle;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_fabulous .unlike_fabulous {
+		float: left;
+		color: #999;
+		font-size: 23rpx;
+}
+.cirdel_list .cirdel_list_nivo .cirdel_list_fabulous .unlike_fabulous .img {
+		width: 36rpx;
+		height: 36rpx;
+		margin-right: 8rpx;
+		display: inline-block;
+		vertical-align: middle;
+}
+.cirdel_fixed_itm {
+		padding: 28rpx 30rpx;
+}
+.cirdel_fixed_manage {
+		float: right;
+}
+.cirdel_fixed_list {
+		float: left;
+		margin-left: 23rpx;
+}
+.cirdel_fixed_list .img {
+		width: 34rpx;
+		height: 34rpx;
+		margin-right: 13rpx;
+		display: inline-block;
+		vertical-align: middle;
+}
+.cirdel_fixed_list .num {
+		color: #393939;
+		font-size: 26rpx;
+		display: inline-block;
+}
+.cirdel_fixed_itm .input {
+		float: left;
+		color: #999;
+		width: 360rpx;
+		height: 68rpx;
+		font-size: 26rpx;
+		text-indent: 22rpx;
+		line-height: 68rpx;
+		border-radius: 39rpx;
+		background-color: #F4F4F4;
+}
+.cirdel_fixed {
+		bottom: 0;
+		width: 100%;
+		z-index: 99;
+		position: fixed;
+		background-color: #fff;
+		border-top: 1px solid #979797;
+}
+.cirdel_bottom {
+		height: 126rpx;
+}
+
+	/* 
+	.comment_popup {
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		display: none;
+		z-index: 691;
+		position: fixed;
+	}
+
+	.comment_popup.cur {
+		display: block;
+	}
+ */
+.comment_item {
+		/* bottom: 0; */
+		width: 100%;
+		/* z-index: 99; */
+		/* position: absolute; */
+		background-color: #fff;
+		border-top-left-radius: 20rpx;
+		border-top-right-radius: 20rpx;
+}
+
+	/* .comment_hide {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.3);
+	} */
+.comment_top {
+		display: block;
+		position: relative;
+		padding: 30rpx 50rpx;
+		border-bottom: 1px solid #e1e4eb;
+}
+.comment_top .img {
+		float: left;
+		z-index: 999;
+		width: 30rpx;
+		height: 30rpx;
+		display: block;
+		position: relative;
+}
+.comment_top .name {
+		left: 0;
+		top: 18rpx;
+		width: 100%;
+		color: #333;
+		font-size: 34rpx;
+		/* font-weight: bold; */
+		text-align: center;
+		position: absolute;
+}
+.comment_item .cirdel_list_info .name {
+		width: 50%;
+		color: #527d95;
+		display: block;
+		font-size: 28rpx;
+		font-weight: bold;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+}
+.comment_item .cirdel_list_info .time {
+		color: #b9b9b9;
+		display: block;
+		font-size: 22rpx;
+}
+.comment_item .cirdel_list_head {
+		width: 80rpx;
+		height: 80rpx;
+		margin-right: 30rpx;
+}
+.comment_item .cirdel_list_head .img {
+		width: 80rpx;
+		height: 80rpx;
+		display: block;
+}
+.comment_item .cirdel_list_menu {
+		padding: 30rpx;
+}
+.comment_item .cirdel_list_info .menu {
+		color: #333;
+		display: block;
+		font-size: 26rpx;
+		margin-top: 10rpx;
+}
+.comment_itm {
+		padding: 30rpx;
+		background-color: #f2f2f4;
+}
+.comment_itm .title {
+		color: #333;
+		display: block;
+		font-size: 28rpx;
+}
+.comment_list {
+		position: relative;
+}
+.comment_item .comment_itm .cirdel_list_menu {
+
+		padding: 0;
+		margin-top: 30rpx;
+}
+.mess_box {
+		color: #333;
+		font-size: 26rpx;
+		margin-top: 5rpx;
+}
+.mess_box .names {
+		color: #527d95;
+}
+.cirdel_list_time {
+		top: 0;
+		right: 0;
+		color: #666;
+		display: block;
+		font-size: 26rpx;
+		position: absolute;
+}
+.mess_bottom {
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		display: block;
+		position: absolute;
+		background-color: #fff;
+}
+.mess_bot {
+		padding: 20rpx 30rpx;
+}
+.mess_bot .int {
+		float: left;
+		width: 85%;
+		height: 70rpx;
+		text-indent: 30rpx;
+		line-height: 70rpx;
+		border-radius: 40rpx;
+		background-color: #f0f5f7;
+		font-size: 30rpx;
+}
+.mess_bot .send {
+		float: right;
+		display: block;
+		font-size: 30rpx;
+		margin-top: 15rpx;
+}
+.mess_int {
+		height: 110rpx;
+		border-top: 1px solid #e1e4eb;
+}
+.input_item {
+		width: 100%;
+		display: block;
+		background-color: #fff;
+}
+.input_info {
+		padding: 30rpx;
+}
+.input_info .input_text {
+		padding: 20rpx;
+		display: block;
+		height: 200rpx;
+		border-radius: 5rpx;
+		background-color: #e7ebec;
+}
+.input_info .input_text .text {
+		color: #666;
+		width: 100%;
+		height: 200rpx;
+		font-size: 32rpx;
+}
+.input_info .input_exp {
+		float: left;
+		margin-top: 20rpx;
+}
+.input_info .input_exp .img {
+		width: 50rpx;
+		height: 50rpx;
+		display: block;
+}
+.input_info .input_btn {
+		color: #fff;
+		float: right;
+		width: 100rpx;
+		height: 50rpx;
+		font-size: 26rpx;
+		text-align: center;
+		line-height: 50rpx;
+		margin-bottom: 20rpx;
+		background-color: #01b7aa;
+}
+.input_info .title {
+		float: left;
+		color: #666;
+		font-size: 32rpx;
+		text-align: center;
+		line-height: 50rpx;
+}
+.theme_fixed {
+		width: 100%;
+		height: 100%;
+		display: block;
+}
+.theme_fixed .theme_hide {
+		width: 100%;
+		height: 100%;
+		display: block;
+		background-color: rgba(0, 0, 0, 0.23);
+}
+.theme_fixed .theme_item {
+		width: 100%;
+		border-radius: 16rpx 16rpx 0px 0px;
+}
+.theme_fixed .theme_item .theme_list {
+		width: 100%;
+		color: #333;
+		display: block;
+		font-size: 30rpx;
+		padding: 30rpx 0;
+		text-align: center;
+		background-color: #fff;
+		border-bottom: 1px solid #f5f5f5;
+}
+.theme_fixed .theme_item .theme_list.cancel {
+		border-top: 11rpx solid #f5f5f5;
+}
+.cirdel_list_info .delete {
+		top: 28rpx;
+		color: #999;
+		right: 40rpx;
+		display: block;
+		font-size: 28rpx;
+		position: absolute;
+}
+

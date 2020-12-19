@@ -1,0 +1,11 @@
+{
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "推广邀请",
+  "navigationBarBackgroundColor": "#fe7c0a",
+  "backgroundColor": "#fe7c0a",
+  "bounce": "none",
+  "titleNView": false,
+  "usingComponents": {
+    "navigation": "/components/navigation"
+  }
+}

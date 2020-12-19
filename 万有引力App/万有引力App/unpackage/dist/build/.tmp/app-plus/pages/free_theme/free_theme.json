@@ -1,0 +1,11 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "帖子详情",
+  "navigationBarBackgroundColor": "#fff",
+  "backgroundColor": "#fff",
+  "bounce": "none",
+  "usingComponents": {
+    "avatar": "/components/avatar",
+    "auth-level": "/components/authLevel"
+  }
+}

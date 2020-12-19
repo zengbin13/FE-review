@@ -1,0 +1,34 @@
+<template>
+	<image class="level_img" :src="levelString" @tap="_eventTap" mode="widthFix" v-if="level==1 || level==2"></image>
+</template>
+
+<script>
+	export default {
+		props: {
+			level: {
+				//0 未认证 1 个人 2 权威 3 大v认证 4 企业认证
+				type: String,
+				default: '0'
+			}
+		},
+		computed: {
+			levelString() {
+				return '/static/service-img/level_0' + this.level + '.png';
+			}
+		},
+		methods: {
+			_eventTap() {
+				this.$emit('eventTap')
+			}
+		}
+	}
+</script>
+
+<style>
+	.level_img {
+		width: 22upx;
+		height: 25upx;
+		margin-left: 11upx;
+		display: inline-block;
+	}
+</style>

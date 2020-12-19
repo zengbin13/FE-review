@@ -1,0 +1,595 @@
+<template>
+	<view class="tabs" :style="{'padding-top':bar_Height+'px'}">
+		<scroll-view id="tab-bar" class="scroll-h" :scroll-x="false" :show-scrollbar="false" :scroll-into-view="scrollInto">
+			<view v-for="(tab,index) in circleTab" :key="index" class="uni-tab-item" :id="index" :data-current="index" @click="titleChange(index)">
+				<view><text class="boder" :class="cur==index ? 'borders' : ''"></text><text class="uni-tab-item-title" :class="cur==index ? 'uni-tab-item-title-active' : ''">{{tab.title}}</text></view>
+			</view>
+			<view @click="toCreate" class="circleTab_btn"><text class="toCircle">去创建</text></view>
+		</scroll-view>
+		<!-- <view class="line-h"></view> -->
+		<swiper :current="cur" class="swiper-box" style="flex: 1;" :duration="300" @change="swiperChange">
+			<swiper-item class="swiper-item" v-for="(tab,index1) in circleTab" :key="index1">
+				<view class="circleTab_box">
+					<list class="scroll-v list" enableBackToTop="true" scroll-y loadmoreoffset="50" @loadmore="init">
+						<!-- <image src="../../static/service-img/ban_bg.png" class="cirImg"></image> -->
+						<!-- 	<refresh class="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'">
+							<div class="refresh-view">
+								<image class="refresh-icon" :src="refreshIcon" :style="{width: (tab.refreshing || pulling) ? 0: '30px'}" :class="{'refresh-icon-active': tab.refreshFlag}"></image>
+								<loading-indicator class="loading-icon" animating="true" v-if="tab.refreshing"></loading-indicator>
+								<text class="loading-text">{{tab.refreshText}}</text>
+							</div>
+						</refresh> -->
+						<cell v-for="(menu,index2) in tab.list" :key="index2">
+							<view class="circleTab_list" :class="{'circleTab_list_ios':isIos}" @click="clickItem(menu.id)" hover-class="media-item-hover">
+								<view class="circleImg">
+									<image :src="serviceImgUrl+menu.circleLogo" class="circleImg-img" mode="aspectFill"></image>
+								</view>
+								<view class="red_bot" v-if="menu.messageNum"><text class="red_bot_text">{{menu.messageNum>99?'···':menu.messageNum+''}}</text></view>
+								<view class="circleItm">
+									<view class="circleItm-name">
+										<text class="circleItm_name">{{menu.circleTitle}}</text>
+										<auth-level :level="menu.authLevel+''"></auth-level>
+										<!-- <image class="img" :src="serviceImgUrl+menu.circleLogo"></image> -->
+									</view>
+									<text class="circleItm-intro">{{menu.circleIntro}}</text>
+									<view class="circleItm-circleNivo">
+										<view class="circleItm-member"><text class="circleItm_text">成员:</text><text class="circleItm-num">{{menu.userNum}}</text><text
+											 class="circleItm_text">人</text></view>
+										<view class="circleItm-circle_btn"><text class="check">查看</text></view>
+									</view>
+								</view>
+							</view>
+							<!-- <media-item :options="newsitem" @close="close(index1,index2)" @click="goDetail(newsitem)"></media-item> -->
+						</cell>
+						<load-more :loadingType="tab.loadingType"></load-more>
+						<!-- <cell class="loading-more" v-if="tab.isLoading || tab.data.length > 4">
+						<text class="loading-more-text">{{tab.loadingText}}</text>
+					</cell> -->
+					</list>
+				</view>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	import LoadMore from "@/components/load-more.nvue";
+	import AuthLevel from "@/components/authLevel.nvue"
+	import service from '@/static/js/service.js'
+	export default {
+		components: {
+			LoadMore,
+			AuthLevel
+		},
+		data() {
+			return {
+				cur: 0,
+				circleTab: [{
+						title: '我加入的',
+						loadingType: 0,
+						pageNum: 0,
+						status: 0,
+						isLoad: false,
+						list: [],
+						isLoading: false,
+						refreshText: "",
+						loadingText: '加载更多...'
+					},
+					{
+						title: '我管理的',
+						loadingType: 0,
+						pageNum: 0,
+						status: 1,
+						isLoad: false,
+						list: [],
+						isLoading: false,
+						refreshText: "",
+						loadingText: '加载更多...'
+					},
+					{
+						title: '我创建的',
+						loadingType: 0,
+						pageNum: 0,
+						status: 2,
+						isLoad: false,
+						list: [],
+						isLoading: false,
+						refreshText: "",
+						loadingText: '加载更多...'
+					}
+				],
+				pageSize: 20,
+				// scrollHeight: 0,
+				serviceImgUrl: service.ServiceImgUrl,
+				bar_Height: 0, // 获取手机状态栏高度
+				scrollInto: "",
+				showTips: false,
+				navigateFlag: false,
+				pulling: false,
+				isShowRefresh: false,
+				isIos: false
+				// refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg=="
+			}
+		},
+		methods: {
+			onrefresh() {
+				var tab = this.circleTab[this.cur];
+				if (!tab.refreshFlag) {
+					return;
+				}
+				tab.refreshing = true;
+				tab.refreshText = "正在刷新...";
+				tab.isLoad = false;
+				tab.loadingType = 0;
+				tab.pageNum = 0;
+				// tab.list.splice(0, tab.list.length);
+				this.circleTab.splice(this.cur, 1, tab);
+				this.init();
+			},
+			onpullingdown(e) {
+				var tab = this.circleTab[this.cur];
+				if (tab.refreshing || this.pulling) {
+					return;
+				}
+				if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+					tab.refreshFlag = true;
+					tab.refreshText = "释放立即刷新";
+				} else {
+					tab.refreshFlag = false;
+					tab.refreshText = "下拉可以刷新";
+				}
+			},
+			async init() {
+				let current = this.circleTab[this.cur];
+				if (current.loadingType != 0)
+					return;
+				current.loadingType = 1;
+				var pageNum = current.pageNum + 1;
+				// console.log(pageNum);
+				var res = await service.circle.self({
+					pageNum: pageNum,
+					pageSize: this.pageSize,
+					status: current.status
+				})
+				current.loadingType = 0;
+				if (res.data.status == 0) {
+					let list = res.data.data.records;
+					if (pageNum == 1 && current.list.length > 0) {
+						current.list.splice(0, current.list.length);
+					}
+					if (list.length > 0) {
+						current.pageNum = pageNum;
+						current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+						// current.list = current.list.concat(list);
+					}
+					if (list.length < this.pageSize) {
+						current.loadingType = 2;
+					}
+				}
+				if (current.list.length == 0) {
+					current.loadingType = 3;
+				} else if (current.list.length <= this.pageSize) {
+					current.loadingType = -1;
+				}
+				current.isLoad = true;
+				current.refreshing = false;
+				current.refreshFlag = false;
+				current.refreshText = "已刷新";
+				this.circleTab.splice(this.cur, 1, current);
+				// this.pulling = true;
+				// setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
+				// 	this.pulling = false;
+				// }, 500);
+			},
+			swiperChange(e) {
+				this.cur = e.detail.current;
+				if (!this.circleTab[this.cur].isLoad)
+					this.init();
+			},
+			titleChange(index) {
+				this.cur = Number(index);
+				if (!this.circleTab[this.cur].isLoad)
+					this.init();
+			},
+			toCreate() {
+				uni.navigateTo({
+					url: '/pages/circleCreate/circleCreate'
+				})
+			},
+			clickItem(id) {
+				uni.navigateTo({
+					url: '/pages/circle/circle_list/circle_list?circleId=' + id
+				})
+			},
+			//刷新数据
+			async refresh(index) {
+				let current = this.circleTab[index];
+				let pageNum = current.pageNum;
+				if (pageNum == 0) {
+					if (this.cur == index) {
+						current.loadingType = 0;
+						this.circleTab.splice(index, 1, current);
+						this.init();
+					} else {
+						current.loadingType = 0;
+						current.isLoad = false;
+						this.circleTab.splice(index, 1, current);
+					}
+					return;
+				}
+
+				let tempList = [];
+				for (let i = 1; i <= pageNum; i++) {
+					var res = await service.circle.self({
+						pageNum: i,
+						pageSize: this.pageSize,
+						status: current.status
+					})
+					if (res.success) {
+						let list = res.data.data.records;
+						if (list.length > 0) {
+							tempList = tempList.concat(list);
+						}
+						if (i == pageNum) {
+							if (res.data.data.total <= i * this.pageSize || list.length < this.pageSize) {
+								current.loadingType = tempList.length < this.pageSize ? -1 : 2;
+							} else {
+								current.loadingType = 0;
+							}
+						}
+					}
+				}
+				current.list = tempList;
+				this.circleTab.splice(index, 1, current);
+			}
+		},
+		onLoad() {
+			var systemInfo = uni.getSystemInfoSync();
+			this.bar_Height = systemInfo.statusBarHeight;
+			// this.scrollHeight = systemInfo.windowHeight - uni.upx2px(90 + this.bar_Height)
+			this.init()
+			this.isIos = systemInfo.platform.toLowerCase() == 'ios' ? 1 : 0;
+			// uni.startPullDownRefresh();
+		},
+		onShow() {
+			if (this.isShowRefresh) {
+				//第二次打开时刷新数据
+				for (let i = 0; i < this.circleTab.length; i++) {
+					// let current = this.circleTab[i];
+					// current.isLoad = false;
+					// current.pageNum = 0;
+					// current.loadingType = 0;
+					// this.circleTab.splice(i, 1, current);
+					this.refresh(i);
+				}
+				// this.init();
+			} else {
+				this.isShowRefresh = true;
+			}
+		}
+		// // 下拉刷新监听
+		// onPullDownRefresh() {
+		// 	console.log('refresh');
+		// 	setTimeout(function() {
+		// 		uni.stopPullDownRefresh();
+		// 	}, 1000)
+		// }
+	}
+</script>
+
+<style>
+	.tabs {
+		flex: 1;
+		flex-direction: column;
+		overflow: hidden;
+		background-color: #ffffff;
+		/* #ifdef MP-ALIPAY || MP-BAIDU */
+		height: 100vh;
+		/* #endif */
+	}
+
+	.scroll-h {
+		width: 690upx;
+		height: 90upx;
+		padding: 0 30upx;
+		padding-top: 20upx;
+		flex-direction: row;
+		background-color: #fff;
+		/* #ifndef APP-PLUS */
+		white-space: nowrap;
+		/* #endif */
+		/* flex-wrap: nowrap; */
+		/* border-color: #cccccc;
+		border-bottom-style: solid;
+		border-bottom-width: 1px; */
+	}
+
+	.uni-tab-item {
+		/* #ifndef APP-PLUS */
+		display: inline-block;
+		/* #endif */
+		width: 180upx;
+		flex-wrap: nowrap;
+		text-align: center;
+		background-color: #fff;
+	}
+
+	.uni-tab-item-title {
+		color: #999;
+		font-size: 36upx;
+		height: 70upx;
+		line-height: 70upx;
+		flex-wrap: nowrap;
+		/* #ifndef APP-PLUS */
+		white-space: nowrap;
+		/* #endif */
+	}
+
+	.boder {
+		/* content: ""; */
+		left: 25%;
+		width: 0;
+		bottom: 0upx;
+		height: 7upx;
+		/* display: block; */
+		position: absolute;
+		border-radius: 7upx;
+		background-color: transparent;
+		/* -moz-transition: width .5s; */
+		/* Firefox 4 */
+		/* -webkit-transition: width .5s; */
+		/* Safari 和 Chrome */
+		/* -o-transition: width .5s; */
+		/* Opera */
+	}
+
+	.borders {
+		width: 30%;
+		background-color: #07b8ac;
+		/* -moz-transition: width .5s; */
+		/* Firefox 4 */
+		/* -webkit-transition: width .5s; */
+		/* Safari 和 Chrome */
+		/* -o-transition: width .5s; */
+		/* Opera */
+	}
+
+	.uni-tab-item-title-active {
+		color: #333;
+		font-size: 40upx;
+		font-weight: bold;
+	}
+
+	.swiper-box {
+		flex: 1;
+	}
+
+	.swiper-item {
+		flex: 1;
+		flex-direction: row;
+	}
+
+	.scroll-v {
+		flex: 1;
+		/* #ifndef MP-ALIPAY */
+		flex-direction: column;
+		/* #endif */
+		width: 750upx;
+	}
+
+	.update-tips {
+		position: absolute;
+		left: 0;
+		top: 41px;
+		right: 0;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		background-color: #FDDD9B;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.update-tips-text {
+		font-size: 14px;
+		color: #ffffff;
+	}
+
+	.refresh {
+		width: 750upx;
+		height: 64px;
+		justify-content: center;
+	}
+
+	.refresh-view {
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.refresh-icon {
+		width: 30px;
+		height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+
+	.loading-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+		color: #999999;
+	}
+
+	.loading-text {
+		margin-left: 2px;
+		font-size: 16px;
+		color: #999999;
+	}
+
+	.loading-more {
+		align-items: center;
+		justify-content: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		text-align: center;
+	}
+
+	.loading-more-text {
+		font-size: 28upx;
+		color: #999;
+	}
+
+	.media-item-hover {
+		background-color: #eee;
+	}
+
+
+	/* circle */
+	.circleTab_list {
+		width: 690upx;
+		margin: 0 30upx;
+		margin-top: 20upx;
+		padding: 26upx 30upx;
+		/* display: flex; */
+		flex-direction: row;
+		border-radius: 7upx;
+		border-width: 1upx;
+		background-color: #FFFFFF;
+		border-color: #e7e7e7;
+		/* box-shadow: inset 0px 0px 10px 0px rgba(199, 199, 199, 0.5); */
+		/* box-shadow: 0px 0px 10px 0px rgba(199, 199, 199, 0.5); */
+	}
+
+	.circleTab_list_ios {
+		border-width: 0px;
+		box-shadow: 0px 0px 10px 0px rgba(199, 199, 199, 0.5);
+	}
+
+	.circleTab_box {
+		/* padding: 30upx; */
+		/* padding-bottom: 0; */
+		text-overflow: ellipsis;
+	}
+
+	.circleImg {
+		/* float: left; */
+		width: 169upx;
+		height: 166upx;
+		/* display: block; */
+		overflow: hidden;
+	}
+
+	.circleImg-img {
+		width: 169upx;
+		height: 166upx;
+		/* display: block; */
+		overflow: hidden;
+		border-radius: 10upx;
+		position: relative;
+	}
+
+	.red_bot {
+		position: absolute;
+		width: 33upx;
+		height: 33upx;
+		background-color: #ff0000;
+		border-radius: 18upx;
+		left: 180upx;
+		top: 13upx;
+	}
+
+	.red_bot_text {
+		color: #FFF;
+		font-size: 24upx;
+		text-align: center;
+		line-height: 34upx;
+	}
+
+	.circleItm {
+		/* display: flex; */
+		width: 450upx;
+		margin-left: 23upx;
+	}
+
+	.circleItm-name {
+		/* display: flex; */
+		flex-direction: row;
+		/* -webkit-box-align: center; */
+		align-items: center;
+	}
+
+	.circleItm_name {
+		font-size: 15px;
+		color: #3c3c3c;
+		/* display: inline-block; */
+	}
+
+	.circleItm-intro {
+		lines: 2;
+		color: #b3b2b3;
+		font-size: 12px;
+		overflow: hidden;
+		margin-top: 5px;
+		margin-bottom: 30upx;
+		text-overflow: ellipsis;
+	}
+
+	.circleItm-circleNivo {
+
+		/* display: flex; */
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.circleItm-member {
+		width: 300upx;
+		flex-direction: row;
+	}
+
+	.circleItm_text {
+		color: #999;
+		font-size: 22upx;
+	}
+
+	.circleItm-num {
+		color: #01B7AA;
+		font-size: 22upx;
+	}
+
+	.check {
+		color: #fff;
+		width: 59px;
+		height: 22px;
+		font-size: 12px;
+		line-height: 22px;
+		text-align: center;
+		border-radius: 11px;
+		background-color: #01b7aa;
+	}
+
+	.toCircle {
+		color: #01B7AA;
+		font-size: 24upx;
+	}
+
+	.circleTab_btn {
+		margin-top: 23upx;
+		margin-left: 40upx;
+	}
+</style>

@@ -1,0 +1,35 @@
+
+.cirFree_itm {
+	padding-bottom: 50rpx;
+}
+.cirFree_list {
+	position: relative;
+	padding: 28rpx 32rpx;
+	border-bottom: 1px solid #eee;
+}
+.cirFree_list .name {
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 34rpx;
+}
+.cirFree_list .int {
+	width: 75%;
+	float: left;
+	color: #333;
+	display: block;
+	font-size: 32rpx;
+	margin-left: 32rpx;
+}
+.cirFree_list .text {
+	float: left;
+	width: 75%;
+	color: #333;
+	height: 280rpx;
+	display: block;
+	font-size: 32rpx;
+	margin-top: 8rpx;
+	margin-left: 32rpx;
+	line-height: 180%;
+}
+

@@ -1,0 +1,50 @@
+
+page {
+	background-color: #f8f8f8;
+}
+.about_us_top {
+	text-align: center;
+}
+.about_us_top .logo {
+	width: 150rpx;
+	height: 150rpx;
+	display: block;
+	margin: 0 auto;
+	padding-top: 200rpx;
+}
+.about_us_top .name {
+	color: #333;
+	display: block;
+	font-size: 32rpx;
+	font-weight: bold;
+	margin-top: 50rpx;
+}
+.about_us_top .edition {
+	color: #999;
+	display: block;
+	font-size: 32rpx;
+	margin-top: 10rpx;
+}
+.about_us_itm {
+	width: 100%;
+	bottom: 100rpx;
+	position: absolute;
+	text-align: center;
+}
+.about_us_itm .link {
+	color: #71779b;
+	font-size: 32rpx;
+	display: inline;
+}
+.about_us_itm .name {
+	color: #999;
+	display: block;
+	font-size: 28rpx;
+	margin-top: 50rpx;
+}
+.about_us_itm .copy {
+	color: #999;
+	display: block;
+	font-size: 28rpx;
+}
+

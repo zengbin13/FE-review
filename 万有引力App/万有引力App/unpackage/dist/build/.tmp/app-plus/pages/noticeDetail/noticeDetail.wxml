@@ -1,0 +1,1 @@
+<view><view class="sysInfo"><view class="sysInfo_top cl"><text class="sys_title">消息</text><view data-event-opts="{{[['tap',[['navigateBack']]]]}}" class="sys_return" bindtap="__e"></view></view><view class="sysInfo_content"><text class="sysInfo_time">2019年6月1日 18:29:20</text><view class="sysInfo_p"><rich-text nodes="{{content}}"></rich-text></view></view></view></view>
