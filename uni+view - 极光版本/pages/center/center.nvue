@@ -1,0 +1,359 @@
+<template>
+	<view class="tabs">
+		<!-- tabbar -->
+		<scroll-view scroll-x="true" class="tab-bar" :scroll-with-animation="true" :scroll-into-view="scrollInto" :show-scrollbar="false">
+			<view v-for="(tab, index) in tabBars" :key="tab.id" class="tab-item" @tap="tabClick(index)">
+				<text class="tab-item-title" :class="[index === tabIndex ? 'tab-item-title-active' : '']">{{tab.name}}</text>
+			</view>
+		</scroll-view>
+		<!-- tab线 -->
+		<view class="tab-line"></view>
+		<!-- 轮播区域 -->
+		<swiper :interval="3000" :duration="1000" :current="tabIndex" class="swiper-box" @change="tabChange">
+			<swiper-item v-for="(tab, index) in newsList" :key="index" class="swiper-item">
+				<!-- #ifdef APP-NVUE -->
+				<list loadmoreoffset="15" enableBackToTop="true" @loadmore="loadMore(index)">
+					<!-- 下拉刷新 -->
+					<refresh @refresh="onrefresh(index)" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'" class="refresh">
+						<view class="refresh-view">
+							<image 
+								:src="refreshIcon"
+								class="refresh-icon"
+								:style="{ width: tab.refreshing || pulling ? 0 : '20px' }"
+								:class="{'refresh-icon-active': tab.refreshFlag}"
+							></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="tab.refreshing"></loading-indicator>
+							<text class="loading-text">{{tab.refreshText}}</text>
+						</view>
+					</refresh>
+					<!-- 内容区域 -->
+					<cell v-for="(newsitem, indey) in tab.data" :key="newsitem.id">
+						<news-item :itemData="newsitem"></news-item>
+					</cell>
+					<!-- 加载状态 -->
+					<cell class="loading-more" v-if="tab.isLoading || tab.pageIndex > 3">
+						<text class="loadmore-line" v-if="tab.pageIndex > 3"></text>
+						<text class="loading-more-text">{{ tab.loadingText }}</text>
+					</cell>
+				</list>
+				<!-- #endif -->
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+
+<script>
+	import newsItem from './news-item.nvue';
+	const newsData = [
+		{
+			title: '温故知新老师们这些话要牢记',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3101,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '央视网新闻'
+		},
+		{
+			title: '美国会表决通过新驻华大使 月底有望赴华',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/muwu.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3102,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '央视网新闻'
+		},
+		{
+			title: '哪些专业毕业后收入高?计算机、金融专业排前列金融专业排前列金融专业排前列金融专业排前列金融专业排前列',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3103,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '粤港精英联盟'
+		},
+		{
+			title: '科创板交易系统准备就绪,不存在首批名单',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3104,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '百科故事大全'
+		},
+		{
+			title: '哪些专业毕业后收入高?计算机、金融专业排前列金融专业排前列金融专业排前列金融专业排前列金融专业排前列',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/shuijiao.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3103,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '粤港精英联盟'
+		},
+		{
+			title: '科创板交易系统准备就绪,不存在首批名单',
+			image_url: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg?imageView2/3/w/200/h/100/q/90',
+			comment_count: 3104,
+			vote_count: 2356,
+			dateTime: '2020-01-01',
+			article_type: 1,
+			source: '百科故事大全'
+		},
+	];
+	const tabItemDesc = {
+		pageIndex: 1,
+		data: [],
+		refreshing: false, //是否正在刷新
+		refreshText: '',  //下拉刷新-状态文字
+		isLoading: false, //是否正在加载
+		loadingText: '正在加载...', //触底加载-状态文字
+	}
+	export default {
+		data() {
+			return {
+				tabBars: [
+					{
+						name: '热门',
+						id: 'hot'
+					},
+					{
+						name: '娱乐',
+						id: 'yule'
+					},
+					{
+						name: '体育',
+						id: 'sports'
+					},
+					{
+						name: '国内',
+						id: 'domestic'
+					},
+					{
+						name: '财经',
+						id: 'finance'
+					},
+					{
+						name: '科技',
+						id: 'keji'
+					},
+					{
+						name: '教育',
+						id: 'education'
+					},
+					{
+						name: '汽车',
+						id: 'car'
+					}
+				],
+				newsList: [],
+				tabIndex: 0, //当前tab索引值
+				pulling: false ,//
+				refreshIcon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRBAMAAABYoVcFAAAAKlBMVEUAAACXl5eZmZmfn5+YmJiXl5eampqZmZmYmJiYmJiZmZmYmJiZmZmZmZl02B9kAAAADXRSTlMAQKAQ0GAsUN+wz5CA21ow0AAAAM5JREFUSMftzLEJAkEQheFR4WzjGji4wC5E0A7E0OgaEIwF4RqwJEEODKcX1114yQ/uhsLtY6Lh57NZ7Dz1heXd27Kwcb+WlQv3Vy1rWcta1rKW/1Q2R8PWt8FYdhPLi79ZLt33KB/hibJzH1E+PaAqRfqAcuMBVSlyMmy1C6hKka0CoCpBAlUJEmgsQQJVCRKoSpBAU0mSaCpJEk0lSSMaS5JG9FuK/IkeQkmSaEjikSSaRpJoHEmiIvOoyCwqMo+KzKMi8+hoZTtte5vDPrSGI5zJ/Z1kAAAAAElFTkSuQmCC',
+			};
+		},
+		onLoad() {
+			this.newsList = this.randomFn()
+		},
+		components:{
+			newsItem
+		},
+		methods:{
+			// 生成随机新闻数据
+			randomFn() {
+				let list = []
+				for(let i = 0; i < this.tabBars.length; i++) {
+					let tabItem = {
+						loadingText: '正在加载...',
+						refreshing: false,
+						refreshText: '',
+						data: [],
+						isLoading: false,
+						pageIndex: 1
+					}
+					if(i === 0) {
+						tabItem.data = newsData
+						tabItem.pageIndex = 2
+					}
+					list.push(tabItem)
+				}
+				return list
+			},
+			// 切换tab
+			tabClick(index) {
+				this.tabIndex = index
+			},
+			// 滑动轮播图
+			tabChange(e) {
+				this.tabIndex = e.detail.current
+			},
+			//添加数据
+			getList(index, refresh) {
+				let activeTab = this.newsList[index]
+				let list = newsData || []
+				if(refresh) {
+					//下拉刷新
+					activeTab.data = []
+					activeTab.pageIndex = 2
+					activeTab.loadingText = '正在加载..'
+					activeTab.data = list || []
+				}
+				if(!refresh) {
+					//触底加载
+					activeTab.data = [...activeTab.data, ...list]
+					activeTab.pageIndex++;
+					activeTab.isLoading = false
+					if(activeTab.pageIndex > 3) {
+						activeTab.loadingText = '没有更多了'
+					}
+				}
+			},
+			//正在下拉时
+			onpullingdown(e) {
+				let tab = this.newsList[this.tabIndex]
+				if(tab.refreshing || this.pulling) {
+					return
+				}
+				if(Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+					tab.refreshText = '释放立即刷新'
+					tab.refreshFlag = true
+				} else {
+					tab.refreshText = '下拉可以刷新'
+					tab.refreshFlag = false
+				}
+			},
+			//下拉完成时
+			onrefresh(e) {
+				let tab = this.newsList[this.tabIndex]
+				// #ifdef APP-PLUS
+				if(!tab.refreshFlag) {
+					return
+				}
+				// #endif
+				
+				tab.refreshing = true
+				tab.refreshText = '正在刷新...'
+				
+				setTimeout(() => {
+					this.getList(this.tabIndex, true);
+					this.pulling = true;
+					tab.refreshing = false;
+					tab.refreshFlag = false
+					tab.refreshText = '刷新成功'
+					setTimeout(() => {
+						this.pulling = false;
+					}, 500)
+				}, 1000)
+				
+			},
+			// 加载更多数据
+			loadMore(index) {
+				let activeTab = this.newsList[this.tabIndex];
+				if (activeTab.pageIndex < 4 && !activeTab.isLoading) {
+					activeTab.isLoading = true;
+					setTimeout(() => {
+						this.getList(this.tabIndex);
+					}, 1300);
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+.tabs {
+	flex: 1;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: #ffffff;
+}
+.tab-bar {
+	width: 750rpx;
+	height: 80rpx;
+	flex-direction: row;
+}
+.tab-item {
+	/* flex-wrap: nowrap; */
+	padding-left: 34rpx;
+	padding-right: 34rpx;
+}
+.tab-item-title {
+	color: #333;
+	font-size: 30rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+}
+.tab-item-title-active {
+	color: #e00;
+	font-size: 36rpx;
+	font-weight: 600;
+	border-bottom-width: 4rpx;
+	border-bottom-color: #e00;
+}
+
+.swiper-box {
+	flex: 1 !important;
+}
+.swiper-item {
+
+}
+.refresh {
+	width: 750rpx;
+	height: 100rpx;
+	justify-content: center;
+	align-items: center;
+}
+.refresh-view {
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+}
+.refresh-icon {
+	width: 20px;
+	height: 20px;
+	transform: rotate(0deg);
+	transform-origin: 10px 10px;
+	transition-duration: 0.25s;
+	transition-property: transform;
+}
+.refresh-icon-active {
+	transform: rotate(180deg);
+}
+.loading-icon {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	color: #999999;
+}
+.loading-text {
+	font-size: 14px;
+	color: #999;
+	margin-left: 2px;
+}
+.loading-more {
+	align-items: center;
+	justify-content: center;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	text-align: center;
+	position: relative;
+}
+.loadmore-line {
+	border-bottom-width: 1rpx;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+	width: 320rpx;
+	position: absolute;
+	z-index: -1;
+}
+
+.loading-more-text {
+	padding-left: 8rpx;
+	padding-right: 8rpx;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	background-color: #fafafa;
+	text-align: center;
+	color: #999;
+}
+</style>

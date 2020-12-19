@@ -1,0 +1,65 @@
+{
+  "id": "2271863",
+  "name": "D6",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2118929",
+      "name": "心",
+      "font_class": "xin",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "3755856",
+      "name": "爱心",
+      "font_class": "aixin1",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "15416307",
+      "name": "心-女女",
+      "font_class": "xin-nvnv",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    },
+    {
+      "icon_id": "1642022",
+      "name": "心",
+      "font_class": "heart",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "1642604",
+      "name": "心01",
+      "font_class": "heart1",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "2474499",
+      "name": "爱心",
+      "font_class": "aixin",
+      "unicode": "e7cd",
+      "unicode_decimal": 59341
+    },
+    {
+      "icon_id": "8039795",
+      "name": "心形叶",
+      "font_class": "xinxingye",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "8039798",
+      "name": "心形草",
+      "font_class": "xinxingcao",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    }
+  ]
+}
