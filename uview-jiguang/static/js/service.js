@@ -5,6 +5,8 @@ const index = {
 	get_user_info: () => http.request('POST', '/api/getUserInfo'),
 	// 觅约列表
 	get_seek_list: params => http.request('POST', '/api/getInviteList', params),
+	// 邀约列表
+	get_invite_list: params => http.request('GET', '/api/getDynamicList', params, '加载中...'),
 }
 const login = {
 	//获取验证码

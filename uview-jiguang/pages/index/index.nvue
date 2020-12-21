@@ -10,14 +10,16 @@
 		</scroll-view>
 		<view style="flex-direction: row; align-items:center; justify-content: center;">
 			<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+			<text class="iconfont icon-right">&#xe601;</text>
 		</view>
+		
 		<!-- 吸顶条 -->
-		<view class="sticky">
+		<!-- <view class="sticky">
 			<text>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</text>
 		</view>
 		<scroll-view scroll-y="true">
 			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
-		</scroll-view>
+		</scroll-view> -->
 	</div>
 </template>
 
@@ -27,16 +29,85 @@
 	export default {
 		data() {
 			return {
-				seekList: []
+				seekList: [],
+				inviteList: [],
+				inviteList1: [
+					{
+						name: '全部',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '聊天',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '吃饭',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '旅行',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '电影',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '游戏',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '健身',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '救火',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '急约',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}
+				],
 			}
 		},
 		created() {
+			// #ifdef APP-PLUS
+			this.iconfont()
+			// #endif
 			this.getSeekList()
+			this.getInviteList()
 		},
 		components: {
 			seekItem
 		},
 		methods:{
+			// 获取字体图标
+			iconfont() {
+				let domModule = weex.requireModule("dom");
+				domModule.addRule('fontFace', {
+					   'fontFamily': 'iconfont',
+					   'src': "url(\'http://at.alicdn.com/t/font_2134639_4vhqwg1qsky.ttf\')"
+				})
+			},
 			// 觅约推荐
 			async getSeekList() {
 				let params = {
@@ -46,12 +117,34 @@
 				let res = await service.index.get_seek_list(params)
 				this.seekList = res.data.data
 			},
+			async getInviteList() {
+				let params = {
+					page: 1,
+					type: 1,
+					cate_id: null,
+					areas_id: null,
+					limit: 10
+				}
+				//请求数据
+				let res = await this.$service.index.get_invite_list(params)
+				this.inviteList = res.data.data
+			}
 		}
 	}
 </script>
 
 
 <style lang="css" scoped>
+	.iconfont {
+	    font-family: iconfont;
+		font-size: 32rpx;
+		position: relative;
+		top: 2rpx;
+	}
+	.icon-right {
+	    color: #ff7243;
+		font-weight: 500;
+	}
 	.page {
 		padding: 0 20rpx;
 	}

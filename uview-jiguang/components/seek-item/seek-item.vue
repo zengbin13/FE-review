@@ -4,8 +4,8 @@
 		<view class="info-wrap">
 			<view class="info">
 				<text style="font-size: 30rpx;">{{seekInfo.nickname}}</text>
-				<text v-if="seekInfo.sex === 1" class="iconfont icon-xingbie-nan"></text>
-				<text v-if="seekInfo.sex === 2" class="iconfont icon-xingbie-nv"></text>
+				<text v-if="seekInfo.sex === 1" class="iconfont icon-xingbie-nan">&#xe628;</text>
+				<text v-if="seekInfo.sex === 2" class="iconfont icon-xingbie-nv">&#xe615;</text>
 			</view>
 			<text class="area">{{seekInfo.areas_name}}</text>
 			<view class="name-wrap">
@@ -33,6 +33,12 @@
 </script>
 
 <style lang="css" scoped>
+	.iconfont {
+	    font-family: iconfont;
+		font-size: 32rpx;
+		position: relative;
+		top: 2rpx;
+	}
 	.seek {
 		background-color: #FFFFFF;
 		width: 250rpx;
@@ -70,6 +76,7 @@
 	
 	.area {
 		font-size: 30rpx;
+		padding-bottom: 5rpx;
 	}
 	.name-wrap {
 		display: flex;
