@@ -28,13 +28,13 @@
 				<view :class="'indexItem-' + key" :id="'indexes-' + key" :data-index="key">
 					<view class="padding">{{key}}</view>
 					<view class="cu-list menu-avatar no-padding">
-						<view class="cu-item menuArrow" v-for="(sub,index) in item" :key="index" @click="skipToSingleChat(key,index)">
+						<view class="cu-item menuArrow" v-for="(sub,index) in item" :key="index" @click="skipToSingleChat(key,index)" @longpress.stop="showDialog2(key,index)">
 							<view class="cu-avatar lg round" :style="[{backgroundImage:'url('+ sub.avatar +')'}]"></view>
 							<view class="content">
 								<view class="text-grey">{{sub.noteName?sub.noteName:sub.nickname}}<text class="text-abc text-df">（{{sub.username}})</text></view>
-								<view class="text-gray text-sm">
+								<!-- <view class="text-gray text-sm">
 									个性签名：{{sub.signature}}
-								</view>
+								</view> -->
 							</view>
 							<view class="action" style="width: 350rpx;">
 								<button class="cu-btn round bg-grey shadow" @tap.stop="showDialog2(key,index)">备注</button>
@@ -70,7 +70,7 @@
 		<view class="cu-modal" :class="show2?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar bg-white justify-end">
-					<view class="content">修改 {{currentItem.nickname}} 备注</view>
+					<view class="content">修改 {{currentItem.noteName || currentItem.nickname}} 备注</view>
 					<view class="action" @tap="closeDialog2">
 						<text class="cuIcon-close text-red"></text>
 					</view>
@@ -155,6 +155,8 @@
 </template>
 
 <script>
+	import pinyin from 'pinyin'
+	
 	// #ifdef H5
 	import mock from "@/common/mock.js"
 	// #endif
@@ -240,7 +242,6 @@
 				this.jpushIM.getFriends((res) => {
 					if (res.errorCode == 0) {
 						var list = res.data;
-						console.log(456, list);
 						this.listData = this.setList(list);
 						
 						list = [];
@@ -281,10 +282,27 @@
 				var newItems = [];
 				items.forEach((e) => {
 					e.avatar = e.avatar ? e.avatar : "/static/im/face.jpg";
+					let pinyinArr;
+					// 是否设置备注
+					if(e.noteName) {
+						pinyinArr = pinyin(e.noteName, {
+						  style: pinyin.STYLE_FIRST_LETTER, // 设置拼音风格
+						  heteronym: false
+						})
+					} else {
+						pinyinArr = pinyin(e.nickname, {
+						  style: pinyin.STYLE_FIRST_LETTER, // 设置拼音风格
+						  heteronym: false
+						})
+					}
+					e.pinyinName = pinyinArr.reduce((prev, next) => {
+						return prev + next[0]
+					}, '')
 					newItems.push(e);
 				});
 				if(items.length){
-					newItems = this.imUtils.data_letter_sort(newItems, 'nickname');
+					newItems = this.imUtils.data_letter_sort(newItems, 'pinyinName');
+					console.log(newItems.C);
 				}
 				return newItems;
 			},
@@ -450,6 +468,7 @@
 			},
 			confirm2() {
 				// 更新好友备注调接口
+				console.log(this.currentItem);
 				let params = {
 					"username": this.currentItem.username,
 					"noteName": this.mark
@@ -464,6 +483,7 @@
 						this.closeDialog2(); // 关闭dialog
 						this.mark = ''; // 清空备注内容
 						this.init();
+						// this.setList()
 					} else {
 						uni.showModal({
 							title: '操作失败',
@@ -489,7 +509,6 @@
 					"groupId": this.groupId,
 					"reason": this.groupReason
 				}
-				// console.log(params);
 				// #ifdef APP-PLUS
 				this.jpushIM.applyJoinGroup(params, (res) => {
 					if (res.errorCode == 0) {

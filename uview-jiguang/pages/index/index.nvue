@@ -1,20 +1,22 @@
 <template>
-	<div>
+	<div class="page">
 		<!-- 推荐区域 -->
-		<view class="">
-			<text>推荐</text>
-			<text>微信客服推荐专区</text>
+		<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
+			<text style="padding-right: 30rpx; font-weight: 600;">推荐</text>
+			<text style="font-size: 30rpx; color: #a7a7a7;">微信客服推荐专区</text>
 		</view>
-		<!-- <text>{{seekList[0].nickname}}</text> -->
-		<scroll-view scroll-y="true" class="recommend-wrap">
-			<!-- #ifdef APP-PLUS -->
+		<scroll-view scroll-x="true" class="recommend-wrap">
 			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
-			<!-- #endif -->
-			<!-- #ifndef APP-PLUS -->
-			<view class="recommend-seek">
-				<seekItem v-for="(item, index) in seekList" :seekInfo="item"/>
-			</view>
-			<!-- #endif -->
+		</scroll-view>
+		<view style="flex-direction: row; align-items:center; justify-content: center;">
+			<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+		</view>
+		<!-- 吸顶条 -->
+		<view class="sticky">
+			<text>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</text>
+		</view>
+		<scroll-view scroll-y="true">
+			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
 		</scroll-view>
 	</div>
 </template>
@@ -28,7 +30,7 @@
 				seekList: []
 			}
 		},
-		mounted() {
+		created() {
 			this.getSeekList()
 		},
 		components: {
@@ -43,22 +45,37 @@
 				}
 				let res = await service.index.get_seek_list(params)
 				this.seekList = res.data.data
-				console.log(this.seekList[0]);
 			},
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	.recommend-wrap {
-		display: flex;
-		flex-direction: row;
+
+<style lang="css" scoped>
+	.page {
+		padding: 0 20rpx;
 	}
-	// .recommend-seek {
-	// 	display: flex;
-	// 	flex-direction: row;
-	// }
-	// .seek-item {
-	// 	display: inline-block;
-	// }
+	.recommend-wrap {
+		/* #ifdef APP-PLUS */
+		width: 710rpx;
+		flex-direction: row;
+		/* #endif */
+		/* #ifndef APP-PLUS */
+		
+		white-space: nowrap;
+		/* #endif */
+	}
+	.seek-item {
+		margin-right: 20rpx;
+		/* #ifndef APP-PLUS */
+		display: inline-block;
+		/* #endif */
+	}
+	/* sticky */
+	.sticky {
+		position: sticky;
+		top: 88rpx;
+		z-index: 999;
+		background-color: #09BB07;
+	}
 </style>

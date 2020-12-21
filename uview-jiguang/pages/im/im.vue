@@ -1,36 +1,38 @@
 <template>
 	<view>
-		<u-navbar :is-back="false" title="消息">
-			<view class="slot-wrap" slot="right">
-				<text class="iconfont icon-Setup"></text>
+		<view class="fixed-height">
+			<u-navbar :is-back="false" title="消息">
+				<view class="slot-wrap" slot="right">
+					<text class="iconfont icon-Setup"></text>
+				</view>
+			</u-navbar>
+			<!-- 通讯录 -->
+			<view class="mail-list">
+				<view class="title">
+					<text>群聊与好友</text>
+					<text class="more" @tap="clickAddress">查看更多
+						<text class="iconfont icon-icon-right"></text>
+					</text>
+				</view>
+				<view class="current">
+					最近联系好友
+					<u-button @click="clickLog">log日志</u-button>
+					<u-button @click="clickChat">chat</u-button>
+				</view>
 			</view>
-		</u-navbar>
-		<!-- 通讯录 -->
-		<view class="mail-list">
-			<view class="title">
-				<text>群聊与好友</text>
-				<text class="more" @tap="clickAddress">查看更多
-					<text class="iconfont icon-icon-right"></text>
-				</text>
-			</view>
-			<view class="current">
-				最近联系好友
-				<u-button @click="clickLog">log日志</u-button>
-				<u-button @click="clickChat">chat</u-button>
-			</view>
-		</view>
-		<!-- 系统消息 -->
-		<view class="system">
-			<view class="avatar">
-				<text class="iconfont icon-liaotian"></text>
-			</view>
-			<view class="info">
-				<view class="name">动态消息</view>
-				<view class="text">暂无消息</view>
+			<!-- 系统消息 -->
+			<view class="system">
+				<view class="avatar">
+					<text class="iconfont icon-liaotian"></text>
+				</view>
+				<view class="info">
+					<view class="name">动态消息</view>
+					<view class="text">暂无消息</view>
+				</view>
 			</view>
 		</view>
 		<!-- 用户消息 -->
-		<view class="users">
+		<scroll-view scroll-y="true" class="users" :style="{height: infoHeight + 'px'}">
 			<view class="cu-list menu-avatar">
 				<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in lists" :key="index"
 				 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
@@ -59,7 +61,7 @@
 				<!-- <image src="/static/logo.png" mode="aspectFit"></image> -->
 				<view class="gray-text">加载中...</view>
 			</view>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -79,6 +81,9 @@
 	export default {
 		data() {
 			return {
+				fixedHeight: 0,
+				infoHeight: 0,
+				// IM
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null,
@@ -98,6 +103,18 @@
 		},
 		onReady: function() {
 			uni.hideLoading();
+			const queryNode = uni.createSelectorQuery().selectAll('.fixed-height')
+			queryNode.boundingClientRect(data => {
+				this.fixedHeight = data[0].height
+			}).exec()
+			let systemInfo = uni.getSystemInfoSync()
+			console.log(this.fixedHeight);
+			// #ifndef APP-PLUS
+			this.infoHeight = systemInfo.windowHeight - this.fixedHeight
+			// #endif
+			// #ifdef APP-PLUS
+			this.infoHeight = systemInfo.windowHeight - this.fixedHeight - 264
+			// #endif
 		},
 		onPullDownRefresh() {
 			// 下拉刷新
@@ -105,6 +122,7 @@
 		},
 		computed: {
 			...mapState(['hasLogin', 'loginProvider', 'nickname', 'avatar', 'receiveMessage', 'newFriendInvitiaon']),
+			
 		},
 		watch: {
 			receiveMessage(res) {
@@ -182,7 +200,6 @@
 				// 从本地数据库中获取会话列表，默认按照会话的最后一条消息的时间，降序排列
 				getList: function() {
 					uni.stopPullDownRefresh();
-					console.log(333, this.hasLogin);
 					if (!this.hasLogin) {
 			
 						uni.showToast({
@@ -281,6 +298,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.users {
+		border: 1px solid #007AFF;
+	}
 	// page {
 	// 	background-color: $page-bg-color;
 	// }
@@ -336,20 +356,24 @@
 			}
 		}
 	}
-	.chat_list_wraper {
-		.list_box {
-			.list_user {
-				padding-left: 10rpx;
-				font-size: 32rpx;
-				font-weight: 600;
-			}
-			.list_word {
-				padding-left: 10rpx;
-				padding-top: 5rpx;
-				font-size: 28rpx;
-				color: $sec-font-color;
-				line-height: 40rpx;
+	.users {
+		height: 700rpx;
+		.chat_list_wraper {
+			.list_box {
+				.list_user {
+					padding-left: 10rpx;
+					font-size: 32rpx;
+					font-weight: 600;
+				}
+				.list_word {
+					padding-left: 10rpx;
+					padding-top: 5rpx;
+					font-size: 28rpx;
+					color: $sec-font-color;
+					line-height: 40rpx;
+				}
 			}
 		}
 	}
+	
 </style>

@@ -769,6 +769,7 @@ module.exports = {
 			// 字母 分组 添加 数据
 			list[letter].push(data[i]);
 		}
+
 		// 转换 格式 进行 排序；
 		var resault = new Array();
 		for (var key in list) {
@@ -788,9 +789,9 @@ module.exports = {
 		// 转换 数据 格式
 		var json_sort = {}
 		for (var i = 0; i < resault.length; i++) {
+			resault[i].list.sort(this.compareAscSort('pinyinName'))
 			json_sort[resault[i].letter] = resault[i].list;
 		}
-
 		return json_sort;
 	},
 	/**

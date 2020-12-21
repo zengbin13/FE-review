@@ -88,8 +88,8 @@
 				passData:'', //密码
 				isRotate: false, //是否加载旋转
 				isFocus: true ,// 是否聚焦
-				verCode:'' ,//验证码
-				loginMode: 1, //0:验证码 1：密码 2:微信
+				verCode:'555666' ,//验证码
+				loginMode: 0, //0:验证码 1：密码 2:微信
 				userInfo: {}
 			};
 		},
