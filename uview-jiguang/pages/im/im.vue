@@ -265,10 +265,10 @@
 							}
 							if (e.conversationType == "single") {
 								// 单聊会话
-								e.avatar = e.target.avatar ? e.target.avatar : "../../static/img/im/chat_icon.png";
+								e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon.png";
 							} else if (e.conversationType == "group") {
 								// 群聊会话
-								e.avatar = e.target.avatar ? e.target.avatar : "../../static/img/im/chat_icon_group.jpg"
+								e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon_group.jpg"
 							}
 							newItems.push(e);
 						}

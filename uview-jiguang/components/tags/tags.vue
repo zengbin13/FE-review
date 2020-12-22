@@ -1,22 +1,19 @@
 <template>
-	<text class="tags">
+	<view class="tags">
 		<!-- 性别 -->
-		<text v-if="sex" class="sex">
-			<text v-if="sex === 1" class="iconfont icon-xingbie-nan"></text>
-			<text v-if="sex === 2" class="iconfont icon-xingbie-nv"></text>
-		</text>
+		<view v-if="sex" class="sex">
+			<text v-if="sex === 1" class="iconfont icon-nan1">&#xe628;</text>
+			<text v-if="sex === 2" class="iconfont icon-nv1">&#xe615;</text>
+		</view>
 		<!-- 年龄 -->
-		<text v-if="ageFormat && ageFormat > 0" class="age" :class="[sex === 1 ? 'sex1' : 'sex2']">
-			{{ageFormat}}岁
-		</text>
+		<text v-if="ageFormat && ageFormat > 0" class="age" :class="[sex === 1 ? 'age1' : 'age2']">{{ageFormat}}岁</text>
 		<!-- 等级 -->
-		<text v-if="level" class="level">
-			level{{level}}
-		</text>
-	</text>
+		<text v-if="level" class="level">会员{{level}}</text>
+	</view>
 </template>
 
 <script>
+	import utils from '@/static/js/utils.js'
 	import moment from "../../static/js/moment.js"
 	export default {
 		props: ['sex', 'age', 'level'],
@@ -25,56 +22,69 @@
 				
 			};
 		},
+		created() {
+			// #ifdef APP-PLUS
+			utils.iconfont()
+			// #endif
+		},
 		computed:{
 			ageFormat() {
-				return moment().diff(moment(this.age), 'year')
+				return moment().diff(moment(this.age), 'year') || 20
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.sex1 {
-		background-color: $male-color;
+	.iconfont {
+	    font-family: iconfont;
+		width: 32rpx;
+		font-size: 20rpx;
+		text-align: center;
+		line-height: 32rpx;
+		position: relative;
+		color: #FFFFFF;
+		border-radius: 50%;
+		margin: 0 10rpx;
 	}
-	.sex2 {
-		background-color: $female-color;
+	.icon-nan1 {
+		background-color: #63bcfa;
 	}
+	.icon-nv1 {
+		background-color: #f76e79;
+	}
+	
 	.tags {
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 	}
-	.sex {
-		margin: 0 10rpx;
-		.iconfont {
-			display: inline-block;
-			border-radius: 50%;
-			color: #FFFFFF;
-			padding: 6rpx;
-			font-size: 22rpx;
-		}
-		.icon-xingbie-nan {
-			background-color: $male-color;
-		}
-		.icon-xingbie-nv {
-			background-color: $female-color;
-		}
-	}
+
 	.age {
 		height: 32rpx;
+		font-size: 24rpx;
 		line-height: 32rpx;
+		text-align: center;
 		color: #FFFFFF;
-		padding: 2rpx 8rpx;
+		padding: 0rpx 8rpx;
 		margin-right: 10rpx;
 		border-radius: 30rpx;
 	}
+	.age1 {
+		background-color: #63bcfa;
+	}
+	.age2 {
+		background-color: #f76e79;
+	}
+	
 	.level {
+		font-size: 24rpx;
 		height: 32rpx;
 		line-height: 32rpx;
 		color: #FFFFFF;
-		padding: 2rpx 8rpx;
+		padding: 0rpx 8rpx;
 		margin-right: 10rpx;
 		border-radius: 30rpx;
-		background-image: linear-gradient(90deg, $main-color, #ebe1a7);
+		background-image: linear-gradient(to right, #ff7243, #ebe1a7);
 	}
 </style>

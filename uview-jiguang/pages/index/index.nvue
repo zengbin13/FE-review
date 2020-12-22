@@ -1,5 +1,5 @@
 <template>
-	<div class="page">
+	<view class="page">
 		<!-- 推荐区域 -->
 		<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
 			<text style="padding-right: 30rpx; font-weight: 600;">推荐</text>
@@ -20,12 +20,18 @@
 		<scroll-view scroll-y="true">
 			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
 		</scroll-view> -->
-	</div>
+		<view class="" v-if="inviteList.length">
+			<invite-item v-for="item in inviteList" :key="item.id" :inviteData="item" ></invite-item>
+		</view>
+	</view>
 </template>
 
 <script>
 	import service from '@/static/js/service.js'
+	import utils from '@/static/js/utils.js'
+	
 	import seekItem from '@/components/seek-item/seek-item';
+	import inviteItem from '@/components/invite-item/invite-item';
 	export default {
 		data() {
 			return {
@@ -91,23 +97,16 @@
 		},
 		created() {
 			// #ifdef APP-PLUS
-			this.iconfont()
+			utils.iconfont()
 			// #endif
 			this.getSeekList()
 			this.getInviteList()
 		},
 		components: {
-			seekItem
+			seekItem,
+			inviteItem
 		},
 		methods:{
-			// 获取字体图标
-			iconfont() {
-				let domModule = weex.requireModule("dom");
-				domModule.addRule('fontFace', {
-					   'fontFamily': 'iconfont',
-					   'src': "url(\'http://at.alicdn.com/t/font_2134639_4vhqwg1qsky.ttf\')"
-				})
-			},
 			// 觅约推荐
 			async getSeekList() {
 				let params = {
@@ -126,8 +125,9 @@
 					limit: 10
 				}
 				//请求数据
-				let res = await this.$service.index.get_invite_list(params)
+				let res = await service.index.get_invite_list(params)
 				this.inviteList = res.data.data
+				console.log(this.inviteList);
 			}
 		}
 	}
@@ -146,11 +146,11 @@
 		font-weight: 500;
 	}
 	.page {
-		padding: 0 20rpx;
+		padding: 0 30rpx;
 	}
 	.recommend-wrap {
 		/* #ifdef APP-PLUS */
-		width: 710rpx;
+		width: 690rpx;
 		flex-direction: row;
 		/* #endif */
 		/* #ifndef APP-PLUS */

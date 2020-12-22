@@ -3,7 +3,7 @@
 
 		<view class="flex padding justify-center">
 			
-			<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (info.avatar?info.avatar:'/static/img/im/face.jpg') + ')' }]">
+			<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (info.avatar?info.avatar:'/static/images/im/face.jpg') + ')' }]">
 				<view class="cu-tag badge" :class="info.gender=='female'?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 			</view>
 			

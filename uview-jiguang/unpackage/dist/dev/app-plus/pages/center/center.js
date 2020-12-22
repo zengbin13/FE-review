@@ -2659,7 +2659,7 @@ module.exports = {
     "position": "fixed",
     "zIndex": 9999,
     "right": "12rpx",
-    "background": "url(\"~@/static/img/im/aplly-bg.png\") no-repeat",
+    "background": "url(\"~@/static/images/im/aplly-bg.png\") no-repeat",
     "backgroundSize": "100% 100%"
   },
   "hidden": {

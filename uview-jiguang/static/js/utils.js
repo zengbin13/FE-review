@@ -2,8 +2,14 @@
  * 通用公共js库，常量值和通用函数
  */
 const utils = {
-	//加载状态延时
-	delay: null,
+	// 获取字体图标
+	iconfont() {
+		let domModule = weex.requireModule("dom");
+		domModule.addRule('fontFace', {
+			   'fontFamily': 'iconfont',
+			   'src': "url(\'http://at.alicdn.com/t/font_2134639_lx17phjr78p.ttf\')"
+		})
+	},
 	//显示成功提示
 	showToast(title) {
 		uni.showToast({

@@ -124,7 +124,7 @@
 			<swiper class="emoji-swiper" :class="{hidden:hideEmoji}" indicator-dots="true" duration="150">
 				<swiper-item v-for="(page,pid) in emojiList" :key="pid">
 					<view v-for="(em,eid) in page" :key="eid" @tap="addEmoji(em)">
-						<image mode="widthFix" :src="'/static/img/emoji/'+em.url"></image>
+						<image mode="widthFix" :src="'/static/images/emoji/'+em.url"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -699,7 +699,7 @@
 					}
 				}
 				// 判断默认头像
-				item.fromUser.avatar = item.fromUser.avatar ? item.fromUser.avatar : "/static/img/im/face.jpg";
+				item.fromUser.avatar = item.fromUser.avatar ? item.fromUser.avatar : "/static/images/im/face.jpg";
 				//时间转换
 				let isToday = this.imUtils.timeStampToIsToday(item.createTime);
 				var time;

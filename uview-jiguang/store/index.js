@@ -17,7 +17,7 @@ const store = new Vuex.Store({
 		loginProvider: "", // 用户名或其他唯一值
 		nickname: "", // 昵称
 		signature: "", // 签名
-		avatar: "/static/img/face.jpg", // 头像
+		avatar: "/static/images/face.jpg", // 头像
 		gender: "", // 性别，0未知，1男，2女
 		openid: null,
 		testvuex: false,
@@ -59,7 +59,7 @@ const store = new Vuex.Store({
 			state.hasLogin = false
 			state.loginProvider = ""
 			state.openid = null
-			state.avatar = "/static/img/face.jpg"
+			state.avatar = "/static/images/face.jpg"
 		},
 		setOpenid(state, openid) {
 			state.openid = openid

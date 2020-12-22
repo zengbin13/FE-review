@@ -3,7 +3,7 @@
 		
 		<view class="cu-list menu-avatar">
 			<view class="cu-item">
-				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (avatar?avatar:'/static/img/im/chat_icon_group.jpg') + ')' }]"></view>
+				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (avatar?avatar:'/static/images/im/chat_icon_group.jpg') + ')' }]"></view>
 				<view class="content">
 					<view class="text-grey">{{name}}</view>
 					<view class="text-gray text-sm flex">
@@ -21,7 +21,7 @@
 				<view class="cu-item" v-for="(item,index) in membersArray" :key="index" v-if="index<gridCol*2">
 					
 					<view class="flex justify-center">
-						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (item.user.avatar?item.user.avatar:'/static/img/im/face.jpg') + ')' }]">
+						<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (item.user.avatar?item.user.avatar:'/static/images/im/face.jpg') + ')' }]">
 							
 							<view class="cu-tag badge" :class="item.user.gender=='female'?'cuIcon-female bg-pink':'cuIcon-male bg-blue'" style="top: 0; right: 0; width: 40rpx; height: 40rpx; line-height: 40rpx; text-align: center; font-size: 12rpx;">
 							</view>
@@ -482,7 +482,7 @@
 			setMembersList:function(items){
 				var newItems = [];
 				items.forEach((e) => {
-					e.user.avatar = e.user.avatar ? e.user.avatar : "../../static/img/im/chat_icon.png";
+					e.user.avatar = e.user.avatar ? e.user.avatar : "../../static/images/im/chat_icon.png";
 					e.pickname = e.user.nickname;
 					if(this.loginProvider == e.user.username){
 						// console.log("JMessagePlugin 设置当前群昵称：" + JSON.stringify(e));

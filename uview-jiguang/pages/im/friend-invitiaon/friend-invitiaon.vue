@@ -20,10 +20,10 @@
 					<view class="friend_item_avatar uni-flex">
 						<image :src="item.fromUser.avatar" style="width: 150rpx;height: 150rpx;"></image>
 						<view class="gender female" v-if="item.fromUser.gender === 'female'">
-							<image src="@/static/img/im/female.png" mode="aspectFill"></image>
+							<image src="@/static/images/im/female.png" mode="aspectFill"></image>
 						</view>
 						<view class="gender male" v-if="item.fromUser.gender === 'male'">
-							<image src="@/static/img/im/male.png" mode="aspectFill"></image>
+							<image src="@/static/images/im/male.png" mode="aspectFill"></image>
 						</view>
 					</view>
 					<block v-if="item.type == 'invite_received'">
@@ -169,7 +169,7 @@
 							break;
 					}
 					e.title = title;
-					e.fromUser.avatar = e.fromUser.avatar ? e.fromUser.avatar : "@/static/im/chat_icon.png";
+					e.fromUser.avatar = e.fromUser.avatar ? e.fromUser.avatar : "@/static/images/im/chat_icon.png";
 					// console.log(e.fromUser);
 					// e.fromUser.gender = e.fromUser.gender.replace('""', "");
 					// console.log("jmessageplugin性别" + e.fromUser.gender.replace('""', ''));

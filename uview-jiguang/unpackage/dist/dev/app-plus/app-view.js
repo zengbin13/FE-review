@@ -1655,25 +1655,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-uni-text",
+    "v-uni-view",
     { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
     [
       _vm._$g(1, "i")
         ? _c(
-            "v-uni-text",
+            "v-uni-view",
             { staticClass: _vm._$g(1, "sc"), attrs: { _i: 1 } },
             [
               _vm._$g(2, "i")
-                ? _c("v-uni-text", {
-                    staticClass: _vm._$g(2, "sc"),
-                    attrs: { _i: 2 }
-                  })
+                ? _c(
+                    "v-uni-text",
+                    { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
+                    [_vm._v("")]
+                  )
                 : _vm._e(),
               _vm._$g(3, "i")
-                ? _c("v-uni-text", {
-                    staticClass: _vm._$g(3, "sc"),
-                    attrs: { _i: 3 }
-                  })
+                ? _c(
+                    "v-uni-text",
+                    { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
+                    [_vm._v("")]
+                  )
                 : _vm._e()
             ],
             1
@@ -1694,7 +1696,7 @@ var render = function() {
         ? _c(
             "v-uni-text",
             { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
-            [_vm._v("level" + _vm._$g(5, "t0-0"))]
+            [_vm._v("会员" + _vm._$g(5, "t0-0"))]
           )
         : _vm._e()
     ],
@@ -1789,7 +1791,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些\"u-\"开头的自定义变量\r\n * uView自定义的css类名和scss变量，均以\"u-\"开头，不会造成冲突，请放心使用 \r\n */\n.sex1[data-v-12d9de24] {\r\n  background-color: #63bcfa;\n}\n.sex2[data-v-12d9de24] {\r\n  background-color: #f76e79;\n}\n.tags[data-v-12d9de24] {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.sex[data-v-12d9de24] {\r\n  margin: 0 10rpx;\n}\n.sex .iconfont[data-v-12d9de24] {\r\n  display: inline-block;\r\n  -webkit-border-radius: 50%;\r\n          border-radius: 50%;\r\n  color: #FFFFFF;\r\n  padding: 6rpx;\r\n  font-size: 22rpx;\n}\n.sex .icon-xingbie-nan[data-v-12d9de24] {\r\n  background-color: #63bcfa;\n}\n.sex .icon-xingbie-nv[data-v-12d9de24] {\r\n  background-color: #f76e79;\n}\n.age[data-v-12d9de24] {\r\n  height: 32rpx;\r\n  line-height: 32rpx;\r\n  color: #FFFFFF;\r\n  padding: 2rpx 8rpx;\r\n  margin-right: 10rpx;\r\n  -webkit-border-radius: 30rpx;\r\n          border-radius: 30rpx;\n}\n.level[data-v-12d9de24] {\r\n  height: 32rpx;\r\n  line-height: 32rpx;\r\n  color: #FFFFFF;\r\n  padding: 2rpx 8rpx;\r\n  margin-right: 10rpx;\r\n  -webkit-border-radius: 30rpx;\r\n          border-radius: 30rpx;\r\n  background-image: -webkit-gradient(linear, left top, right top, from(#ff7243), to(#ebe1a7));\r\n  background-image: -webkit-linear-gradient(left, #ff7243, #ebe1a7);\r\n  background-image: linear-gradient(90deg, #ff7243, #ebe1a7);\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些\"u-\"开头的自定义变量\r\n * uView自定义的css类名和scss变量，均以\"u-\"开头，不会造成冲突，请放心使用 \r\n */\n.iconfont[data-v-12d9de24] {\r\n  font-family: iconfont;\r\n  width: 32rpx;\r\n  font-size: 20rpx;\r\n  text-align: center;\r\n  line-height: 32rpx;\r\n  position: relative;\r\n  color: #FFFFFF;\r\n  -webkit-border-radius: 50%;\r\n          border-radius: 50%;\r\n  margin: 0 10rpx;\n}\n.icon-nan1[data-v-12d9de24] {\r\n  background-color: #63bcfa;\n}\n.icon-nv1[data-v-12d9de24] {\r\n  background-color: #f76e79;\n}\n.tags[data-v-12d9de24] {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.age[data-v-12d9de24] {\r\n  height: 32rpx;\r\n  font-size: 24rpx;\r\n  line-height: 32rpx;\r\n  text-align: center;\r\n  color: #FFFFFF;\r\n  padding: 0rpx 8rpx;\r\n  margin-right: 10rpx;\r\n  -webkit-border-radius: 30rpx;\r\n          border-radius: 30rpx;\n}\n.age1[data-v-12d9de24] {\r\n  background-color: #63bcfa;\n}\n.age2[data-v-12d9de24] {\r\n  background-color: #f76e79;\n}\n.level[data-v-12d9de24] {\r\n  font-size: 24rpx;\r\n  height: 32rpx;\r\n  line-height: 32rpx;\r\n  color: #FFFFFF;\r\n  padding: 0rpx 8rpx;\r\n  margin-right: 10rpx;\r\n  -webkit-border-radius: 30rpx;\r\n          border-radius: 30rpx;\r\n  background-image: -webkit-gradient(linear, left top, right top, from(#ff7243), to(#ebe1a7));\r\n  background-image: -webkit-linear-gradient(left, #ff7243, #ebe1a7);\r\n  background-image: linear-gradient(to right, #ff7243, #ebe1a7);\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -17105,7 +17107,7 @@ var render = function() {
                               [
                                 _c("v-uni-image", {
                                   attrs: {
-                                    src: "/static/img/im/female.png",
+                                    src: "/static/images/im/female.png",
                                     mode: "aspectFill",
                                     _i: "10-" + $30
                                   }
@@ -17124,7 +17126,7 @@ var render = function() {
                               [
                                 _c("v-uni-image", {
                                   attrs: {
-                                    src: "/static/img/im/male.png",
+                                    src: "/static/images/im/male.png",
                                     mode: "aspectFill",
                                     _i: "12-" + $30
                                   }
@@ -24320,7 +24322,7 @@ if(false) {}
 // Imports
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 var ___CSS_LOADER_GET_URL_IMPORT___ = __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/lib/app-plus/getUrl.js */ 466);
-var ___CSS_LOADER_URL_IMPORT_0___ = __webpack_require__(/*! @/static/img/im/aplly-bg.png */ 467);
+var ___CSS_LOADER_URL_IMPORT_0___ = __webpack_require__(/*! @/static/images/im/aplly-bg.png */ 467);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_IMPORT_0___);
 // Module
@@ -24375,13 +24377,13 @@ module.exports = function (url, options) {
 
 /***/ }),
 /* 467 */
-/*!***************************************************************************************!*\
-  !*** C:/Users/Administrator/Desktop/zengBin/uview-jiguang/static/img/im/aplly-bg.png ***!
-  \***************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/zengBin/uview-jiguang/static/images/im/aplly-bg.png ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/static/img/im/aplly-bg.png";
+module.exports = "/static/images/im/aplly-bg.png";
 
 /***/ }),
 /* 468 */

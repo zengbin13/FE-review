@@ -10,7 +10,7 @@
 		<block v-else>
 			
 			<view class="flex padding justify-center">
-				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (info.avatar?info.avatar:'/static/img/im/face.jpg') + ')' }]">
+				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (info.avatar?info.avatar:'/static/images/im/face.jpg') + ')' }]">
 					<view class="cu-tag badge" :class="gender=='female'?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 				</view>
 			</view>
@@ -21,10 +21,10 @@
 		
 		<uni-list class="margin-top">
 			<navigator url="info">
-				<uni-list-item title="更新用户信息" thumb="/static/img/tabbar/my_info.png" />
+				<uni-list-item title="更新用户信息" thumb="/static/images/tabbar/my_info.png" />
 			</navigator>
 			<navigator url="safe">
-				<uni-list-item title="更新安全信息" thumb="/static/img/tabbar/my_safe.png" />
+				<uni-list-item title="更新安全信息" thumb="/static/images/tabbar/my_safe.png" />
 			</navigator>
 		</uni-list>
 		

@@ -424,7 +424,7 @@ var friendList = [{
 // 好友通知
 var friendInvitiaon = [{
 	"fromUser": {
-		"avatar": "../../static/img/chat_icon.png",
+		"avatar": "../../static/images/chat_icon.png",
 		"gender": "unknown",
 		"nickname": "我是七号",
 		"isFriend": false,
@@ -530,7 +530,7 @@ var groupMembersArray = [{
 	"groupNickname": "我是四号",
 	"user": {
 		"isInBlackList": false,
-		"avatar": "../../static/img/im/chat_icon.png",
+		"avatar": "../../static/images/im/chat_icon.png",
 		"gender": "unknown",
 		"nickname": "我是四号",
 		"signature": "",
@@ -584,7 +584,7 @@ var groupMembersArray = [{
 	"memberType": "ordinary",
 	"groupNickname": "Ceshi3",
 	"user": {
-		"avatar": "../../static/img/im/chat_icon.png",
+		"avatar": "../../static/images/im/chat_icon.png",
 		"gender": "unknown",
 		"nickname": "Ceshi3",
 		"isFriend": false,

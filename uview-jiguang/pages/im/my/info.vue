@@ -10,7 +10,7 @@
 		<block v-else>
 			
 			<view class="flex padding justify-center">
-				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (avatar?avatar:'/static/img/im/face.jpg') + ')' }]">
+				<view @click="chooseImage" class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (avatar?avatar:'/static/images/im/face.jpg') + ')' }]">
 					<view class="cu-tag badge" :class="gender=='female'?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 				</view>
 			</view>
