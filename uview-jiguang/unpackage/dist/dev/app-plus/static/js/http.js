@@ -144,7 +144,7 @@ const http = {
 	//请求
 	async request(method, url, params, loadingText) {
 		url = domain + url;
-		console.log(url);
+		console.log(url, JSON.stringify(params));
 		let res = await request(method, url, params, loadingText)
 		//身份验证失败，刷新一次token
 		if (res.statusCode == 401) {

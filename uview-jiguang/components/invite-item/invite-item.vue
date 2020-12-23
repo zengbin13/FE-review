@@ -44,7 +44,9 @@
 				</view>
 			</view>
 			<view class="content-img-wrap" v-if="inviteData.ncftpput.length">
-				<u-image v-for="(img, index) in inviteData.ncftpput" class="content-img" :src="img.accesspath" :width="320" :height="320" border-radius="15" mode="aspectFill" @tap="previewImg(index)"></u-image>
+				<u-image v-for="(img, index) in inviteData.ncftpput" class="content-img" :src="img.accesspath" :width="320" :height="320" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
+					<!-- <text slot="error" style="font-size: 24rpx;">加载失败</text> -->
+				</u-image>
 			</view>
 		</view>
 		<!-- 分割线 -->

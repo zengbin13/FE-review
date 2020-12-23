@@ -1,174 +1,646 @@
 <template>
-	<view class="page">
+	<list :id="pageId" class="page" :bounce="false" fixFreezing="true">
 		<!-- 推荐区域 -->
-		<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
-			<text style="padding-right: 30rpx; font-weight: 600;">推荐</text>
-			<text style="font-size: 30rpx; color: #a7a7a7;">微信客服推荐专区</text>
-		</view>
-		<scroll-view scroll-x="true" class="recommend-wrap">
-			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
-		</scroll-view>
-		<view style="flex-direction: row; align-items:center; justify-content: center;">
-			<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
-			<text class="iconfont icon-right">&#xe601;</text>
-		</view>
-		
-		<!-- 吸顶条 -->
-		<!-- <view class="sticky">
-			<text>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</text>
-		</view>
-		<scroll-view scroll-y="true">
-			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
-		</scroll-view> -->
+		<cell>
+			<view id="head" style="padding-left: 30rpx; padding-right: 30rpx;">
+				<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
+					<text style="padding-right: 30rpx; font-weight: 600;">推荐</text>
+					<text style="font-size: 30rpx; color: #a7a7a7;">微信客服推荐专区</text>
+				</view>
+				<scroll-view scroll-x="true" class="recommend-wrap"><seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item" /></scroll-view>
+				<view style="flex-direction: row; align-items:center; justify-content: center;">
+					<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+					<text class="iconfont icon-right">&#xe601;</text>
+				</view>
+			</view>
+		</cell>
+
+		<!-- 内容区域 -->
+		<cell>
+			<view class="tabs" :style="'height:' + pageHeight + 'px'">
+				<!-- tabbar -->
+				<scroll-view ref="tabbar1" id="tab-bar" class="tab-bar" :scroll="false" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+					<view style="flex-direction: column;">
+						<view style="flex-direction: row;">
+							<view
+								class="uni-tab-item"
+								v-for="(tab, index) in tabList"
+								:key="tab.id"
+								:id="tab.id"
+								:ref="'tabitem' + index"
+								:data-id="index"
+								:data-current="index"
+								@click="ontabtap"
+							>
+								<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.title }}</text>
+							</view>
+						</view>
+						<view class="scroll-view-indicator">
+							<view
+								ref="underline"
+								class="scroll-view-underline"
+								:class="isTap ? 'scroll-view-animation' : ''"
+								:style="{ left: indicatorLineLeft + 'px', width: indicatorLineWidth + 'px' }"
+							></view>
+						</view>
+					</view>
+				</scroll-view>
+				<view class="tab-bar-line"></view>
+
+				<!-- tabbar page -->
+				<swiper
+					class="tab-view"
+					id="tab-bar-view"
+					:current="tabIndex"
+					:duration="300"
+					@change="onswiperchange"
+					@transition="onswiperscroll"
+					@animationfinish="animationfinish"
+					@onAnimationEnd="animationfinish"
+				>
+					<swiper-item class="swiper-item" v-for="(page, index) in tabList" :key="index">
+						<swiper-page class="swiper-page" :pid="page.cateId" :parentId="pageId" ref="page"></swiper-page>
+					</swiper-item>
+				</swiper>
+			</view>
+		</cell>
+	</list>
+	<!-- <view class="page">
 		<view class="" v-if="inviteList.length">
 			<invite-item v-for="item in inviteList" :key="item.id" :inviteData="item" ></invite-item>
 		</view>
-	</view>
+	</view> -->
 </template>
 
 <script>
-	import service from '@/static/js/service.js'
-	import utils from '@/static/js/utils.js'
-	
-	import seekItem from '@/components/seek-item/seek-item';
-	import inviteItem from '@/components/invite-item/invite-item';
-	export default {
-		data() {
-			return {
-				seekList: [],
-				inviteList: [],
-				inviteList1: [
-					{
-						name: '全部',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '聊天',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '吃饭',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '旅行',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '电影',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '游戏',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '健身',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '救火',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}, 
-					{
-						name: '急约',
-						page: 1,
-						count: 0,
-						inviteItems: []
-					}
-				],
-			}
-		},
-		created() {
-			// #ifdef APP-PLUS
-			utils.iconfont()
-			// #endif
-			this.getSeekList()
-			this.getInviteList()
-		},
-		components: {
-			seekItem,
-			inviteItem
-		},
-		methods:{
-			// 觅约推荐
-			async getSeekList() {
-				let params = {
-					limit: 10,
-					recommend: 1
+import service from '@/static/js/service.js';
+import utils from '@/static/js/utils.js';
+
+import _ from 'lodash'
+
+import seekItem from '@/components/seek-item/seek-item';
+import inviteItem from '@/components/invite-item/invite-item';
+import swiperPage from './swiper-page.nvue';
+
+// #ifdef APP-PLUS
+const dom = weex.requireModule('dom');
+// #endif
+
+// 缓存每页最多
+const MAX_CACHE_DATA = 100;
+
+// 缓存页签数量
+const MAX_CACHE_PAGE = 3;
+const TAB_PRELOAD_OFFSET = 1;
+
+export default {
+	data() {
+		return {
+			seekList: [],
+			inviteList: [],
+			tabList: [
+				{
+					id: 'tab0',
+					title: '聊天',
+					name: 'Tab 1',
+					pageid: 1,
+					cateId: 5
+				},
+				{
+					id: 'tab1',
+					title: '吃饭',
+					name: 'Tab 2',
+					pageid: 2,
+					cateId: 6
+				},
+				{
+					id: 'tab2',
+					title: '旅行',
+					name: 'Tab 3',
+					pageid: 3,
+					cateId: 7
+				},
+				{
+					id: 'tab3',
+					title: '电影',
+					name: 'Tab 4',
+					pageid: 4,
+					cateId: 8
+				},
+				{
+					id: 'tab4',
+					title: '游戏',
+					name: 'Tab 5',
+					pageid: 5,
+					cateId: 9
+				},
+				{
+					id: 'tab5',
+					title: '健身',
+					name: 'Tab 6',
+					pageid: 6,
+					cateId: 10
 				}
-				let res = await service.index.get_seek_list(params)
-				this.seekList = res.data.data
-			},
-			async getInviteList() {
-				let params = {
+			],
+			tabIndex: 0,
+			cacheTab: [],
+			scrollInto: '',
+			indicatorLineLeft: 0,
+			indicatorLineWidth: 0,
+			isTap: false, //点击切换
+			showTitleView: true,
+			pageHeight: 300,
+			pageId: 'page',
+			inviteList1: [
+				{
+					name: '全部',
 					page: 1,
-					type: 1,
-					cate_id: null,
-					areas_id: null,
-					limit: 10
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '聊天',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '吃饭',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '旅行',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '电影',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '游戏',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '健身',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '救火',
+					page: 1,
+					count: 0,
+					inviteItems: []
+				},
+				{
+					name: '急约',
+					page: 1,
+					count: 0,
+					inviteItems: []
 				}
-				//请求数据
-				let res = await service.index.get_invite_list(params)
-				this.inviteList = res.data.data
-				console.log(this.inviteList);
+			]
+		};
+	},
+	onLoad() {
+		// #ifdef APP-PLUS
+		utils.iconfont();
+		// #endif
+		this.getSeekList();
+		this.getInviteList();
+	},
+	onReady() {
+		this.pageHeight = uni.getSystemInfoSync().windowHeight;
+		this._lastTabIndex = 0;
+		this._touchTabIndex = 0; //当前触碰的tab item
+		this._headHeight = 100;
+		this.swiperWidth = 0;
+		this.tabbarWidth = 0;
+		this.tabListSize = {};
+
+		this.pageList = this.$refs.page;
+		this.selectorQuery();
+	},
+	components: {
+		seekItem,
+		inviteItem,
+		swiperPage
+	},
+	methods: {
+		// 分类列表
+		async getCateList(index) {
+			let res = await service.index.cate_list({ type: index });
+			let cateList = res.data.data.map((tab, index) => {
+				return {
+					id: 'tab' + index,
+					title: tab.title,
+					name: 'Tab ' + (index + 1),
+					pageid: index + 1
+				};
+			});
+			uni.setStorageSync('cateList1', cateList);
+			this.tabList = cateList;
+		},
+		// 觅约推荐
+		async getSeekList() {
+			let params = {
+				limit: 10,
+				recommend: 1
+			};
+			let res = await service.index.get_seek_list(params);
+			this.seekList = res.data.data;
+		},
+		// 邀约数据
+		async getInviteList() {
+			let params = {
+				page: 1,
+				type: 1,
+				cate_id: null,
+				areas_id: null,
+				limit: 10
+			};
+			//请求数据
+			let res = await service.index.get_invite_list(params);
+			this.inviteList = res.data.data;
+		},
+		// 点击 tab item
+		ontabtap(e) {
+			let index = e.target.dataset.current || e.currentTarget.dataset.current;
+			//let offsetIndex = this._touchTabIndex = Math.abs(index - this._lastTabIndex) > 1;
+
+			// #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-QQ
+			this.isTap = true;
+			var currentSize = this.tabListSize[index];
+			this.updateIndicator(currentSize.left, currentSize.width);
+			this._touchTabIndex = index;
+			// #endif
+
+			this.switchTab(index);
+		},
+		onswiperchange(e) {
+			// 注意：百度小程序会触发2次
+
+			// #ifndef APP-PLUS || H5 || MP-WEIXIN || MP-QQ
+			let index = e.target.current || e.detail.current;
+			this.switchTab(index);
+			// #endif
+		},
+		onswiperscroll(e) {
+			if (this.isTap) {
+				return;
 			}
+			
+			var offsetX = e.detail.dx;
+			var preloadIndex = this._lastTabIndex;
+			if (offsetX > TAB_PRELOAD_OFFSET) {
+				preloadIndex++;
+			} else if (offsetX < -TAB_PRELOAD_OFFSET) {
+				preloadIndex--;
+			}
+			if (preloadIndex === this._lastTabIndex || preloadIndex < 0 || preloadIndex > this.pageList.length - 1) {
+				return;
+			}
+			if (this.pageList[preloadIndex].dataList.length === 0) {
+				_.debounce(this.loadTabData, 500, {
+					'leading': true,
+				})
+			}
+
+			// #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-QQ
+			var percentage = Math.abs(this.swiperWidth / offsetX);
+			var currentSize = this.tabListSize[this._lastTabIndex];
+			var preloadSize = this.tabListSize[preloadIndex];
+			var lineL = currentSize.left + (preloadSize.left - currentSize.left) / percentage;
+			var lineW = currentSize.width + (preloadSize.width - currentSize.width) / percentage;
+			this.updateIndicator(lineL, lineW);
+			// #endif
+		},
+		animationfinish(e) {
+			// #ifdef APP-PLUS || H5 || MP-WEIXIN || MP-QQ
+			let index = e.detail.current;
+			if (this._touchTabIndex === index) {
+				this.isTap = false;
+			}
+			this._lastTabIndex = index;
+			this.switchTab(index);
+			this.updateIndicator(this.tabListSize[index].left, this.tabListSize[index].width);
+			// #endif
+		},
+		// 查询节点信息
+		selectorQuery() {
+			// #ifdef APP-NVUE
+			// 查询head部分高度
+			uni.createSelectorQuery()
+				.in(this)
+				.select('#head')
+				.boundingClientRect()
+				.exec(rect => {
+					this._headHeight = rect[0].height;
+				});
+
+			// 查询 tabbar 宽度
+			uni.createSelectorQuery()
+				.in(this)
+				.select('#tab-bar')
+				.boundingClientRect()
+				.exec(rect => {
+					this.tabbarWidth = rect[0].width;
+				});
+			// 查询 tabview 宽度
+			uni.createSelectorQuery()
+				.in(this)
+				.select('#tab-bar-view')
+				.boundingClientRect()
+				.exec(rect => {
+					this.swiperWidth = rect[0].width;
+				});
+
+			// 因 nvue 暂不支持 class 查询
+			var queryTabSize = uni.createSelectorQuery().in(this);
+			for (var i = 0; i < this.tabList.length; i++) {
+				queryTabSize.select('#' + this.tabList[i].id).boundingClientRect();
+			}
+			queryTabSize.exec(rects => {
+				rects.forEach(rect => {
+					this.tabListSize[rect.dataset.id] = rect;
+				});
+				this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
+				this.switchTab(this.tabIndex);
+			});
+			// #endif
+
+			// #ifdef MP-WEIXIN || H5 || MP-QQ
+			uni.createSelectorQuery()
+				.in(this)
+				.select('.tab-view')
+				.fields(
+					{
+						dataset: true,
+						size: true
+					},
+					res => {
+						this.swiperWidth = res.width;
+					}
+				)
+				.exec();
+			uni.createSelectorQuery()
+				.in(this)
+				.selectAll('.uni-tab-item')
+				.boundingClientRect(rects => {
+					rects.forEach(rect => {
+						this.tabListSize[rect.dataset.id] = rect;
+					});
+					this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
+				})
+				.exec();
+			// #endif
+		},
+		// 更新当前tab 下划线位置
+		updateIndicator(left, width) {
+			this.indicatorLineLeft = left + width / 4;
+			this.indicatorLineWidth = width / 2;
+		},
+		// 切换tab
+		switchTab(index) {
+			if (this.pageList[index].dataList.length === 0) {
+				this.loadTabData(index);
+			}
+			this.pageList[index].setScrollRef(this._headHeight);
+
+			if (this.tabIndex === index) {
+				return;
+			}
+
+			// 缓存 tabId
+			if (this.pageList[this.tabIndex].dataList.length > MAX_CACHE_DATA) {
+				let isExist = this.cacheTab.indexOf(this.tabIndex);
+				if (isExist < 0) {
+					this.cacheTab.push(this.tabIndex);
+				}
+			}
+
+			this.tabIndex = index;
+
+			// #ifdef APP-NVUE
+			this.scrollTabTo(index);
+			// #endif
+			// #ifndef APP-NVUE
+			this.scrollInto = this.tabList[index].id;
+			// #endif
+
+			// 释放 tabId
+			if (this.cacheTab.length > MAX_CACHE_PAGE) {
+				let cacheIndex = this.cacheTab[0];
+				this.clearTabData(cacheIndex);
+				this.cacheTab.splice(0, 1);
+			}
+		},
+		// app端 滚动
+		scrollTabTo(index) {
+			const el = this.$refs['tabitem' + index][0];
+			let offset = 0;
+			// TODO fix ios offset
+			if (index > 0) {
+				offset = this.tabbarWidth / 2 - this.tabListSize[index].width / 2;
+				if (this.tabListSize[index].right < this.tabbarWidth / 2) {
+					offset = this.tabListSize[0].width;
+				}
+			}
+			dom.scrollToElement(el, {
+				offset: -offset
+			});
+		},
+		// 加载tab page数据
+		loadTabData(index) {
+			console.log(index);
+			this.pageList[index].loadData();
+		},
+		// 清除tab page的数据
+		clearTabData(index) {
+			this.pageList[index].clear();
 		}
 	}
+};
 </script>
 
-
 <style lang="css" scoped>
-	.iconfont {
-	    font-family: iconfont;
-		font-size: 32rpx;
-		position: relative;
-		top: 2rpx;
-	}
-	.icon-right {
-	    color: #ff7243;
-		font-weight: 500;
-	}
-	.page {
-		padding: 0 30rpx;
-	}
-	.recommend-wrap {
-		/* #ifdef APP-PLUS */
-		width: 690rpx;
-		flex-direction: row;
-		/* #endif */
-		/* #ifndef APP-PLUS */
-		
-		white-space: nowrap;
-		/* #endif */
-	}
-	.seek-item {
-		margin-right: 20rpx;
-		/* #ifndef APP-PLUS */
-		display: inline-block;
-		/* #endif */
-	}
-	/* sticky */
-	.sticky {
-		position: sticky;
-		top: 88rpx;
-		z-index: 999;
-		background-color: #09BB07;
-	}
+/* swiper-list */
+
+/* #ifndef APP-PLUS */
+page {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+}
+
+/* #endif */
+
+.page {
+  flex: 1;
+}
+
+.header {
+  height: 128px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+}
+
+.header-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #444;
+}
+
+.flexible-view {
+  background-color: #f823ff;
+}
+
+.page-head {
+  height: 200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+}
+
+.tabs {
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #ffffff;
+  /* #ifdef MP-ALIPAY || MP-BAIDU */
+  height: 100vh;
+  /* #endif */
+}
+
+.tab-bar {
+  width: 750upx;
+  height: 84upx;
+  flex-direction: row;
+  /* #ifndef APP-PLUS */
+  white-space: nowrap;
+  /* #endif */
+}
+
+/* #ifndef APP-NVUE */
+.tab-bar ::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+/* #endif */
+
+.scroll-view-indicator {
+  position: relative;
+  height: 4px;
+  border-radius: 20rpx;
+  background-color: transparent;
+}
+
+.scroll-view-underline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background-color: #ff7243;
+}
+
+.scroll-view-animation {
+  transition-duration: 0.2s;
+  transition-property: left;
+}
+
+.tab-bar-line {
+  height: 1upx;
+  background-color: #cccccc;
+}
+
+.tab-view {
+  flex: 1;
+}
+
+.uni-tab-item {
+  /* #ifndef APP-PLUS */
+  display: inline-block;
+  /* #endif */
+  flex-wrap: nowrap;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.uni-tab-item-title {
+  color: #555;
+  font-size: 30upx;
+  height: 80upx;
+  line-height: 80upx;
+  flex-wrap: nowrap;
+  /* #ifndef APP-PLUS */
+  white-space: nowrap;
+  /* #endif */
+}
+
+.uni-tab-item-title-active {
+  color: #ff7243;
+  font-weight: bold;
+}
+
+.swiper-item {
+  flex: 1;
+  flex-direction: column;
+}
+
+.swiper-page {
+  flex: 1;
+  flex-direction: row;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+/* 字体图标 */
+.iconfont {
+    font-family: iconfont;
+	font-size: 32rpx;
+	position: relative;
+	top: 2rpx;
+}
+.icon-right {
+    color: #ff7243;
+	font-weight: 500;
+}
+.recommend-wrap {
+	/* #ifdef APP-PLUS */
+	width: 690rpx;
+	flex-direction: row;
+	/* #endif */
+	/* #ifndef APP-PLUS */
+
+	white-space: nowrap;
+	/* #endif */
+}
+.seek-item {
+	margin-right: 20rpx;
+	/* #ifndef APP-PLUS */
+	display: inline-block;
+	/* #endif */
+}
+/* sticky */
+.sticky {
+	position: sticky;
+	top: 88rpx;
+	z-index: 999;
+	background-color: #09BB07;
+}
 </style>

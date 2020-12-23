@@ -6,7 +6,9 @@ const index = {
 	// 觅约列表
 	get_seek_list: params => http.request('POST', '/api/getInviteList', params),
 	// 邀约列表
-	get_invite_list: params => http.request('GET', '/api/getDynamicList', params, '加载中...'),
+	get_invite_list: params => http.request('GET', '/api/getDynamicList', params),
+	//  分类列表
+	cate_list: params => http.request('GET', '/api/getCateList', params),
 }
 const login = {
 	//获取验证码

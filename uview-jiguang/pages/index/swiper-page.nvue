@@ -1,0 +1,128 @@
+<template>
+    <view class="uni-swiper-page">
+        <list ref="list" class="list" :offset-accuracy="5"  fixFreezing="true"  @loadmore="loadMoreData" loadmoreoffset="300">
+            <cell v-for="(item, index) in dataList" :key="item.id" :ref="'item'+index">
+                <view class="list-item" >
+                    <invite-item :inviteData="item"></invite-item>
+                </view>
+            </cell>
+            <cell class="loading">
+				<text class="loading-txt" v-if="nomore"> - ☃️ 没有更多了 🏔️ - </text>
+			</cell>
+        </list>
+    </view>
+</template>
+
+<script>
+	import service from '@/static/js/service.js';
+	import utils from '@/static/js/utils.js';
+	
+	import inviteItem from '@/components/invite-item/invite-item';
+
+	
+    export default {
+        props: {
+            pid: {
+                type: [Number, String],
+                default: ''
+            },
+            parentId: {
+                type: [Number, String],
+                default: ''
+            }
+        },
+        data() {
+            return {
+                scrollable: true,
+                dataList: [],
+				status: 'loadmore',
+				page: 1,
+				count: 0,
+            }
+        },
+		components:{
+			inviteItem
+		},
+		computed:{
+			nomore() {
+				if(this.dataList.length === 0) return false
+				return this.dataList.length >= this.count
+			}
+		},
+        methods: {
+			test() {
+				console.log(2222222222);
+			},
+			// 邀约数据
+			async getInviteList() {
+				let params = {
+					page: this.page,
+					type: 1,
+					cate_id: this.pid,
+					areas_id: null,
+					limit: 10
+				};
+				//请求数据
+				let res = await service.index.get_invite_list(params);
+				this.count = res.data.count
+				this.dataList = [...this.dataList, ...res.data.data];
+			},
+			loadMoreData() {
+				this.page++
+				this.getInviteList()
+			},
+            setScrollRef(height) {
+				// 设置嵌套list父容器支持swiper-list吸顶滚动效果
+                if (this.$refs['list'] && this.$refs['list'].setSpecialEffects) {
+                    this.$refs['list'].setSpecialEffects({
+                        id: this.parentId,
+                        headerHeight: height
+                    });
+                }
+            },
+            loadData() {
+                // 首次激活时被调用
+				this.getInviteList()
+            },
+            clear() {
+                // 释放数据时被调用，参考 swiper-list 缓存配置
+                this.dataList.length = 0;
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .uni-swiper-page {
+        flex: 1;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .list {
+        flex: 1;
+        background-color: #ebebeb;
+    }
+
+    .list-item {
+        margin-left: 12px;
+        margin-right: 12px;
+        margin-top: 12px;
+        /* padding: 20px; */
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .loading {
+        height: 25px;
+    }
+	.loading-txt {
+		font-size: 28rpx;
+		line-height: 25px;
+		text-align: center;
+		color: #858585;
+	}
+</style>

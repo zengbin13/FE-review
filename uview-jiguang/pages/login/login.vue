@@ -289,7 +289,7 @@
 				this.$storage.setSync('state', state)
 				
 				let userInfo = await this.getUserInfo()
-				
+				this.loginedInfo()
 				this.$store.commit('login', {
 					token: data.token,
 					userInfo: userInfo
@@ -298,6 +298,23 @@
 				uni.reLaunch({
 					url:'../index/index'
 				})
+			},
+			// 获取登录成功的基本数据
+			loginedInfo() {
+				this.getCateList(2)
+			},
+			// 分类列表
+			async getCateList(index) {
+				let res = await this.$service.index.cate_list({type: index})
+				let cateList = res.data.data.map((tab, index) => {
+					return {
+						id: "tab" + index,
+						title: tab.title,
+						name: 'Tab ' + (index + 1),
+						pageid: index + 1
+					}
+				})
+				uni.setStorageSync('cateList1', cateList)
 			},
 			//获取用户信息
 			async getUserInfo() {

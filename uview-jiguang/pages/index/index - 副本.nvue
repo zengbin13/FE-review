@@ -1,0 +1,174 @@
+<template>
+	<view class="page">
+		<!-- 推荐区域 -->
+		<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
+			<text style="padding-right: 30rpx; font-weight: 600;">推荐</text>
+			<text style="font-size: 30rpx; color: #a7a7a7;">微信客服推荐专区</text>
+		</view>
+		<scroll-view scroll-x="true" class="recommend-wrap">
+			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
+		</scroll-view>
+		<view style="flex-direction: row; align-items:center; justify-content: center;">
+			<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+			<text class="iconfont icon-right">&#xe601;</text>
+		</view>
+		
+		<!-- 吸顶条 -->
+		<!-- <view class="sticky">
+			<text>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</text>
+		</view>
+		<scroll-view scroll-y="true">
+			<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item"/>
+		</scroll-view> -->
+		<view class="" v-if="inviteList.length">
+			<invite-item v-for="item in inviteList" :key="item.id" :inviteData="item" ></invite-item>
+		</view>
+	</view>
+</template>
+
+<script>
+	import service from '@/static/js/service.js'
+	import utils from '@/static/js/utils.js'
+	
+	import seekItem from '@/components/seek-item/seek-item';
+	import inviteItem from '@/components/invite-item/invite-item';
+	export default {
+		data() {
+			return {
+				seekList: [],
+				inviteList: [],
+				inviteList1: [
+					{
+						name: '全部',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '聊天',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '吃饭',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '旅行',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '电影',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '游戏',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '健身',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '救火',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}, 
+					{
+						name: '急约',
+						page: 1,
+						count: 0,
+						inviteItems: []
+					}
+				],
+			}
+		},
+		created() {
+			// #ifdef APP-PLUS
+			utils.iconfont()
+			// #endif
+			this.getSeekList()
+			this.getInviteList()
+		},
+		components: {
+			seekItem,
+			inviteItem
+		},
+		methods:{
+			// 觅约推荐
+			async getSeekList() {
+				let params = {
+					limit: 10,
+					recommend: 1
+				}
+				let res = await service.index.get_seek_list(params)
+				this.seekList = res.data.data
+			},
+			async getInviteList() {
+				let params = {
+					page: 1,
+					type: 1,
+					cate_id: null,
+					areas_id: null,
+					limit: 10
+				}
+				//请求数据
+				let res = await service.index.get_invite_list(params)
+				this.inviteList = res.data.data
+				console.log(this.inviteList);
+			}
+		}
+	}
+</script>
+
+
+<style lang="css" scoped>
+	.iconfont {
+	    font-family: iconfont;
+		font-size: 32rpx;
+		position: relative;
+		top: 2rpx;
+	}
+	.icon-right {
+	    color: #ff7243;
+		font-weight: 500;
+	}
+	.page {
+		padding: 0 30rpx;
+	}
+	.recommend-wrap {
+		/* #ifdef APP-PLUS */
+		width: 690rpx;
+		flex-direction: row;
+		/* #endif */
+		/* #ifndef APP-PLUS */
+		
+		white-space: nowrap;
+		/* #endif */
+	}
+	.seek-item {
+		margin-right: 20rpx;
+		/* #ifndef APP-PLUS */
+		display: inline-block;
+		/* #endif */
+	}
+	/* sticky */
+	.sticky {
+		position: sticky;
+		top: 88rpx;
+		z-index: 999;
+		background-color: #09BB07;
+	}
+</style>
