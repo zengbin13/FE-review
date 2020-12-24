@@ -8,7 +8,7 @@
 			}">
 				<u-icon name="arrow-down-fill" size="26" color="#c0c4cc"></u-icon>
 			</view>
-		</view> -->
+		</view> -->				
 		<u-popup :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto" :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex">
 			<view class="u-select">
 				<view class="u-select__header" @touchmove.stop.prevent="">
@@ -71,6 +71,9 @@
 	 * @event {Function} confirm 点击确定按钮，返回当前选择的值
 	 * @example <u-select v-model="show" :list="list"></u-select>
 	 */
+// #ifdef APP-NVUE
+import { $u } from '@/uview-ui'
+// #endif
 
 export default {
 	props: {
@@ -186,7 +189,12 @@ export default {
 	computed: {
 		uZIndex() {
 			// 如果用户有传递z-index值，优先使用
+			// #ifdef APP-PLUS
+			return this.zIndex ? this.zIndex : $u.zIndex.popup;
+			// #endif
+			// #ifndef APP-NVUE
 			return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
+			// #endif
 		},
 	},
 	methods: {
@@ -212,7 +220,12 @@ export default {
 		setDefaultSelector() {
 			// 如果没有传入默认选中的值，生成长度为columnNum，用0填充的数组
 			this.defaultSelector = this.defaultValue.length == this.columnNum ? this.defaultValue : Array(this.columnNum).fill(0);
+			// #ifdef APP-PLUS
+			this.lastSelectIndex = $u.deepClone(this.defaultSelector);
+			// #endif
+			// #ifndef APP-NVUE
 			this.lastSelectIndex = this.$u.deepClone(this.defaultSelector);
+			// #endif
 		},
 		// 计算列数
 		setColumnNum() {
@@ -414,4 +427,5 @@ export default {
 		}
 	}
 }
+
 </style>

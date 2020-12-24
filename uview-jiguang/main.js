@@ -10,7 +10,7 @@ import store from './store'
 Vue.prototype.$store = store
 
 // 引入全局uView
-import uView from 'uview-ui'
+import { install as uView } from 'uview-ui'
 Vue.use(uView);
 
 // 自定义缓存、请求和工具等

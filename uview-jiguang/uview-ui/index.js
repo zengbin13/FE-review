@@ -132,6 +132,7 @@ const install = Vue => {
 	Vue.prototype.$u = $u
 }
 
-export default {
-	install
+export  {
+	install,
+	$u
 }

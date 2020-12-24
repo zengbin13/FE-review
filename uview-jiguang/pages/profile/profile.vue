@@ -148,7 +148,7 @@ export default {
 		// 跳转到资料页面
 		handleJumpInfo() {
 			uni.navigateTo({
-				url: './editCardInfo'
+				url: './cardInfo'
 			})
 		}
 	}

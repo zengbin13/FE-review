@@ -1,6 +1,6 @@
 <template>
     <view class="uni-swiper-page">
-        <list ref="list" class="list" :offset-accuracy="5"  fixFreezing="true"  @loadmore="loadMoreData" loadmoreoffset="300">
+        <list ref="list" class="list" :offset-accuracy="5"  fixFreezing="true"  @loadmore="loadMoreData" loadmoreoffset="300" >
             <cell v-for="(item, index) in dataList" :key="item.id" :ref="'item'+index">
                 <view class="list-item" >
                     <invite-item :inviteData="item"></invite-item>
@@ -10,6 +10,13 @@
 				<text class="loading-txt" v-if="nomore"> - ☃️ 没有更多了 🏔️ - </text>
 			</cell>
         </list>
+		<view v-if="count === 0 && !firstRequest" class="empty">
+			<image 
+				src="@/static/images/empty/empty1.png" 
+				mode="widthFix" 
+				class="empty-img"></image>
+			<text class="empty-txt">没有数据</text>
+		</view>
     </view>
 </template>
 
@@ -26,6 +33,10 @@
                 type: [Number, String],
                 default: ''
             },
+			areaId: {
+				type: [Number, Object],
+				default: 0
+			},
             parentId: {
                 type: [Number, String],
                 default: ''
@@ -38,6 +49,7 @@
 				status: 'loadmore',
 				page: 1,
 				count: 0,
+				firstRequest: true,
             }
         },
 		components:{
@@ -50,28 +62,28 @@
 			}
 		},
         methods: {
-			test() {
-				console.log(2222222222);
-			},
 			// 邀约数据
 			async getInviteList() {
 				let params = {
 					page: this.page,
 					type: 1,
 					cate_id: this.pid,
-					areas_id: null,
+					areas_id: this.areaId,
 					limit: 10
 				};
 				//请求数据
 				let res = await service.index.get_invite_list(params);
 				this.count = res.data.count
 				this.dataList = [...this.dataList, ...res.data.data];
+				this.firstRequest = false;
+				console.log(this.count, this.firstRequest, res.data.data);
 			},
 			loadMoreData() {
 				this.page++
 				this.getInviteList()
 			},
             setScrollRef(height) {
+				// console.log(this.$refs['list']);
 				// 设置嵌套list父容器支持swiper-list吸顶滚动效果
                 if (this.$refs['list'] && this.$refs['list'].setSpecialEffects) {
                     this.$refs['list'].setSpecialEffects({
@@ -87,6 +99,9 @@
             clear() {
                 // 释放数据时被调用，参考 swiper-list 缓存配置
                 this.dataList.length = 0;
+				this.page = 1;
+				this.count = 0;
+				this.firstRequest = true;
             }
         }
     }
@@ -123,6 +138,19 @@
 		font-size: 28rpx;
 		line-height: 25px;
 		text-align: center;
+		color: #858585;
+	}
+	.empty {
+		width: 750rpx; 
+		align-items: center;
+	}
+	.empty-img {
+		width: 250rpx;
+		margin-top: 200rpx;
+	}
+	.empty-txt {
+		font-size: 30rpx;
+		line-height: 50rpx;
 		color: #858585;
 	}
 </style>

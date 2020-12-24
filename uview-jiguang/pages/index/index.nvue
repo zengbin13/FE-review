@@ -8,8 +8,8 @@
 					<text style="font-size: 30rpx; color: #a7a7a7;">微信客服推荐专区</text>
 				</view>
 				<scroll-view scroll-x="true" class="recommend-wrap"><seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item" /></scroll-view>
-				<view style="flex-direction: row; align-items:center; justify-content: center;">
-					<text style="line-height: 80rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+				<view style="flex-direction: row; align-items:center; justify-content: center; margin-bottom: 20rpx;">
+					<text style="line-height: 100rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
 					<text class="iconfont icon-right">&#xe601;</text>
 				</view>
 			</view>
@@ -19,32 +19,48 @@
 		<cell>
 			<view class="tabs" :style="'height:' + pageHeight + 'px'">
 				<!-- tabbar -->
-				<scroll-view ref="tabbar1" id="tab-bar" class="tab-bar" :scroll="false" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
-					<view style="flex-direction: column;">
-						<view style="flex-direction: row;">
-							<view
-								class="uni-tab-item"
-								v-for="(tab, index) in tabList"
-								:key="tab.id"
-								:id="tab.id"
-								:ref="'tabitem' + index"
-								:data-id="index"
-								:data-current="index"
-								@click="ontabtap"
-							>
-								<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.title }}</text>
+				<view class="tab-bar-wrap" style="flex-direction: row; align-items: center;">
+					<scroll-view ref="tabbar1" id="tab-bar" class="tab-bar" :scroll="false" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+						<view style="flex-direction: column;">
+							<view style="flex-direction: row;">
+								<view
+									class="uni-tab-item"
+									v-for="(tab, index) in tabList"
+									:key="tab.id"
+									:id="tab.id"
+									:ref="'tabitem' + index"
+									:data-id="index"
+									:data-current="index"
+									@click="ontabtap"
+								>
+									<text class="uni-tab-item-title" :class="tabIndex == index ? 'uni-tab-item-title-active' : ''">{{ tab.title }}</text>
+								</view>
+							</view>
+							<view class="scroll-view-indicator">
+								<view
+									ref="underline"
+									class="scroll-view-underline"
+									:class="isTap ? 'scroll-view-animation' : ''"
+									:style="{ left: indicatorLineLeft + 'px', width: indicatorLineWidth + 'px' }"
+								></view>
 							</view>
 						</view>
-						<view class="scroll-view-indicator">
-							<view
-								ref="underline"
-								class="scroll-view-underline"
-								:class="isTap ? 'scroll-view-animation' : ''"
-								:style="{ left: indicatorLineLeft + 'px', width: indicatorLineWidth + 'px' }"
-							></view>
-						</view>
+					</scroll-view>
+					<view class="area" @tap="handleAreaSelect">
+						<text style="font-size: 30rpx; color: #FF7243;">{{areaText}}</text>
+						<text class="iconfont icon-invite">&#xe66d;</text>
 					</view>
-				</scroll-view>
+					<!-- 地区选择器 -->
+					<lb-picker 
+						:list="areaList" 
+						ref="areaPicker"  
+						mode ="multiSelector" 
+						:level="2" 
+						@confirm="confirmArea" 
+						radius="30px"
+						confirm-color="#ff7243"
+						></lb-picker>
+				</view>
 				<view class="tab-bar-line"></view>
 
 				<!-- tabbar page -->
@@ -59,28 +75,31 @@
 					@onAnimationEnd="animationfinish"
 				>
 					<swiper-item class="swiper-item" v-for="(page, index) in tabList" :key="index">
-						<swiper-page class="swiper-page" :pid="page.cateId" :parentId="pageId" ref="page"></swiper-page>
+						<swiper-page class="swiper-page" 
+						:areaId="areaId"
+						:pid="page.cateId" 
+						:parentId="pageId" 
+						ref="page"></swiper-page>
 					</swiper-item>
 				</swiper>
 			</view>
 		</cell>
 	</list>
-	<!-- <view class="page">
-		<view class="" v-if="inviteList.length">
-			<invite-item v-for="item in inviteList" :key="item.id" :inviteData="item" ></invite-item>
-		</view>
-	</view> -->
 </template>
 
 <script>
 import service from '@/static/js/service.js';
 import utils from '@/static/js/utils.js';
 
-import _ from 'lodash'
+import _ from 'lodash';
+import areaList from '@/static/data/area-data-min.js'; //城市数据
+
 
 import seekItem from '@/components/seek-item/seek-item';
 import inviteItem from '@/components/invite-item/invite-item';
 import swiperPage from './swiper-page.nvue';
+import simpleAddress from '@/components/simple-address/simple-address.vue';
+import LbPicker from '@/components/lb-picker'; //省市组件
 
 // #ifdef APP-PLUS
 const dom = weex.requireModule('dom');
@@ -151,62 +170,10 @@ export default {
 			showTitleView: true,
 			pageHeight: 300,
 			pageId: 'page',
-			inviteList1: [
-				{
-					name: '全部',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '聊天',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '吃饭',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '旅行',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '电影',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '游戏',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '健身',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '救火',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				},
-				{
-					name: '急约',
-					page: 1,
-					count: 0,
-					inviteItems: []
-				}
-			]
+			// 地区
+			areaText: '地区',
+			areaId: null,
+			areaList,
 		};
 	},
 	onLoad() {
@@ -231,9 +198,28 @@ export default {
 	components: {
 		seekItem,
 		inviteItem,
-		swiperPage
+		swiperPage,
+		simpleAddress,
+		LbPicker
 	},
 	methods: {
+		// 地区选择
+		handleAreaSelect() {
+			this.$refs.areaPicker.show()
+		},
+		confirmArea(e) {
+			this.$refs.areaPicker.hide()
+			this.areaId = e.item[1].value
+			this.areaText = e.item[1].label
+			this.$nextTick(function(){
+				// 清除page的数据
+				this.pageList.forEach(page => {
+					page.clear()
+				})
+				// 请求当前数据
+				this.pageList[this.tabIndex].loadData()
+			})
+		},
 		// 分类列表
 		async getCateList(index) {
 			let res = await service.index.cate_list({ type: index });
@@ -522,14 +508,20 @@ page {
 }
 
 .tab-bar {
-  width: 750upx;
+  /* width: 750upx; */
+  /* background-color: #007AFF; */
+  flex: 1;
   height: 84upx;
   flex-direction: row;
   /* #ifndef APP-PLUS */
   white-space: nowrap;
   /* #endif */
 }
-
+.area {
+	padding-left: 12px;
+	padding-right: 12px;
+	flex-direction: row;
+}
 /* #ifndef APP-NVUE */
 .tab-bar ::-webkit-scrollbar {
   display: none;
@@ -575,8 +567,8 @@ page {
   display: inline-block;
   /* #endif */
   flex-wrap: nowrap;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .uni-tab-item-title {
@@ -620,6 +612,11 @@ page {
     color: #ff7243;
 	font-weight: 500;
 }
+.icon-invite {
+	padding-left: 4rpx;
+	color: #ff7243;
+	top: 8rpx;
+}
 .recommend-wrap {
 	/* #ifdef APP-PLUS */
 	width: 690rpx;
@@ -635,12 +632,5 @@ page {
 	/* #ifndef APP-PLUS */
 	display: inline-block;
 	/* #endif */
-}
-/* sticky */
-.sticky {
-	position: sticky;
-	top: 88rpx;
-	z-index: 999;
-	background-color: #09BB07;
 }
 </style>

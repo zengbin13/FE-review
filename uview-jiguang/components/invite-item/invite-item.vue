@@ -5,7 +5,7 @@
 			<!-- 非匿名头像 -->
 			<image 
 			v-if="!inviteData.anonymity"
-			 :src="inviteData.avatar"  class="avatar"></image>
+			 :src="inviteData.avatar"  class="avatar" @tap="enterCard(inviteData.uid)"></image>
 			<!-- 匿名头像 -->
 			<image 
 			v-else-if="inviteData.sex === 1"
@@ -15,7 +15,7 @@
 			 src="../../static/images/index/n-female.png"  class="avatar"></image>
 			<view class="name-wrap">
 				<view style="flex-direction: row; padding-bottom: 10rpx; align-items: center;">
-					<text v-if="!inviteData.anonymity" style="font-size: 30rpx; font-weight: 600;">{{inviteData.nickname}}</text>
+					<text v-if="!inviteData.anonymity" style="font-size: 30rpx; font-weight: 600;" @tap="enterCard(inviteData.uid)">{{inviteData.nickname}}</text>
 					<text v-else style="font-size: 30rpx; font-weight: 600;">匿名用户</text>
 					<tags :sex="inviteData.sex" :age="inviteData.end_time" :level='2'></tags>
 				</view>
@@ -126,6 +126,11 @@
 						console.log('previewImage.fail', err);
 					}
 				});
+			},
+			enterCard(uid) {
+				uni.navigateTo({
+					url: `@/page/profile/cardInfo?uid=${uid}`
+				})
 			}
 		}
 	}
