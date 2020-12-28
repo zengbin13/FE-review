@@ -433,6 +433,9 @@ import store from './store'
 	}
 }
 
+page {
+	background-color: $page-bg-color;
+}
 .status-bar {
   height: var(--status-bar-height);
   width: 100%;

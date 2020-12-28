@@ -1,9 +1,9 @@
 <template>
 	<view class="seek">
-		<u-image :src="seekInfo.avatar"  mode="aspectFill" class="img" width="250" height="280" border-radius="10"></u-image>
+		<u-image :src="seekInfo.avatar"  mode="aspectFill" class="img" width="250" height="280" border-radius="10" @tap="enterCardInfo"></u-image>
 		<view class="info-wrap">
 			<view class="info">
-				<text style="font-size: 30rpx;">{{seekInfo.nickname}}</text>
+				<text style="font-size: 30rpx;" @tap="enterCardInfo">{{seekInfo.nickname}}</text>
 				<text v-if="seekInfo.sex === 1" class="iconfont icon-xingbie-nan">&#xe628;</text>
 				<text v-if="seekInfo.sex === 2" class="iconfont icon-xingbie-nv">&#xe615;</text>
 			</view>
@@ -27,6 +27,14 @@
 		data() {
 			return {
 				
+			}
+		},
+		methods:{
+			enterCardInfo() {
+				console.log(this.seekInfo.uid);
+				uni.navigateTo({
+					url: `../../pages/profile/cardInfo?uid=${this.seekInfo.uid}`
+				})
 			}
 		}
 	}

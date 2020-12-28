@@ -1,4 +1,7 @@
-export default [
+export default [{
+						value: 0,
+						label: '暂无'
+					},
 				{
 					value: 1,
 					label: '白羊座'

@@ -1,6 +1,5 @@
-function test() {
-    let web: string = 'hello world'
-    console.log(web);
-}
-
-test()
+function add({ one, two }) {
+    return one + two;
+  }
+  
+  const total = add({ one: 1, two: 2 });

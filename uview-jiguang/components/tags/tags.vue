@@ -1,5 +1,5 @@
 <template>
-	<view class="tags">
+	<view class="tags" :style="{'font-size': size * 20 + 'px'}">
 		<!-- 性别 -->
 		<view v-if="sex" class="sex">
 			<text v-if="sex === 1" class="iconfont icon-nan1">&#xe628;</text>
@@ -16,7 +16,7 @@
 	import utils from '@/static/js/utils.js'
 	import moment from "../../static/js/moment.js"
 	export default {
-		props: ['sex', 'age', 'level'],
+		props: ['sex', 'age', 'level', 'size'],
 		data() {
 			return {
 				

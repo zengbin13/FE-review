@@ -2,9 +2,10 @@
     <view class="uni-swiper-page">
         <list ref="list" class="list" :offset-accuracy="5"  fixFreezing="true"  @loadmore="loadMoreData" loadmoreoffset="300" >
             <cell v-for="(item, index) in dataList" :key="item.id" :ref="'item'+index">
-                <view class="list-item" >
+               <view class="list-item" >
                     <invite-item :inviteData="item"></invite-item>
                 </view>
+				<!-- <invite-item :inviteData="item"></invite-item> -->
             </cell>
             <cell class="loading">
 				<text class="loading-txt" v-if="nomore"> - ☃️ 没有更多了 🏔️ - </text>
@@ -123,12 +124,12 @@
     }
 
     .list-item {
-        margin-left: 12px;
-        margin-right: 12px;
-        margin-top: 12px;
+		margin-left: 30rpx;
+        margin-right: 30rpx;
+        margin-top: 30rpx;
         /* padding: 20px; */
-        background-color: #fff;
-        border-radius: 10px;
+        /* background-color: #fff; */
+        border-radius: 30rpx;
     }
 
     .loading {

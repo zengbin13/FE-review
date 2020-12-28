@@ -72,6 +72,14 @@ const profile = {
 	get_card_info: () => http.request('GET', '/api/getInfo'),
 	// 编辑资料信息
 	save_user_info: (params) => http.request('POST', '/api/saveUserInfo', params),
+	// 获取其他人资料卡
+	get_other_card_info: (params) => http.request('GET', '/api/myselfInviteDesc', params),
+	//获取其他用户邀约
+	other_invite_list: params => http.request('GET', '/api/getToUserDynamicList', params),
+	// 获取自己邀约列表
+	invite_list: params => http.request('GET', '/api/getDynamicList', params, '加载中...'),
+	// 添加访客数据
+	set_visitlog: params => http.request('POST', '/api/getVisitLog', params),
 }
 
 export default {

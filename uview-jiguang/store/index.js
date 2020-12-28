@@ -12,6 +12,7 @@ const store = new Vuex.Store({
 		isLogin: false,
 		token: '',
 		userInfo: {},
+		cardInfo: {},
 		// im
 		hasLogin: false,
 		loginProvider: "", // 用户名或其他唯一值
@@ -39,8 +40,14 @@ const store = new Vuex.Store({
 			state.networkConnected = payload.isConnected
 		},
 		// 更新userinfo
-		updateUserInfo() {
-			
+		updateUserInfo(state, value) {
+			state.userInfo = value
+			uni.setStorageSync('userInfo', value)
+		},
+		// 更新cardinfo
+		updateCardInfo(state, value) {
+			state.cardInfo = value
+			uni.setStorageSync('cardInfo', value)
 		},
 		// 账号登录与im登录
 		login(state, val) {
@@ -139,10 +146,21 @@ const store = new Vuex.Store({
 	},
 	actions: {
 		// 更新userinfo
-		async getUserInfo() {
-			let res = await service.index.get_user_info()
-			console.log(222, res);
+		async getUserInfo(context) {
+			return new Promise(async (resolve, reject) => {
+				let res = await service.index.get_user_info()
+				context.commit('updateUserInfo', res.data.data)
+				resolve()
+			}) 
 		},
+		// 更新cardinfo
+		async getCardInfo(context) {
+			let res = await service.profile.get_card_info()
+			context.commit('updateCardInfo', res.data.data)
+			return res.data.data
+		},
+		
+		
 		// IM
 		// 提交聊天文字信息
 		submitChatMsg: async function({

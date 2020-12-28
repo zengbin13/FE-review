@@ -1,7 +1,7 @@
 <template>
 	<view class="invite-wrap">
 		<!-- 用户信息 -->
-		<view class="user-info-wrap" style="flex-direction: row; align-items: center;">
+		<view class="user-info-wrap flex-row" style="flex-direction: row; align-items: center;">
 			<!-- 非匿名头像 -->
 			<image 
 			v-if="!inviteData.anonymity"
@@ -14,10 +14,10 @@
 			v-else-if="inviteData.sex === 2"
 			 src="../../static/images/index/n-female.png"  class="avatar"></image>
 			<view class="name-wrap">
-				<view style="flex-direction: row; padding-bottom: 10rpx; align-items: center;">
+				<view style="flex-direction: row; padding-bottom: 10rpx; align-items: center;" class="flex-row">
 					<text v-if="!inviteData.anonymity" style="font-size: 30rpx; font-weight: 600;" @tap="enterCard(inviteData.uid)">{{inviteData.nickname}}</text>
 					<text v-else style="font-size: 30rpx; font-weight: 600;">匿名用户</text>
-					<tags :sex="inviteData.sex" :age="inviteData.end_time" :level='2'></tags>
+					<tags :sex="inviteData.sex" :age="inviteData.end_time" ></tags>
 				</view>
 				<text style="font-size: 28rpx; color: #858585;">发布于{{inviteData.beforetime}}前</text>
 			</view>
@@ -29,21 +29,36 @@
 		<!-- 内容区域 -->
 		<view class="content-wrap">
 			<text class="content-txt" style="font-size: 30rpx; line-height: 46rpx;">{{inviteData.content}}</text>
-			<view class="icon-wrap" style="flex-direction: row; align-items: center;">
-				<view style="flex-direction: row; align-items: center;" class="icon-time">
+			<view class="icon-wrap flex-row" style="flex-direction: row; align-items: center;">
+				<view style="flex-direction: row; align-items: center;" class="icon-time flex-row">
+					<!-- #ifdef APP-NVUE -->
 					<text class="iconfont icon-invite">&#xe66a;</text>
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<text class="iconfont icon-tubiaozhizuomoban1"></text>
+					<!-- #endif -->
 					<text class="icon-text">时间 : {{ inviteData.end_time }}</text>
 				</view>
-				<view style="flex-direction: row; align-items: center;">
+				<view style="flex-direction: row; align-items: center;" class="flex-row">
+					<!-- #ifdef APP-NVUE -->
 					<text class="iconfont icon-invite">&#xe654;</text>
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<text class="iconfont icon-didian"></text>
+					<!-- #endif -->
 					<text class="icon-text">地点 : {{ inviteData.areas_name }}</text>
 				</view>
-				<view style="flex-direction: row; align-items: center;">
+				<view style="flex-direction: row; align-items: center;" class="flex-row">
+					<!-- #ifdef APP-NVUE -->
 					<text class="iconfont icon-invite">&#xe65e;</text>
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<text class="iconfont icon-feiyongshenhe"></text>
+					<!-- #endif -->
 					<text class="icon-text">费用 : {{ inviteData.fee }}</text>
 				</view>
 			</view>
-			<view class="content-img-wrap" v-if="inviteData.ncftpput.length">
+			<view class="content-img-wrap flex-row" v-if="inviteData.ncftpput.length">
 				<u-image v-for="(img, index) in inviteData.ncftpput" class="content-img" :src="img.accesspath" :width="320" :height="320" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
 					<!-- <text slot="error" style="font-size: 24rpx;">加载失败</text> -->
 				</u-image>
@@ -68,7 +83,12 @@
 				<text v-if="inviteData.invite_count && type === 0" style="font-size: 28rpx; color: #858585; padding-left: 20rpx;">已有{{inviteData.invite_count}}人发出邀约</text>
 			</view>
 			<!-- <text v-if="type===0" class="watch">点击查看详情</text> -->
-			<text class="iconfont icon-caidan">&#xe623;</text>
+			<!-- #ifdef APP-NVUE -->
+			<text class="iconfont icon-ziyuan">&#xe623;</text>
+			<!-- #endif -->
+			<!-- #ifndef APP-NVUE -->
+			<text class="iconfont icon-ziyuan"></text>
+			<!-- #endif -->
 		</view>
 		<!-- 过期标志 -->
 		<text class="icon-overdur" v-if="isExpired">&#xe66c;</text>
@@ -129,7 +149,7 @@
 			},
 			enterCard(uid) {
 				uni.navigateTo({
-					url: `@/page/profile/cardInfo?uid=${uid}`
+					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})
 			}
 		}
@@ -157,7 +177,7 @@
 		color: #858585;
 		font-size: 40rpx;
 	}
-	.icon-caidan {
+	.icon-ziyuan {
 		padding-left: 10rpx;
 		color: #858585;
 		font-size: 40rpx;
@@ -172,12 +192,28 @@
 		bottom: 50rpx;
 	}
 	
+	
+	/* #ifndef APP-NVUE */
+	.flex-row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	.icon-wrap .iconfont {
+		color: $main-color;
+	}
+	/* #endif */
+	
+	
 	// page
 	.invite-wrap {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
 		background-color: #FFFFFF;
 		border-radius: 30rpx;
-		padding: 20rpx;
-		margin: 20rpx 0;
+		padding: 20rpx !important;
+		// margin: 20rpx 0;
 		position: relative;
 	}
 	.user-info-wrap {
@@ -193,6 +229,9 @@
 		border-radius: 50%;
 	}
 	.apply-btn {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		padding: 10rpx 20rpx;
@@ -216,6 +255,9 @@
 		padding-left: 4rpx;
 	}
 	.content-img-wrap {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -233,6 +275,9 @@
 	}
 	
 	.invite-type {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
 		flex-direction: row;
 		align-items: center;
 	}
