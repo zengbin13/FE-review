@@ -96,17 +96,24 @@
 				count: 0,
 				inviteList: [],
 				constellList,
+				navEdit: false
 			};
 		},
 		onLoad(options) {
 			this.decideUser(options.uid)
 			this.requestInterface(options.uid)
+			this.showEditButton()
 		},
 		onShow() {
-			this.updateNavbarTitle()
+			// this.updateNavbarTitle()
 		},
 		onPullDownRefresh() {
 			this.pullDownRefresh()
+		},
+		onNavigationBarButtonTap(e) {
+			if(e.index === 0) {
+				this.enterEditPage()
+			}
 		},
 		components:{
 			inviteItem
@@ -120,6 +127,17 @@
 				this.inviteList = [];
 				this.requestInterface(this.uid)
 				uni.stopPullDownRefresh()
+			},
+			// 控制编辑显示
+			showEditButton() {
+				// #ifdef APP-PLUS
+				if(this.self) {
+					let webView = this.$mp.page.$getAppWebview();
+					webView.setTitleNViewButtonStyle(0, {
+						width:"44px"
+					});
+				}
+				// #endif
 			},
 			// 请求接口
 			requestInterface(openId) {
@@ -145,10 +163,11 @@
 				this.uid = openId
 			},
 			// 修改navbar 标题
-			updateNavbarTitle() {
-				if(this.cardInfo.nickname) {
+			updateNavbarTitle(title) {
+				console.log(222, title);
+				if(title) {
 					uni.setNavigationBarTitle({
-					    title: this.cardInfo.nickname
+					    title,
 					});
 				}
 			},
@@ -160,6 +179,8 @@
 						this.cardInfo = res
 					})
 				} 
+				console.log(this.cardInfo);
+				this.updateNavbarTitle(this.cardInfo.nickname)
 			},
 			// 请求其他人的cardinfo
 			async getOtherCardInfo(openId) {
@@ -167,6 +188,7 @@
 					uid: openId
 				});
 				this.cardInfo = res.data.data
+				this.updateNavbarTitle(this.cardInfo.nickname)
 			},
 			// 获取自己动态
 			async getOwnInviteList() {
@@ -200,6 +222,12 @@
 					urls: this.cardInfo.photo_wall
 				});
 			},
+			// 进入编辑页面
+			enterEditPage() {
+				uni.navigateTo({
+					url: './editCardInfo'
+				})
+			}
  		}
 	}
 </script>
@@ -260,7 +288,7 @@
 			grid-template-columns: 50% 50%;
 			grid-template-rows: repeat(3, 60rpx);
 			color: #ffffff;
-			font-size: 28rpx;
+			font-size: 30rpx;
 		
 			.iconfont {
 				position: relative;

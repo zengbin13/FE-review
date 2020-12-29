@@ -1,67 +1,63 @@
 <template>
 	<view>
-		<view class="fixed-height">
-			<u-navbar :is-back="false" title="消息">
-				<view class="slot-wrap" slot="right">
-					<text class="iconfont icon-Setup"></text>
-				</view>
-			</u-navbar>
-			<!-- 通讯录 -->
-			<view class="mail-list">
-				<view class="title">
-					<text>群聊与好友</text>
-					<text class="more" @tap="clickAddress">查看更多
-						<text class="iconfont icon-icon-right"></text>
-					</text>
-				</view>
-				<view class="current">
-					最近联系好友
-					<u-button @click="clickLog">log日志</u-button>
-					<u-button @click="clickChat">chat</u-button>
-				</view>
+		<u-navbar :is-back="false" title="消息">
+			<view class="slot-wrap" slot="right">
+				<text class="iconfont icon-Setup"></text>
 			</view>
-			<!-- 系统消息 -->
-			<view class="system">
-				<view class="avatar">
-					<text class="iconfont icon-liaotian"></text>
-				</view>
-				<view class="info">
-					<view class="name">动态消息</view>
-					<view class="text">暂无消息</view>
-				</view>
+		</u-navbar>
+		<!-- 通讯录 -->
+		<view class="mail-list">
+			<view class="title">
+				<text>群聊与好友</text>
+				<text class="more" @tap="clickAddress">查看更多
+					<text class="iconfont icon-icon-right"></text>
+				</text>
+			</view>
+			<view class="current">
+				最近联系好友
+				<u-button @click="clickLog">log日志</u-button>
+				<u-button @click="clickChat">chat</u-button>
+			</view>
+		</view>
+		<!-- 系统消息 -->
+		<view class="system">
+			<view class="avatar">
+				<text class="iconfont icon-liaotian"></text>
+			</view>
+			<view class="info">
+				<view class="name">动态消息</view>
+				<view class="text">暂无消息</view>
 			</view>
 		</view>
 		<!-- 用户消息 -->
-		<scroll-view scroll-y="true" class="users" :style="{height: infoHeight + 'px'}">
-			<view class="cu-list menu-avatar">
-				<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in lists" :key="index"
-				 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
-				 @click="skipToSingleChat(index)">
-					<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+ item.avatar +')'}]"></view>
-					<view class="content">
-						<view class="text-grey">{{item.title}}</view>
-						<view class="text-gray text-sm">
-							<text class="cuIcon-infofill text-red  margin-right-xs" v-if="item.messageType=='event'"></text>
-							{{item.lastMessageText}}</view>
-					</view>
-					<view class="action" style="width: 200rpx;">
-						<view class="text-grey text-xs">{{item.lastMessageTime}}</view>
-						<view class="cu-tag round bg-red sm" v-if="item.unreadCount">{{item.unreadCount}}</view>
-					</view>
-					<view class="move">
-						<view class="bg-grey">置顶</view>
-						<view class="bg-red" @tap.stop="deleteConversation(index)">删除</view>
-					</view>
+		<view class="cu-list menu-avatar">
+			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in lists" :key="index"
+			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
+			 @click="skipToSingleChat(index)">
+				<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+ item.avatar +')'}]"></view>
+				<view class="content">
+					<view class="text-grey">{{item.title}}</view>
+					<view class="text-gray text-sm">
+						<text class="cuIcon-infofill text-red  margin-right-xs" v-if="item.messageType=='event'"></text>
+						{{item.lastMessageText}}</view>
+				</view>
+				<view class="action" style="width: 200rpx;">
+					<view class="text-grey text-xs">{{item.lastMessageTime}}</view>
+					<view class="cu-tag round bg-red sm" v-if="item.unreadCount">{{item.unreadCount}}</view>
+				</view>
+				<view class="move">
+					<view class="bg-grey">置顶</view>
+					<view class="bg-red" @tap.stop="deleteConversation(index)">删除</view>
 				</view>
 			</view>
-			
-			
-			<view class="cu-load load-modal" v-if="loadModal">
-				<view class="cuIcon-emojifill text-orange"></view>
-				<!-- <image src="/static/logo.png" mode="aspectFit"></image> -->
-				<view class="gray-text">加载中...</view>
-			</view>
-		</scroll-view>
+		</view>
+		
+		
+		<view class="cu-load load-modal" v-if="loadModal">
+			<view class="cuIcon-emojifill text-orange"></view>
+			<!-- <image src="/static/logo.png" mode="aspectFit"></image> -->
+			<view class="gray-text">加载中...</view>
+		</view>
 	</view>
 </template>
 
@@ -81,8 +77,6 @@
 	export default {
 		data() {
 			return {
-				fixedHeight: 0,
-				infoHeight: 0,
 				// IM
 				modalName: null,
 				listTouchStart: 0,
@@ -92,7 +86,9 @@
 			}
 		},
 		onShow() {
+			
 			_self = this;
+			
 			this.getList();
 		},
 		onLoad() {
@@ -103,18 +99,6 @@
 		},
 		onReady: function() {
 			uni.hideLoading();
-			const queryNode = uni.createSelectorQuery().selectAll('.fixed-height')
-			queryNode.boundingClientRect(data => {
-				this.fixedHeight = data[0].height
-			}).exec()
-			let systemInfo = uni.getSystemInfoSync()
-			console.log(this.fixedHeight);
-			// #ifndef APP-PLUS
-			this.infoHeight = systemInfo.windowHeight - this.fixedHeight
-			// #endif
-			// #ifdef APP-PLUS
-			this.infoHeight = systemInfo.windowHeight - this.fixedHeight - 264
-			// #endif
 		},
 		onPullDownRefresh() {
 			// 下拉刷新
@@ -148,162 +132,145 @@
 				})
 			},
 			// ListTouch触摸开始
-				ListTouchStart(e) {
-					this.listTouchStart = e.touches[0].pageX
-				},
-				// ListTouch计算方向
-				ListTouchMove(e) {
-					this.listTouchDirection = e.touches[0].pageX - this.listTouchStart > 0 ? 'right' : 'left'
-				},
-				// ListTouch计算滚动
-				ListTouchEnd(e) {
-					if (this.listTouchDirection == 'left') {
-						this.modalName = e.currentTarget.dataset.target
+			ListTouchStart(e) {
+				this.listTouchStart = e.touches[0].pageX
+			},
+			// ListTouch计算方向
+			ListTouchMove(e) {
+				this.listTouchDirection = e.touches[0].pageX - this.listTouchStart > 0 ? 'right' : 'left'
+			},
+			// ListTouch计算滚动
+			ListTouchEnd(e) {
+				if (this.listTouchDirection == 'left') {
+					this.modalName = e.currentTarget.dataset.target
+				} else {
+					this.modalName = null
+				}
+				this.listTouchDirection = null
+			},
+			deleteConversation(index) {
+				this.loadModal = true;
+		
+				let item = this.lists[index];
+				// 删除会话
+				var params = {
+					"type": item.conversationType
+				};
+				if (item.conversationType == "group") {
+					params.groupId = item.target.id; // 删除群组
+				} else if (item.conversationType == "single") {
+					params.username = item.target.username; // 删除会话
+				}
+		
+				this.jpushIM.deleteConversation(params, (res) => {
+		
+					setTimeout(() => {
+						this.loadModal = false;
+					}, 2000)
+		
+					if (res.errorCode == 0) {
+						this.getList();
 					} else {
-						this.modalName = null
-					}
-					this.listTouchDirection = null
-				},
-				deleteConversation(index) {
-					this.loadModal = true;
-			
-					let item = this.lists[index];
-					// 删除会话
-					var params = {
-						"type": item.conversationType
-					};
-					if (item.conversationType == "group") {
-						params.groupId = item.target.id; // 删除群组
-					} else if (item.conversationType == "single") {
-						params.username = item.target.username; // 删除会话
-					}
-			
-					this.jpushIM.deleteConversation(params, (res) => {
-			
-						setTimeout(() => {
-							this.loadModal = false;
-						}, 2000)
-			
-						if (res.errorCode == 0) {
-							this.getList();
-						} else {
-							uni.showModal({
-								title: '删除失败',
-								content: "原因：" + res.errorMsg,
-								showCancel: false,
-								cancelText: '',
-								confirmText: '关闭'
-							});
-						}
-					})
-				},
-				// 从本地数据库中获取会话列表，默认按照会话的最后一条消息的时间，降序排列
-				getList: function() {
-					uni.stopPullDownRefresh();
-					if (!this.hasLogin) {
-			
-						uni.showToast({
-							title: '未登录IM用户',
-							icon: 'none'
+						uni.showModal({
+							title: '删除失败',
+							content: "原因：" + res.errorMsg,
+							showCancel: false,
+							cancelText: '',
+							confirmText: '关闭'
 						});
-						this.lists = [];
-						// uni.showModal({
-						// 	title: '错误',
-						// 	content: '还未登录，请先登录',
-						// 	showCancel: true,
-						// 	cancelText: '先看看',
-						// 	confirmText: '登录',
-						// 	success: res => {
-						// 		if (res.confirm) {
-						// 			uni.navigateTo({
-						// 				url: '../login/login',
-						// 			});
-						// 		}
-						// 	},
-						// 	fail: () => {},
-						// 	complete: () => {}
-						// });
-						return false;
 					}
-			
-					// #ifdef APP-PLUS
-					this.jpushIM.getConversations((callback) => {
-						// console.log(JSON.stringify(callback));
-						var list = this.setList(callback);
-						this.lists = list;
-					})
-					// #endif
-			
-					// #ifdef H5
-					// 在H5下模拟数据用于调试页面显示样式，这段mock可以删除
-					var list = this.setList(mock.imList);
-					this.lists = list;
-					// #endif
-				},
-				setList: function(items) {
-					var newItems = [];
-					items.forEach((e) => {
-						if (e) {
-							if (e.latestMessage) {
-								if (e.latestMessage.messageType == "image") {
-									e.lastMessageText = "[图片]";
-								} else if (e.latestMessage.messageType == "voice") {
-									e.lastMessageText = "[语音]";
-								} else if (e.latestMessage.messageType == "file") {
-									e.lastMessageText = "[文件]";
-								} else {
-									e.lastMessageText = e.latestMessage.messageString;
-								}
-			
-								e.lastMessageTime = this.imUtils.fromTimer(e.latestMessage.createTime);
-								// e.lastMessageTime = this.imUtils.formatDateTime((e.latestMessage.createTime), "str");
-								e.messageType = e.latestMessage.messageType;
-							} else {
-								e.lastMessageText = "";
-								e.lastMessageTime = "";
-								e.messageType = "";
-							}
-							if (e.conversationType == "single") {
-								// 单聊会话
-								e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon.png";
-							} else if (e.conversationType == "group") {
-								// 群聊会话
-								e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon_group.jpg"
-							}
-							newItems.push(e);
-						}
+				})
+			},
+			// 从本地数据库中获取会话列表，默认按照会话的最后一条消息的时间，降序排列
+			getList: function() {
+				uni.stopPullDownRefresh();
+				if (!this.hasLogin) {
+		
+					uni.showToast({
+						title: '未登录IM用户',
+						icon: 'none'
 					});
-					return newItems;
-				},
-				// 创建会话
-				skipToSingleChat: function(index) {
-					let item = this.lists[index];
-					let title = item.nickname ? item.nickname : item.nickname;
-					if (item.conversationType == "single") {
-						// 单聊会话
-						let title = item.target.nickname ? item.target.nickname : item.target.username;
-						uni.navigateTo({
-							url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
-						});
-					} else if (item.conversationType == "group") {
-						// 群聊会话
-						uni.navigateTo({
-							url: './im-chat/im-chat-group?groupId=' + item.target.id + '&title=' + item.target.name
-						});
+					this.lists = [];
+					return false;
+				}
+		
+				// #ifdef APP-PLUS
+				this.jpushIM.getConversations((callback) => {
+					console.log(JSON.stringify(callback));
+					var list = this.setList(callback);
+					this.lists = list;
+					console.log(this.lists);
+				})
+				// #endif
+		
+				// #ifdef H5
+				// 在H5下模拟数据用于调试页面显示样式，这段mock可以删除
+				var list = this.setList(mock.imList);
+				this.lists = list;
+				// #endif
+			},
+			setList: function(items) {
+				var newItems = [];
+				items.forEach((e) => {
+					if (e) {
+						if (e.latestMessage) {
+							if (e.latestMessage.messageType == "image") {
+								e.lastMessageText = "[图片]";
+							} else if (e.latestMessage.messageType == "voice") {
+								e.lastMessageText = "[语音]";
+							} else if (e.latestMessage.messageType == "file") {
+								e.lastMessageText = "[文件]";
+							} else {
+								e.lastMessageText = e.latestMessage.messageString;
+							}
+		
+							e.lastMessageTime = this.imUtils.fromTimer(e.latestMessage.createTime);
+							// e.lastMessageTime = this.imUtils.formatDateTime((e.latestMessage.createTime), "str");
+							e.messageType = e.latestMessage.messageType;
+						} else {
+							e.lastMessageText = "";
+							e.lastMessageTime = "";
+							e.messageType = "";
+						}
+						if (e.conversationType == "single") {
+							// 单聊会话
+							e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon.png";
+						} else if (e.conversationType == "group") {
+							// 群聊会话
+							e.avatar = e.target.avatar ? e.target.avatar : "../../static/images/im/chat_icon_group.jpg"
+						}
+						newItems.push(e);
 					}
-				},
-			
+				});
+				return newItems;
+			},
+			// 创建会话
+			skipToSingleChat: function(index) {
+				let item = this.lists[index];
+				let title = item.nickname ? item.nickname : item.nickname;
+				if (item.conversationType == "single") {
+					// 单聊会话
+					let title = item.target.nickname ? item.target.nickname : item.target.username;
+					uni.navigateTo({
+						url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
+					});
+				} else if (item.conversationType == "group") {
+					// 群聊会话
+					uni.navigateTo({
+						url: './im-chat/im-chat-group?groupId=' + item.target.id + '&title=' + item.target.name
+					});
+				}
+			},
+		
 			}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.users {
-		border: 1px solid #007AFF;
+
+	page {
+		background-color: $page-bg-color;
 	}
-	// page {
-	// 	background-color: $page-bg-color;
-	// }
 	.slot-wrap {
 		display: flex;
 		align-items: center;
@@ -315,11 +282,11 @@
 		}
 	}
 	.mail-list {
-		padding: 0 30rpx;
+		padding: 10rpx 30rpx;
 		.title {
 			display: flex;
 			justify-content: space-between;
-			font-size: 26rpx;
+			font-size: 28rpx;
 			color: $sec-font-color;
 			line-height: 45rpx;
 		}
@@ -330,12 +297,14 @@
 	.system {
 		padding: 10rpx 30rpx;
 		display: flex;
+		background-color: #FFFFFF;
+		border-bottom: 1px solid $page-bg-color;
 		.avatar {
-			width: 80rpx;
-			height: 80rpx;
+			width: 100rpx;
+			height: 100rpx;
 			background-color: $main-color;
 			text-align: center;
-			line-height: 80rpx;
+			line-height: 100rpx;
 			border-radius: 50%;
 		}
 		.iconfont {
@@ -356,22 +325,19 @@
 			}
 		}
 	}
-	.users {
-		height: 700rpx;
-		.chat_list_wraper {
-			.list_box {
-				.list_user {
-					padding-left: 10rpx;
-					font-size: 32rpx;
-					font-weight: 600;
-				}
-				.list_word {
-					padding-left: 10rpx;
-					padding-top: 5rpx;
-					font-size: 28rpx;
-					color: $sec-font-color;
-					line-height: 40rpx;
-				}
+	.chat_list_wraper {
+		.list_box {
+			.list_user {
+				padding-left: 10rpx;
+				font-size: 32rpx;
+				font-weight: 600;
+			}
+			.list_word {
+				padding-left: 10rpx;
+				padding-top: 5rpx;
+				font-size: 28rpx;
+				color: $sec-font-color;
+				line-height: 40rpx;
 			}
 		}
 	}

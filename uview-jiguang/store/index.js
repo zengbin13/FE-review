@@ -49,24 +49,35 @@ const store = new Vuex.Store({
 			state.cardInfo = value
 			uni.setStorageSync('cardInfo', value)
 		},
-		// 账号登录与im登录
-		login(state, val) {
+		// 账号登录
+		userLogin(state, val) {
 			state.isLogin = true
 			state.token = val.token
 			state.userInfo = val.userInfo
 			uni.setStorageSync('token', val.token);
 			uni.setStorageSync('userInfo', val.userInfo);
+		},
+		//im登录
+		login(state, val) {
 			// 不去登录接口获取用户资料并赋值，是因为信息同步是异步的，可能还没同步下来（官方答案）
 			// #ifdef APP-PLUS
 			state.hasLogin = true;
 			state.loginProvider = val; // 用户名
 			// #endif
 		},
+		// 账号退出与IM退出
 		logout(state) {
+			state.isLogin = false
+			state.token = '',
+			state.userInfo = {}
+			state.cardInfo = {}
+			uni.clearStorageSync()
+			// IM
 			state.hasLogin = false
 			state.loginProvider = ""
 			state.openid = null
 			state.avatar = "/static/images/face.jpg"
+			
 		},
 		setOpenid(state, openid) {
 			state.openid = openid
@@ -146,12 +157,17 @@ const store = new Vuex.Store({
 	},
 	actions: {
 		// 更新userinfo
+		// async getUserInfo(context) {
+		// 	return new Promise(async (resolve, reject) => {
+		// 		let res = await service.index.get_user_info()
+		// 		context.commit('updateUserInfo', res.data.data)
+		// 		resolve()
+		// 	}) 
+		// },
 		async getUserInfo(context) {
-			return new Promise(async (resolve, reject) => {
-				let res = await service.index.get_user_info()
-				context.commit('updateUserInfo', res.data.data)
-				resolve()
-			}) 
+			let res = await service.index.get_user_info()
+			context.commit('updateUserInfo', res.data.data)
+			return res.data.data
 		},
 		// 更新cardinfo
 		async getCardInfo(context) {

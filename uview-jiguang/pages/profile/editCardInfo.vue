@@ -110,6 +110,7 @@
 	export default {
 		data() {
 			return {
+				timer: null,
 				finishState: 2,
 				flag: {
 					editAvatar: false,
@@ -157,6 +158,12 @@
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
 		},
+		onUnload() {
+			if(this.timer) {
+				clearTimeout(this.timer)
+				this.timer = null
+			}
+		},
 		computed:{
 			fileList() {
 				if(!this.cardInfo.photo_wall) return []
@@ -171,6 +178,7 @@
 			async getCardInfo() {
 				let res = await this.$service.profile.get_card_info();
 				this.cardInfo = res.data.data;
+				
 				this.$storage.set('cardInfo', this.cardInfo);
 			},
 			// 修改头像
@@ -196,19 +204,17 @@
 				});
 			},
 			// 上传图片
-			upCardImgs() {
+			async upCardImgs() {
 				// avatar
 				if(this.cardInfo.avatar && this.flag.editAvatar) {
-					uni.uploadFile({
+					let avatarRes = await uni.uploadFile({
 						url: config.imgDomain,
 						filePath: this.cardInfo.avatar,
 						name: 'image',
-						header:this.upload.header,
-						success: (avatarRes) => {
-							let parseRes = JSON.parse(avatarRes.data);
-							this.cardInfo.avatar = parseRes.data.url;
-						}
+						header:this.upload.header
 					});
+					this.cardInfo.avatar = JSON.parse(avatarRes[1].data).data.url;
+					console.log(111, this.cardInfo.avatar);
 				}
 				// wall
 				let files = this.$refs.uUpload.lists.filter(val => {
@@ -226,17 +232,30 @@
 			},
 			async saveCardInfo() {
 				let res = await this.$service.profile.save_user_info(this.cardInfo)
-				// 更新userinfo/cardinfo
-				this.getCardInfo()
-				// this.$store.
-				this.$store.dispatch('getUserInfo')
+				if(res.data.code === 0) {
+					// 更新userinfo/cardinfo
+					this.$store.dispatch("getUserInfo")
+					this.$store.dispatch("getCardInfo")
+					this.$utils.showToast("修改成功")
+					this.timer = setTimeout(() => {
+						uni.navigateBack({
+							delta: 1
+						})
+					}, 1500)
+				}
+
 			},
 			// 提交表单 上传数据
-			handleSave() {
+			async handleSave() {
+				uni.showLoading({
+					mask:true,
+					title:"加载中"
+				})
 				this.validate()
 				if(!this.saveValidate) return
-				this.upCardImgs()
-				this.saveCardInfo()
+				let resImg = await this.upCardImgs()
+				let res = await this.saveCardInfo()
+				uni.hideLoading()
 			},
 			// 日期确定
 			showTimePicker() {

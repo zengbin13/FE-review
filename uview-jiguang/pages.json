@@ -94,7 +94,7 @@
 							{
 								"type":"none",
 								"fontSrc":"/static/font/iconfont.ttf",
-								"text": "\ue64e",
+								"text": "\ue601",
 								"background": "rgba(231, 231, 231,.7)",
 								"color":"#606266"
 							}
@@ -117,8 +117,8 @@
 			"style" :                           
 			{
 				"navigationStyle": "custom",
-				"navigationBarTextStyle":"white",
-				"enablePullDownRefresh": false
+				// "navigationBarTextStyle":"white",
+				"enablePullDownRefresh": true
 			}
 			
 		},
@@ -342,11 +342,21 @@
             "path" : "pages/profile/cardInfo",
             "style" :                             
             {
-				"navigationBarTitleText": "用户信息",
+				"navigationBarTitleText": "用户资料",
                 "enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": {
-						"type":"transparent"
+						"type":"transparent",
+						"buttons": [ //原生标题栏按钮配置,
+							{
+								"type":"none",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text": "\ue6f0",
+								"color":"#FF7243",
+								"fontSize": "15px",
+								"width": "0px"
+							}
+						]	
 					}
 				}
             }
@@ -370,11 +380,12 @@
 				"iconPath": "static/index.png",
 				"selectedIconPath": "static/index-selected.png",
 				"text": "首页"
-			}, {
-				"pagePath": "pages/center/center",
+			}, 
+			{
+				"pagePath": "pages/mall/mall",
 				"iconPath": "static/center.png",
 				"selectedIconPath": "static/center-selected.png",
-				"text": "我"
+				"text": "商城"
 			},
 			{
 				"pagePath": "pages/im/im",
@@ -383,16 +394,10 @@
 				"text": "消息"
 			},
 			{
-				"pagePath": "pages/mall/mall",
-				"iconPath": "static/center.png",
-				"selectedIconPath": "static/center-selected.png",
-				"text": "商城"
-			},
-			{
 				"pagePath": "pages/profile/profile",
 				"iconPath": "static/center.png",
 				"selectedIconPath": "static/center-selected.png",
-				"text": "我"
+				"text": "我的"
 			}
 		]
 	},

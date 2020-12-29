@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雪花特效</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            min-height: 100vh;
+            background-color: rgb(141, 237, 250);
+        }
+        .snow {
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-image: radial-gradient(#ffffff 0%, transparent 60%);
+        }
+    </style>
+</head>
+<body>
+    <span class="snow"></span>
+    <script>
+        class Snow {
+            constructor(options = {}) {
+                this.el = null
+                this.width = 0
+                this.maxWidth = options.maxWidth || 80
+                this.minWidth = options.minWidth || 2
+                this.opacity = 0
+                this.x = 0
+                this.y = 0
+                this.speed = 0
+                this.maxSpeed = options.maxSpeed || 4
+                this.minSpeed = options.minSpeed || 1
+                this.windowWidth = window.innerWidth
+                this.windowHeight = window.innerHeight
+                this.init()
+            }
+            // 初始化属性
+            init() {
+                this.width = Math.floor(Math.random() * this.maxWidth + this.minWidth)
+                this.x = Math.floor(Math.random() * (this.windowWidth - this.width))
+                this.y = Math.floor(Math.random() * (this.windowHeight - this.width))
+                this.opacity = Math.random()
+                this.speed = Math.floor(Math.random() * this.maxSpeed + this.minSpeed)
+            }
+            // 设置样式
+            setStyle() {
+                this.el.style.cssText = `
+                    position: fixed;
+                    left: 0;
+                    top: 0;
+                    display: block;
+                    width: ${this.width}px;
+                    height: ${this.width}px;
+
+                `
+            }
+        }
+    </script>
+</body>
+</html>
