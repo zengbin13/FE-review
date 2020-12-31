@@ -1,175 +1,164 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    table {
+      border: 1px solid #eee;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      padding: 10px 16px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ccc;
+    }
+
+    .count {
+      margin: 0 5px;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="app"></div>
-    <div id="app1"></div>
-    <div id="app2"></div>
-    <div id="app3"></div>
-    <div id="app4"></div>
-    <div id="app5"></div>
-    <div id="app6"></div>
-    <div id="app7"></div>
-    <div id="app8"></div>
-    <script src="../react/react.development.js" crossorigin></script>
-    <script src="../react/react-dom.development.js" crossorigin></script>
-    <script src="../react/babel.min.js"></script>
     
-    <script type="text/babel">
-        /* ReactDOM.render */ 
-        let message = 'hello world2';
-        ReactDOM.render(<h1>{message}</h1>, document.getElementById('app'))
+  <div id="app"></div>
 
-        /* state */
-        class Clock extends React.Component {
-            constructor(props) {
-                super(props);
-                this.state = {
-                    date: new Date()
+  <script src="../react/react.development.js"></script>
+  <script src="../react/react-dom.development.js"></script>
+  <script src="../react/babel.min.js"></script>
+
+
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          books: [
+            {
+              id: 1,
+              name: '《算法导论》',
+              date: '2006-9',
+              price: 85.00,
+              count: 2
+            },
+            {
+              id: 2,
+              name: '《UNIX编程艺术》',
+              date: '2006-2',
+              price: 59.00,
+              count: 1
+            },
+            {
+              id: 3,
+              name: '《编程珠玑》',
+              date: '2008-10',
+              price: 39.00,
+              count: 1
+            },
+            {
+              id: 4,
+              name: '《代码大全》',
+              date: '2006-3',
+              price: 128.00,
+              count: 1
+            },
+          ]
+        }
+      }
+
+      renderBooks() {
+        return  (
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>书籍名称</th>
+                  <th>出版日期</th>
+                  <th>价格</th>
+                  <th>购买数量</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  this.state.books.map((item, index) => {
+                    return (
+                      <tr>
+                        <td>{index+1}</td>
+                        <td>{item.name}</td>
+                        <td>{item.date}</td>
+                        <td>{formatPrice(item.price)}</td>
+                        <td>
+                          <button disabled={item.count <= 1} onClick={e => this.changeBookCount(index, -1)}>-</button>
+                          <span className="count">{item.count}</span>
+                          <button onClick={e => this.changeBookCount(index, 1)}>+</button>
+                        </td>
+                        <td><button onClick={e => this.removeBook(index)}>移除</button></td>
+                      </tr>
+                    )
+                  })
                 }
-            }
-            componentDidMount() {
-                this.timerID = setInterval(() => {
-                    this.tick()
-                }, 1000);
-            }
-            componentWillUnmount() {
-                clearInterval(this.timerID)
-            }
-            render() {
-                return (
-                    <div>
-                        <h3>hello, world</h3>
-                        <p>It is {this.state.date.toLocaleTimeString()}</p>
-                    </div>
-                )
-            }
-            tick() {
-                this.setState({
-                    date: new Date()
-                })
-            }
-        }
-        ReactDOM.render(<Clock />, document.getElementById('app1'))
+              </tbody>
+            </table>
+            <h2>总价格: {this.getTotalPrice()}</h2>
+          </div>
+        )
+      }
 
-        /* 事件绑定 */
-        class Toggle extends React.Component {
-            constructor(props) {
-                super(props)
-                this.state = {
-                    isToggleOn: true,
-                }
-                this.handleClick = this.handleClick.bind(this)
-            }
-            render() {
-                return (
-                    <button onClick={this.handleClick}>{this.state.isToggleOn ? 'on' : 'off' }</button>
-                )
-            }
-            handleClick() {
-                this.setState(state => ({
-                    isToggleOn: !state.isToggleOn
-                }))
-            }
-        }
-        ReactDOM.render(<Toggle />, document.getElementById('app2'))
+      renderEmptyTip() {
+        return <h2>购物车为空~</h2>
+      }
 
-        // 列表渲染
-        class MovieList extends React.Component {
-            constructor(props) {
-                super(props)
-                this.state = {
-                    movies: ['大话西游', '喜剧之王', '功夫', '长江七号']
-                }
-            }
-            render() {
-                return (
-                    <ul>
-                        {this.state.movies.map(item => {
-                            return <li key={item}>{item}</li>
-                        })}
-                    </ul>
-                )
-            }
-        }
-        ReactDOM.render(<MovieList></MovieList>, document.getElementById('app3'))
+      render() {
+        return this.state.books.length ? this.renderBooks(): this.renderEmptyTip();
+      }
 
-        // 函数组件
-        function Welcome(props) {
-            return <h3>函数组件 -{false}-{undefined}-{null}-{NaN}-{0}-{''}-, {props.name}</h3>
-        }
-        ReactDOM.render(<Welcome name="小明"></Welcome>, document.getElementById('app4'))
+      changeBookCount(index, count) {
+        const newBooks = [...this.state.books];
+        newBooks[index].count += count;
+        this.setState({
+          books: newBooks
+        })
+      }
 
-        // 条件渲染 if
-        function UserGreeting(props) {
-            return <h1>Welcome back!</h1>;
-        }
+      removeBook(index) {
+        // React中设计原则: state中的数据的不可变性;
+        this.setState({
+          books: this.state.books.filter((item, indey) => index != indey)
+        })
+      }
 
-        function GuestGreeting(props) {
-            return <h1>Please sign up.</h1>;
-        }
+      getTotalPrice() {
+        // 1.for循环的方式
+        // let totalPrice = 0;
+        // for (let item of this.state.books) {
+        //   totalPrice += item.price * item.count;
+        // }
+        // return formatPrice(totalPrice);
 
-        function Greeting(props) {
-            const isLoggedIn = props.isLoggedIn
-            if(isLoggedIn) {
-                return <UserGreeting />
-            } else {
-                return <GuestGreeting />
-            }
-        }
-        ReactDOM.render(<Greeting isLoggedIn={false}></Greeting>, document.getElementById('app5'))
+        // 2.filter/map/reduce(归纳为)
+        // 回调函数的参数:
+        // 参数一: 上一次回调函数的结果(第一次没有上一次函数的回调函数的结果, 使用初始化值)
+        const totalPrice = this.state.books.reduce((preValue, item) => {
+          return preValue + item.count * item.price;
+        }, 0);
 
-        // 条件渲染 
-        function LoginButtin(props) {
-            return <button onClick={props.onClick}>login</button>
-        }
-        function LoginButton(props) {
-            return <button onClick={props.onClick}>logon</button>
-        }
-        class LoginContorl extends React.Component {
-            constructor(props) {
-                super(props)
-                this.state = {
-                    isLoggedIn: false
-                }
-                this.handleClickIn = this.handleClickIn.bind(this)
-                this.handleClickOn = this.handleClickOn.bind(this)
-            }
-            handleClickIn() {
-                this.setState({
-                    isLoggedIn: true
-                })
-            }
-            handleClickOn() {
-                this.setState({
-                    isLoggedIn: false
-                })
-            }
-            render() {
-                const isLoggedIn = this.state.isLoggedIn;
-                let button;
-                if(isLoggedIn) {
-                    button = <LoginButton onClick={this.handleClickOn}></LoginButton>
-                } else {
-                    button = <LoginButtin onClick={this.handleClickIn}></LoginButtin>
-                }
-                return (
-                    <div>
-                        <Greeting isLoggedIn={isLoggedIn}></Greeting>
-                        {button}
-                    </div>
-                )
-            }
-        }
-        ReactDOM.render(<LoginContorl></LoginContorl>, document.getElementById('app6'))
+        return formatPrice(totalPrice);
+      }
+    }
 
-    </script>
+    ReactDOM.render(<App/>, document.getElementById("app"));
+  </script>
+
 </body>
-
 </html>

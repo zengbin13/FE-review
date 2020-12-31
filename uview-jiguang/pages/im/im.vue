@@ -22,10 +22,20 @@
 		<!-- 系统消息 -->
 		<view class="system">
 			<view class="avatar">
-				<text class="iconfont icon-liaotian"></text>
+				<view class="t-icon t-icon-xitongxiaoxi"></view>
 			</view>
 			<view class="info">
-				<view class="name">动态消息</view>
+				<view class="name">系统消息</view>
+				<view class="text">暂无消息</view>
+			</view>
+		</view>
+		<!-- 互动消息 -->
+		<view class="interaction">
+			<view class="avatar">
+				<view class="t-icon t-icon-shequhudong"></view>
+			</view>
+			<view class="info">
+				<view class="name">互动消息</view>
 				<view class="text">暂无消息</view>
 			</view>
 		</view>
@@ -196,10 +206,10 @@
 		
 				// #ifdef APP-PLUS
 				this.jpushIM.getConversations((callback) => {
-					console.log(JSON.stringify(callback));
+					// console.log(JSON.stringify(callback));
 					var list = this.setList(callback);
 					this.lists = list;
-					console.log(this.lists);
+					console.log(222, this.lists);
 				})
 				// #endif
 		
@@ -294,7 +304,7 @@
 			color: $main-color;
 		}
 	}
-	.system {
+	.system, .interaction {
 		padding: 10rpx 30rpx;
 		display: flex;
 		background-color: #FFFFFF;
@@ -302,14 +312,15 @@
 		.avatar {
 			width: 100rpx;
 			height: 100rpx;
-			background-color: $main-color;
-			text-align: center;
-			line-height: 100rpx;
+			background-color: #f5f4ed;
 			border-radius: 50%;
-		}
-		.iconfont {
-			font-size: 50rpx;
-			color: #FFFFFF;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.t-icon {
+				width: 70rpx;
+				height: 70rpx;
+			}
 		}
 		.info {
 			padding-left: 30rpx;

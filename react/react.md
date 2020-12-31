@@ -393,6 +393,26 @@ function WarningBanner(props) {
 
 
 
+**v-show效果**
+
+```jsx
+  render() {
+    const { isLogin, username } = this.state;
+    const nameDisplay = isLogin ? "block": "none";
+
+    return (
+      <div>
+        <h2 style={{display: nameDisplay}}>{username}</h2>
+        <button onClick={e => this.loginBtnClick()}>
+            {isLogin ? "退出": "登录"}
+        </button>
+      </div>
+    )
+  }
+```
+
+
+
 ### 列表渲染
 
 可以通过使用 {} 在 JSX 内构建一个元素集合
@@ -414,29 +434,151 @@ ReactDOM.render(
 
 ## JSX核心语法
 
-```jsx
-const element = <h2>hello world</h2>
+```html
+<script type="text/babel">
+	const el = <h2>hello world</h2>
+	ReactDOM.render(el, document.getElementById('app'))
+</script>
 ```
 
-- JSX是一种JavaScript的语法扩展（extension）
-  - 用于描述UI界面
-  - 可以和JavaScript融合在一起使用
+JSX是一种JavaScript的语法扩展（extension）
+- 用于描述UI界面
+- 可以和JavaScript融合在一起使用
+- React认为**渲染逻辑本质上与其他UI逻辑存在内在耦合**
 
-**书写规范**
+
+
+**JSX书写规范**
 
 - **顶层只能有一个根元素**——包裹原生div或者Fragment组件
-
 - 为方便阅读在JSX外层包裹小括号
+- 单标签必须以 `/>`结尾
 
-- **JSX嵌入变量**
+**JSX嵌入内容**
 
-  - 变量是Number、String、Array类型时，可以直接显示
-  - 变量是null、undefined、Boolean类型时，内容为空
-  - 对象类型不能作为子元素
+- 书写规则：{表达式}
+- 表达式——变量、字符串、数组、函数调用等
 
-- **JSX嵌入表达式**
+**JSX中注释**
 
-  - 运算表达式 、三元运算符、执行一个函数
+```jsx
+<div>
+    {/*一段注释内容*/}
+    <h2>hello world</h2>
+</div>
+```
+
+**JSX嵌入变量**
+
+- 变量是`Number、String、Array`类型时，可以**直接显示**
+
+- 变量是`null、undefined、Boolean`类型时，**内容为空**
+
+  ```jsx
+  {this.state.flag ? <h2>显示内容</h2> : null}
+  {this.state.flag && <h2>显示内容</h2>}
+  ```
+
+- 对象类型不能作为子元素——报错 （not valid as a React child）
+
+  
+
+**JSX嵌入表达式**
+
+```jsx
+{/*运算表达式*/}
+<h2>{this.state.firstName + this.state.lastName}</h2>
+{/*三元运算符*/}
+<h2>{this.state.age >= 18 ? "成年人" : "未成年人"}</h2>
+{/*执行函数*/}
+<h2>{this.sayHello('xiaoyu')}</h2>
+```
+
+
+
+**JSX绑定属性**
+
+- `class`作为关键字，绑定class属性不允许使用，以 `className`代替
+- `style`——后加对象类型
+  - key——属性名，使用驼峰形式
+  - value——属性值
+
+```jsx
+<h2 title={this.state.title}>hello world</h2>
+<img src={this.state.imageUrl} alt="" />
+<a href={this.state.link} target="_blank">百度一下</a>
+
+<div className={'message ' + (this.state.active ? 'active' : '')}>你好呀</div>
+<div className={['message', (this.state.active ? 'active' : '')].join(' ')}>你好呀</div>
+
+<div style={{fontSize: '30px', color: 'red'}}>文本</div>
+```
+
+
+
+**JSX的事件监听**
+
+- 原生监听事件
+
+  - 获取DOM，添加监听事件 `el.addEventListen('click', callback)`
+  - HTML中直接绑定onclick
+
+- JSX监听事件
+
+  - React事件命名采用驼峰形式，而非纯小写
+  - 通过 `{}`传入事件处理函数
+
+  ```jsx
+  render() {
+       <button onClick={this.btnClick}>点击</button>
+  }
+  btnClick() {
+       console.log(this)
+       console.log("React按钮被点击")
+  }
+  ```
+
+- **this的问题**
+
+  - `btnClick`函数非主动调用的，而是当button改变时，React内部调用`btnClick`函数
+  - **React内部调用的函数，并不知道如何绑定正确的this，值为undefined**
+
+- 解决this问题
+
+  - **bind显式绑定**
+
+    ```jsx
+    <button onClick={this.btnClick.bind(this)}>点击</button>
+    ```
+
+    ```jsx
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.btnClick = this.btnClick.bind(this)
+    }
+    ```
+
+  - ES6 class field语法
+
+    - btnClick定义为赋值语句，使用箭头函数赋值this去上一个作用域查找，即当前对象
+
+    ```js
+    btnClick: () => {
+    	console.log(this)
+        console.log("React按钮被点击")
+    }
+    ```
+
+  - 事件监听时传入箭头函数
+
+    ```
+    <button onClick={ e => this.btnClick()}>点击</button>
+    ```
+
+- 事件参数传递
+
+  - 获取event对象
 
   
 
@@ -444,15 +586,86 @@ const element = <h2>hello world</h2>
 
 所有的JSX最终都会被转换成**React.createElement**的函数调用
 
+> babel官网进行JSX转换：https://babeljs.io/repl/#?presets=react
+
+
+
 `React.createElement(component, props, ...children)`
 
-- component：ReactElement的类型，原生标签或者自定义组件元素
+- component：ReactElement的类型，
+
+  - 原生标签，如 “div”
+  - 自定义组件元素，如 <App />
+
 - props：JSX中的属性，以对象形式存储
+
 - children : 存放标签中的内容，以数组形式存储
+
+  ```js
+  //对children的处理
+  const childrenLength = arguments.length - 2
+  if(childrenLength === 1) {
+      props.children = children
+  } else if( childrenLength > 1) {
+      const childArray = Array(childrenLength)
+      for (let i = 0; i < childrenLength; i++) {
+          childArray[i] = arguments[i + 2];
+      }
+      if(__DEV__) {
+          if(Object.freeze) {
+              Object.freeze(childArray)
+          }
+      }
+      props.children = childArray
+  }
+  ```
 
 
 
 ### 虚拟DOM的创建过程
 
-- 通过 React.createElement 最终创建出来一个 ReactElement对象
+- 通过 React.createElement函数 最终创建出来一个 **ReactElement对象**
+
 - React利用ReactElement对象组成了一个JavaScript的对象树，即**虚拟DOM**
+
+  ```jsx
+  render() {
+      const ReactElememt = (
+          <div key="1" ref="2">
+              <div className="header" title="头部">
+                  <h1>头部区域</h1>
+              </div>
+              <div className="content">
+                  <p>内容区域</p>
+                  <button>点击</button>
+              </div>
+          </div>
+      )
+      console.log(ReactElememt); //ReactElememt对象
+      return ReactElememt
+  }
+  ```
+
+**JSX转换过程**
+
+```
+JSX代码 -> 由React.CreateElement() -> ReactElement对象 （虚拟DOM）
+
+ReactElement -> 由ReactDOM.render() -> 真实DOM
+```
+
+
+
+**采用虚拟DOM的理由**
+
+- 虚拟DOM便于状态跟踪
+- 操作虚拟DOM性能较低：传统开发模式进行频繁的DOM操作
+  - document.createElement创建的对象较复杂
+  - DOM操作引起浏览器的重排和重绘
+  - react对多次操作DOM进行合并 
+
+> Virtual DOM 是一种编程理念
+>
+> UI以一种理想化或者虚拟化的方式保存在内存中，并且是一个相对简单的JavaScript对象
+>
+> 通过ReactDOM.render让 `虚拟DOM` 和 `真实DOM`同步起来，称为协调过程
