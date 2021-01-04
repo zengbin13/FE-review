@@ -19,28 +19,24 @@
 				<u-button @click="clickChat">chat</u-button>
 			</view>
 		</view>
-		<!-- 系统消息 -->
-		<view class="system">
+		<!-- admin消息 -->
+		<view class="admin" v-for="(admin, index) in adminList" :key="admin.title">
 			<view class="avatar">
-				<view class="t-icon t-icon-xitongxiaoxi"></view>
+				<view class="t-icon t-icon-shequhudong" v-if="admin.target.username === 'admin002'"></view>
+				<view class="t-icon t-icon-xitongxiaoxi" v-else></view>
 			</view>
 			<view class="info">
-				<view class="name">系统消息</view>
-				<view class="text">暂无消息</view>
+				<view class="name">{{admin.title}}</view>
+				<view class="text">{{admin.lastMessageText}}</view>
 			</view>
-		</view>
-		<!-- 互动消息 -->
-		<view class="interaction">
-			<view class="avatar">
-				<view class="t-icon t-icon-shequhudong"></view>
-			</view>
-			<view class="info">
-				<view class="name">互动消息</view>
-				<view class="text">暂无消息</view>
+			<view class="action" style="width: 200rpx;">
+				<view class="text-grey text-xs">{{admin.lastMessageTime}}</view>
+				<view class="cu-tag round bg-red sm" v-if="admin.unreadCount">{{admin.unreadCount}}</view>
 			</view>
 		</view>
 		<!-- 用户消息 -->
 		<view class="cu-list menu-avatar">
+			<!-- 用户消息行 -->
 			<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in lists" :key="index"
 			 @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index"
 			 @click="skipToSingleChat(index)">
@@ -63,10 +59,14 @@
 		</view>
 		
 		
-		<view class="cu-load load-modal" v-if="loadModal">
+		<!-- <view class="cu-load load-modal" v-if="loadModal">
 			<view class="cuIcon-emojifill text-orange"></view>
-			<!-- <image src="/static/logo.png" mode="aspectFit"></image> -->
+			<image src="/static/logo.png" mode="aspectFit"></image>
 			<view class="gray-text">加载中...</view>
+		</view> -->
+		
+		<view class="m-load load-modal">
+			<view class="t-icon t-icon-emoji8"></view>
 		</view>
 	</view>
 </template>
@@ -91,8 +91,24 @@
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null,
-				loadModal: false,
+				loadModal: true,
 				lists: [],
+				adminList: [
+					{
+						title: "系统通知",
+						lastMessageText: "暂无消息",
+						target: {
+							username: 'admin001'
+						}
+					},
+					{
+						title: "互动通知",
+						lastMessageText: "暂无消息",
+						target: {
+							username: 'admin002'
+						}
+					},
+				]
 			}
 		},
 		onShow() {
@@ -208,8 +224,18 @@
 				this.jpushIM.getConversations((callback) => {
 					// console.log(JSON.stringify(callback));
 					var list = this.setList(callback);
-					this.lists = list;
+					this.lists = list.filter(im => {
+						if(im.target.username.indexOf('admin') !== -1) {
+							// 系统消息
+							im.target.username === 'admin001' ? this.adminList[0] = im : '';
+							// 互动消息
+							im.target.username === 'admin002' ? this.adminList[1] = im : '';
+						} else {
+							return im
+						}
+					})
 					console.log(222, this.lists);
+					console.log(333, this.adminList);
 				})
 				// #endif
 		
@@ -277,7 +303,36 @@
 </script>
 
 <style lang="scss" scoped>
-
+	
+	.m-load {
+		display: block;
+		text-align: center;
+		line-height: 3em;
+	}
+	.m-load.load-modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0rpx;
+		margin: auto;
+		z-index: 999;
+		width: 260rpx;
+		height: 260rpx;
+		border-radius: 10rpx;
+		background-color: #FFFFFF;
+		box-shadow: 0 0 0rpx 2000rpx rgba(0,0,0,.2);
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 28rpx;
+		line-height: 2.4em;
+	}
+	.m-load.load-modal > .t-icon {
+		font-size: 160rpx;
+	}
+	
 	page {
 		background-color: $page-bg-color;
 	}
@@ -304,13 +359,15 @@
 			color: $main-color;
 		}
 	}
-	.system, .interaction {
-		padding: 10rpx 30rpx;
+	.admin {
+		padding: 10rpx 0 10rpx 30rpx;
 		display: flex;
+		align-items: center;
 		background-color: #FFFFFF;
 		border-bottom: 1px solid $page-bg-color;
 		.avatar {
 			width: 100rpx;
+			min-width: 100rpx;
 			height: 100rpx;
 			background-color: #f5f4ed;
 			border-radius: 50%;
@@ -323,6 +380,7 @@
 			}
 		}
 		.info {
+			flex: 1;
 			padding-left: 30rpx;
 			.name {
 				font-size: 32rpx;
@@ -333,7 +391,16 @@
 				font-size: 28rpx;
 				color: $sec-font-color;
 				line-height: 40rpx;
+				// overflow: hidden;
+				// text-overflow: ellipsis;
+				// white-space: nowrap;
 			}
+		}
+		.action {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 	.chat_list_wraper {
