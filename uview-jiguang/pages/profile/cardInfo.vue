@@ -2,7 +2,7 @@
 	<view class="card-info-wrap">
 		<view class="card-info">
 			<view class="card-header-wrap">
-				<u-image :src="cardInfo.avatar" class="avatar" width="120" height="120" shape="circle"></u-image>
+				<u-image :src="cardInfo.avatar" class="avatar" width="120" height="120" shape="circle" @tap="previewImg(1, [cardInfo.avatar])"></u-image>
 				<view class="name-wrap">
 					<view class="nickname">{{cardInfo.nickname}}
 						<!-- <tags :sex="cardInfo.sex" :level="cardInfo.level" :age="cardInfo.birthday" ></tags> -->
@@ -14,7 +14,7 @@
 			</view>
 			<!-- 照片墙 -->
 			<scroll-view :scroll-x="true" class="img-wall" v-if="cardInfo.photo_wall">
-				<u-image :src="item" mode="aspectFill" v-for="(item, index) in cardInfo.photo_wall" :key="item" class="img" @tap="previewImg(index)" width="180" height="180"></u-image>
+				<u-image :src="item" mode="aspectFill" v-for="(item, index) in cardInfo.photo_wall" :key="item" class="img" @tap="previewImg(index, cardInfo.photo_wall)" width="180" height="180"></u-image>
 			</scroll-view>
 			<!-- tags -->
 			<view class="tags">
@@ -216,10 +216,10 @@
 				let res = await this.$service.profile.set_visitlog({sourec_id: openUid, type:1})
 			},
 			// 查看图片
-			previewImg(index) {
+			previewImg(index, urls) {
 				uni.previewImage({
 					current: index,
-					urls: this.cardInfo.photo_wall
+					urls,
 				});
 			},
 			// 进入编辑页面

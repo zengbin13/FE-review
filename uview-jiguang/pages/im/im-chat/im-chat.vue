@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgImage="https://yoyocmf.oss-cn-beijing.aliyuncs.com/20200418/YjJopipz40rkdn1QRzblQjSmPbUW9p0LjeRCuEpN.jpg"
+		<cu-custom bgColor="m-bg-color"
 		 :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">{{selfTitle}}</block>
@@ -196,6 +196,7 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
+	
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 
 	// #ifdef APP-PLUS
@@ -295,6 +296,7 @@
 		onLoad(option) {
 			_self = this;
 			// 设置标题
+			console.log(option);
 			if (!option.fromUser) {
 				uni.showModal({
 					title: '错误',
@@ -547,6 +549,7 @@
 				};
 				this.jpushIM.getHistoryMessages(params, (res) => {
 					if (res.errorCode == 0) {
+						console.log(22, res.data);
 						if (res.data.length < 1) {
 							// 没有历史记录
 							this.ifHaveMore = false;
@@ -1279,5 +1282,8 @@
 	}
 </script>
 <style lang="scss">
+	.m-bg-color {
+		background-color: #ff886a;
+	}
 	@import "@/common/style.scss"; 
 </style>

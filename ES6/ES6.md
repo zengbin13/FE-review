@@ -98,6 +98,66 @@
 
 
 
+
+
+## 数值常用方法
+
+| 方法                    | 描述                                     | 语法                             |
+| ----------------------- | ---------------------------------------- | -------------------------------- |
+| **Number.isNaN()**      | 判断传递值是否为NaN                      | Number.isNaN(value)              |
+| **Number.isFinite()**   | 判断传递值是否为有限数值                 | Number.isFinite(value)           |
+| **Number.isInteger()**  | 判断传递值是否为整数数值                 | Number.isInteger(value)          |
+| **Number.parseFloat()** | 将字符串解析成**浮点数**，与全局方法相同 | Number.parseFloat(string)        |
+| **Number.parseInt()**   | 根据指定基数，将字符串解析成**整数**     | Number.parseInt(string[, radix]) |
+| **toFixed()**           | 保留**小数点后几位**进行格式化数值       | numObj.toFixed(digits)           |
+| **toPrecision()**       | 以**指定精度**格式化数值                 | numObj.toPrecision(precision)    |
+|                         |                                          |                                  |
+|                         |                                          |                                  |
+
+```js
+//Number.isNaN
+Number.isNaN(undefined);  // false
+Number.isNaN(undefined + 0); //true
+
+//Number.isFinite()
+Number.isFinite(1 / 0) //false
+
+//Number.isInteger()
+Number.isInteger(-1);   // true
+
+
+```
+
+
+
+## 函数常用方法
+
+| 方法        | 描述                                                         | 语法                                          |
+| ----------- | ------------------------------------------------------------ | --------------------------------------------- |
+| **apply()** | 调用一个具有给定`this`值的函数；参数以**数组**形式传入       | func.apply(thisArg, [argsArray])              |
+| **call()**  | 调用一个具有给定`this`值的函数；参数以**列表**形式传入       | function.call(thisArg, arg1, arg2, ...)       |
+| **bind()**  | 创建一个新的函数，在 `bind()` 被调用时，这个新函数的 `this` 被指定为 `bind()` 的第一个参数，而其余参数将作为新函数的参数，供调用时使用 | function.bind(thisArg[, arg1[, arg2[, ...]]]) |
+
+```js
+//apply
+const numbers = [5, 6, 2, 3, 7];
+const max = Math.max.apply(null, numbers);
+```
+
+
+
+## 数组常用方法
+
+> https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+
+| 方法 | 描述 | 语法 |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+
+
 # ES6 新特性
 
 ## let 和 const 命令

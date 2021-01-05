@@ -767,6 +767,466 @@ module.exports = {
   "t-icon-xinxingcao": {
     "background": "url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3Csvg%20version%3D%221.1%22%20width%3D%27100%25%27%20height%3D%27100%25%27%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20id%3D%22t-icon-xinxingcao%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cpath%20d%3D%22M496.1%20286.5s-56.4-169%2087.6-169c162.8%200.1%20171.1%20273.3-22.9%20396.4%200%200-140.9-31-219.1-129.4-67-84.3-79.3-246.2%2093.9-219.1%200%200.1%2051.1%205.9%2060.5%20121.1z%22%20fill%3D%22%2377DBCF%22%20%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M796.9%20547.8s167.5%203.3%20122.1%20130.9c-51.3%20144.2-296%2065.5-344-145.2%200%200%2071.9-115.1%20183.6-153.3%2095.7-32.8%20243.1%207.3%20164.5%20152.2%200.1-0.1-8.5%2031.7-126.2%2015.4zM354.3%20651.2s-146.2%2081.9-46%20173c113.3%20103%20291.9-81.9%20234.9-290.3%200%200-117.6-67.6-234.2-48.6-99.9%2016.2-210.9%20121.1-73.3%20211.8%200%200%2044.7%2022.8%20118.6-45.9z%22%20fill%3D%22%2377DBCF%22%20%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M489.7%20496.1c-1.3%200-2.5-0.1-3.8-0.4-6-1.3-148-33.5-229.2-135.6-42-52.8-68.2-140.5-34-199.1%2017.3-29.8%2056.5-62.4%20144.6-48.6%209.7%201.5%2016.3%2010.6%2014.8%2020.3-1.5%209.7-10.7%2016.3-20.3%2014.8-37.7-5.9-87.1-5.2-108.4%2031.4-24.9%2042.7-3.2%20115.9%2031.2%20159.1%2063.7%2080.2%20173.3%20113.7%20202%20121.3%20111.9-74.7%20147.6-199.9%20123.9-281.5-8.5-29.1-32.4-78-97.8-78.1h-0.1c-31.7%200-53.3%208.7-66.2%2026.5-29.8%2041.3-4.8%20118.4-4.5%20119.2%203.1%209.3-2%2019.4-11.2%2022.4-9.3%203.1-19.3-1.9-22.4-11.2-1.3-3.8-31-95%209.4-151.1%2019.8-27.4%2051.7-41.3%2095-41.3h0.1c63.7%200%20113%2038.8%20131.9%20103.7%2027.7%2095.5-13.8%20242-145.3%20325.5-3%201.8-6.3%202.7-9.7%202.7z%22%20fill%3D%22%23333333%22%20%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M740.5%20734.3c-3.4%200-6.7-0.1-10.2-0.3-93.7-5.5-211-88.8-243.6-232.1-1-4.6-0.2-9.4%202.3-13.3%203.1-4.9%2076.5-120.9%20192.9-160.7%2060.3-20.6%20146.8-16.2%20188.2%2032.9%2021.1%2025%2037.9%2070.4-2.4%20144.6-4.7%208.6-15.5%2011.8-24.1%207.1-8.6-4.7-11.8-15.5-7.1-24.1%2016.9-31.2%2031.8-74.8%206.5-104.7-26.5-31.4-93.6-41.4-149.6-22.2-90.3%2030.9-154.1%20116.4-170.3%20139.9%2030.9%20121.9%20130%20192.5%20209.3%20197.2%2028.3%201.7%2078.5-4.1%2098.9-61.3%209.9-27.7%209.1-49.3-2.5-66.1-22.3-32.3-82.1-40.6-103.3-41.1-9.8-0.2-17.6-8.3-17.4-18.1%200.2-9.8%208.4-17.2%2018.1-17.4%203.8%200.1%2094.5%202.5%20131.7%2056.4%2018.3%2026.4%2020.5%2059.5%206.8%2098.2-19.1%2053.8-65.2%2085.1-124.2%2085.1z%22%20fill%3D%22%23333333%22%20%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M309.7%20835.6c-30.4%200-59.6-11.4-84.3-33.8-30.4-27.7-44-57.9-40.4-89.8%207.4-65.1%2086.3-110%2089.6-111.8%208.6-4.8%2019.3-1.7%2024.1%206.8%204.8%208.5%201.8%2019.4-6.8%2024.2-18.5%2010.4-67.3%2045.9-71.7%2084.9-2.3%2020.2%207.2%2039.6%2029%2059.4%2045%2040.9%2092.1%2022.2%20116.1%207.5%2067.7-41.5%20121.8-150.5%2091.6-272.6-25.4-13.1-122.2-58.3-216.2-43.1-58.4%209.5-112.9%2049.9-121.5%2090.1-8.2%2038.4%2025.4%2069.7%2055.1%2089.3%208.2%205.4%2010.4%2016.4%205.1%2024.6-5.4%208.2-16.4%2010.4-24.6%205.1-70.4-46.5-77-94.4-70.2-126.4%2013.4-62.8%2087.6-107.5%20150.5-117.8C356.6%20412.5%20476%20480.1%20481%20483c4.1%202.3%207%206.2%208.3%2010.7C528.2%20635.5%20464%20764.2%20384%20813.3c-24.4%2014.9-49.7%2022.3-74.3%2022.3z%22%20fill%3D%22%23333333%22%20%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M551.6%20938.9c-9.3%200-17.1-7.2-17.7-16.6-0.2-2.8-18.9-280.9-52-385.3-3-9.3%202.2-19.3%2011.6-22.3%209.3-3%2019.3%202.2%2022.3%2011.6%2034.4%20108.4%2052.8%20382.1%2053.6%20393.7%200.6%209.8-6.8%2018.2-16.6%2018.9h-1.2z%22%20fill%3D%22%23333333%22%20%3E%3C%2Fpath%3E%3C%2Fsvg%3E)"
   },
+  "animate__animated": {
+    "WebkitAnimationDuration": "var(--animate-duration)",
+    "animationDuration": "var(--animate-duration)",
+    "WebkitAnimationFillMode": "both",
+    "animationFillMode": "both"
+  },
+  "animate__bounce": {
+    "WebkitAnimationName": "bounce",
+    "animationName": "bounce",
+    "WebkitTransformOrigin": "center bottom",
+    "transformOrigin": "center bottom"
+  },
+  "animate__flash": {
+    "WebkitAnimationName": "flash",
+    "animationName": "flash"
+  },
+  "animate__pulse": {
+    "WebkitAnimationName": "pulse",
+    "animationName": "pulse",
+    "WebkitAnimationTimingFunction": "ease-in-out",
+    "animationTimingFunction": "ease-in-out"
+  },
+  "animate__rubberBand": {
+    "WebkitAnimationName": "rubberBand",
+    "animationName": "rubberBand"
+  },
+  "animate__shakeX": {
+    "WebkitAnimationName": "shakeX",
+    "animationName": "shakeX"
+  },
+  "animate__shakeY": {
+    "WebkitAnimationName": "shakeY",
+    "animationName": "shakeY"
+  },
+  "animate__headShake": {
+    "WebkitAnimationTimingFunction": "ease-in-out",
+    "animationTimingFunction": "ease-in-out",
+    "WebkitAnimationName": "headShake",
+    "animationName": "headShake"
+  },
+  "animate__swing": {
+    "WebkitTransformOrigin": "top center",
+    "transformOrigin": "top center",
+    "WebkitAnimationName": "swing",
+    "animationName": "swing"
+  },
+  "animate__tada": {
+    "WebkitAnimationName": "tada",
+    "animationName": "tada"
+  },
+  "animate__wobble": {
+    "WebkitAnimationName": "wobble",
+    "animationName": "wobble"
+  },
+  "animate__jello": {
+    "WebkitAnimationName": "jello",
+    "animationName": "jello",
+    "WebkitTransformOrigin": "center",
+    "transformOrigin": "center"
+  },
+  "animate__heartBeat": {
+    "WebkitAnimationName": "heartBeat",
+    "animationName": "heartBeat",
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*1.3)",
+    "animationDuration": "calc(var(--animate-duration)*1.3)",
+    "WebkitAnimationTimingFunction": "ease-in-out",
+    "animationTimingFunction": "ease-in-out"
+  },
+  "animate__backInDown": {
+    "WebkitAnimationName": "backInDown",
+    "animationName": "backInDown"
+  },
+  "animate__backInLeft": {
+    "WebkitAnimationName": "backInLeft",
+    "animationName": "backInLeft"
+  },
+  "animate__backInRight": {
+    "WebkitAnimationName": "backInRight",
+    "animationName": "backInRight"
+  },
+  "animate__backInUp": {
+    "WebkitAnimationName": "backInUp",
+    "animationName": "backInUp"
+  },
+  "animate__backOutDown": {
+    "WebkitAnimationName": "backOutDown",
+    "animationName": "backOutDown"
+  },
+  "animate__backOutLeft": {
+    "WebkitAnimationName": "backOutLeft",
+    "animationName": "backOutLeft"
+  },
+  "animate__backOutRight": {
+    "WebkitAnimationName": "backOutRight",
+    "animationName": "backOutRight"
+  },
+  "animate__backOutUp": {
+    "WebkitAnimationName": "backOutUp",
+    "animationName": "backOutUp"
+  },
+  "animate__bounceIn": {
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*0.75)",
+    "animationDuration": "calc(var(--animate-duration)*0.75)",
+    "WebkitAnimationName": "bounceIn",
+    "animationName": "bounceIn"
+  },
+  "animate__bounceInDown": {
+    "WebkitAnimationName": "bounceInDown",
+    "animationName": "bounceInDown"
+  },
+  "animate__bounceInLeft": {
+    "WebkitAnimationName": "bounceInLeft",
+    "animationName": "bounceInLeft"
+  },
+  "animate__bounceInRight": {
+    "WebkitAnimationName": "bounceInRight",
+    "animationName": "bounceInRight"
+  },
+  "animate__bounceInUp": {
+    "WebkitAnimationName": "bounceInUp",
+    "animationName": "bounceInUp"
+  },
+  "animate__bounceOut": {
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*0.75)",
+    "animationDuration": "calc(var(--animate-duration)*0.75)",
+    "WebkitAnimationName": "bounceOut",
+    "animationName": "bounceOut"
+  },
+  "animate__bounceOutDown": {
+    "WebkitAnimationName": "bounceOutDown",
+    "animationName": "bounceOutDown"
+  },
+  "animate__bounceOutLeft": {
+    "WebkitAnimationName": "bounceOutLeft",
+    "animationName": "bounceOutLeft"
+  },
+  "animate__bounceOutRight": {
+    "WebkitAnimationName": "bounceOutRight",
+    "animationName": "bounceOutRight"
+  },
+  "animate__bounceOutUp": {
+    "WebkitAnimationName": "bounceOutUp",
+    "animationName": "bounceOutUp"
+  },
+  "animate__fadeIn": {
+    "WebkitAnimationName": "fadeIn",
+    "animationName": "fadeIn"
+  },
+  "animate__fadeInDown": {
+    "WebkitAnimationName": "fadeInDown",
+    "animationName": "fadeInDown"
+  },
+  "animate__fadeInDownBig": {
+    "WebkitAnimationName": "fadeInDownBig",
+    "animationName": "fadeInDownBig"
+  },
+  "animate__fadeInLeft": {
+    "WebkitAnimationName": "fadeInLeft",
+    "animationName": "fadeInLeft"
+  },
+  "animate__fadeInLeftBig": {
+    "WebkitAnimationName": "fadeInLeftBig",
+    "animationName": "fadeInLeftBig"
+  },
+  "animate__fadeInRight": {
+    "WebkitAnimationName": "fadeInRight",
+    "animationName": "fadeInRight"
+  },
+  "animate__fadeInRightBig": {
+    "WebkitAnimationName": "fadeInRightBig",
+    "animationName": "fadeInRightBig"
+  },
+  "animate__fadeInUp": {
+    "WebkitAnimationName": "fadeInUp",
+    "animationName": "fadeInUp"
+  },
+  "animate__fadeInUpBig": {
+    "WebkitAnimationName": "fadeInUpBig",
+    "animationName": "fadeInUpBig"
+  },
+  "animate__fadeInTopLeft": {
+    "WebkitAnimationName": "fadeInTopLeft",
+    "animationName": "fadeInTopLeft"
+  },
+  "animate__fadeInTopRight": {
+    "WebkitAnimationName": "fadeInTopRight",
+    "animationName": "fadeInTopRight"
+  },
+  "animate__fadeInBottomLeft": {
+    "WebkitAnimationName": "fadeInBottomLeft",
+    "animationName": "fadeInBottomLeft"
+  },
+  "animate__fadeInBottomRight": {
+    "WebkitAnimationName": "fadeInBottomRight",
+    "animationName": "fadeInBottomRight"
+  },
+  "animate__fadeOut": {
+    "WebkitAnimationName": "fadeOut",
+    "animationName": "fadeOut"
+  },
+  "animate__fadeOutDown": {
+    "WebkitAnimationName": "fadeOutDown",
+    "animationName": "fadeOutDown"
+  },
+  "animate__fadeOutDownBig": {
+    "WebkitAnimationName": "fadeOutDownBig",
+    "animationName": "fadeOutDownBig"
+  },
+  "animate__fadeOutLeft": {
+    "WebkitAnimationName": "fadeOutLeft",
+    "animationName": "fadeOutLeft"
+  },
+  "animate__fadeOutLeftBig": {
+    "WebkitAnimationName": "fadeOutLeftBig",
+    "animationName": "fadeOutLeftBig"
+  },
+  "animate__fadeOutRight": {
+    "WebkitAnimationName": "fadeOutRight",
+    "animationName": "fadeOutRight"
+  },
+  "animate__fadeOutRightBig": {
+    "WebkitAnimationName": "fadeOutRightBig",
+    "animationName": "fadeOutRightBig"
+  },
+  "animate__fadeOutUp": {
+    "WebkitAnimationName": "fadeOutUp",
+    "animationName": "fadeOutUp"
+  },
+  "animate__fadeOutUpBig": {
+    "WebkitAnimationName": "fadeOutUpBig",
+    "animationName": "fadeOutUpBig"
+  },
+  "animate__fadeOutTopLeft": {
+    "WebkitAnimationName": "fadeOutTopLeft",
+    "animationName": "fadeOutTopLeft"
+  },
+  "animate__fadeOutTopRight": {
+    "WebkitAnimationName": "fadeOutTopRight",
+    "animationName": "fadeOutTopRight"
+  },
+  "animate__fadeOutBottomRight": {
+    "WebkitAnimationName": "fadeOutBottomRight",
+    "animationName": "fadeOutBottomRight"
+  },
+  "animate__fadeOutBottomLeft": {
+    "WebkitAnimationName": "fadeOutBottomLeft",
+    "animationName": "fadeOutBottomLeft"
+  },
+  "animate__flipInX": {
+    "WebkitBackfaceVisibility": "visible",
+    "backfaceVisibility": "visible",
+    "WebkitAnimationName": "flipInX",
+    "animationName": "flipInX"
+  },
+  "animate__flipInY": {
+    "WebkitBackfaceVisibility": "visible",
+    "backfaceVisibility": "visible",
+    "WebkitAnimationName": "flipInY",
+    "animationName": "flipInY"
+  },
+  "animate__flipOutX": {
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*0.75)",
+    "animationDuration": "calc(var(--animate-duration)*0.75)",
+    "WebkitAnimationName": "flipOutX",
+    "animationName": "flipOutX",
+    "WebkitBackfaceVisibility": "visible",
+    "backfaceVisibility": "visible"
+  },
+  "animate__flipOutY": {
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*0.75)",
+    "animationDuration": "calc(var(--animate-duration)*0.75)",
+    "WebkitBackfaceVisibility": "visible",
+    "backfaceVisibility": "visible",
+    "WebkitAnimationName": "flipOutY",
+    "animationName": "flipOutY"
+  },
+  "animate__lightSpeedInRight": {
+    "WebkitAnimationName": "lightSpeedInRight",
+    "animationName": "lightSpeedInRight",
+    "WebkitAnimationTimingFunction": "ease-out",
+    "animationTimingFunction": "ease-out"
+  },
+  "animate__lightSpeedInLeft": {
+    "WebkitAnimationName": "lightSpeedInLeft",
+    "animationName": "lightSpeedInLeft",
+    "WebkitAnimationTimingFunction": "ease-out",
+    "animationTimingFunction": "ease-out"
+  },
+  "animate__lightSpeedOutRight": {
+    "WebkitAnimationName": "lightSpeedOutRight",
+    "animationName": "lightSpeedOutRight",
+    "WebkitAnimationTimingFunction": "ease-in",
+    "animationTimingFunction": "ease-in"
+  },
+  "animate__lightSpeedOutLeft": {
+    "WebkitAnimationName": "lightSpeedOutLeft",
+    "animationName": "lightSpeedOutLeft",
+    "WebkitAnimationTimingFunction": "ease-in",
+    "animationTimingFunction": "ease-in"
+  },
+  "animate__rotateIn": {
+    "WebkitAnimationName": "rotateIn",
+    "animationName": "rotateIn",
+    "WebkitTransformOrigin": "center",
+    "transformOrigin": "center"
+  },
+  "animate__rotateInDownLeft": {
+    "WebkitAnimationName": "rotateInDownLeft",
+    "animationName": "rotateInDownLeft",
+    "WebkitTransformOrigin": "left bottom",
+    "transformOrigin": "left bottom"
+  },
+  "animate__rotateInDownRight": {
+    "WebkitAnimationName": "rotateInDownRight",
+    "animationName": "rotateInDownRight",
+    "WebkitTransformOrigin": "right bottom",
+    "transformOrigin": "right bottom"
+  },
+  "animate__rotateInUpLeft": {
+    "WebkitAnimationName": "rotateInUpLeft",
+    "animationName": "rotateInUpLeft",
+    "WebkitTransformOrigin": "left bottom",
+    "transformOrigin": "left bottom"
+  },
+  "animate__rotateInUpRight": {
+    "WebkitAnimationName": "rotateInUpRight",
+    "animationName": "rotateInUpRight",
+    "WebkitTransformOrigin": "right bottom",
+    "transformOrigin": "right bottom"
+  },
+  "animate__rotateOut": {
+    "WebkitAnimationName": "rotateOut",
+    "animationName": "rotateOut",
+    "WebkitTransformOrigin": "center",
+    "transformOrigin": "center"
+  },
+  "animate__rotateOutDownLeft": {
+    "WebkitAnimationName": "rotateOutDownLeft",
+    "animationName": "rotateOutDownLeft",
+    "WebkitTransformOrigin": "left bottom",
+    "transformOrigin": "left bottom"
+  },
+  "animate__rotateOutDownRight": {
+    "WebkitAnimationName": "rotateOutDownRight",
+    "animationName": "rotateOutDownRight",
+    "WebkitTransformOrigin": "right bottom",
+    "transformOrigin": "right bottom"
+  },
+  "animate__rotateOutUpLeft": {
+    "WebkitAnimationName": "rotateOutUpLeft",
+    "animationName": "rotateOutUpLeft",
+    "WebkitTransformOrigin": "left bottom",
+    "transformOrigin": "left bottom"
+  },
+  "animate__rotateOutUpRight": {
+    "WebkitAnimationName": "rotateOutUpRight",
+    "animationName": "rotateOutUpRight",
+    "WebkitTransformOrigin": "right bottom",
+    "transformOrigin": "right bottom"
+  },
+  "animate__hinge": {
+    "WebkitAnimationDuration": "calc(var(--animate-duration)*2)",
+    "animationDuration": "calc(var(--animate-duration)*2)",
+    "WebkitAnimationName": "hinge",
+    "animationName": "hinge",
+    "WebkitTransformOrigin": "top left",
+    "transformOrigin": "top left"
+  },
+  "animate__jackInTheBox": {
+    "WebkitAnimationName": "jackInTheBox",
+    "animationName": "jackInTheBox"
+  },
+  "animate__rollIn": {
+    "WebkitAnimationName": "rollIn",
+    "animationName": "rollIn"
+  },
+  "animate__rollOut": {
+    "WebkitAnimationName": "rollOut",
+    "animationName": "rollOut"
+  },
+  "animate__zoomIn": {
+    "WebkitAnimationName": "zoomIn",
+    "animationName": "zoomIn"
+  },
+  "animate__zoomInDown": {
+    "WebkitAnimationName": "zoomInDown",
+    "animationName": "zoomInDown"
+  },
+  "animate__zoomInLeft": {
+    "WebkitAnimationName": "zoomInLeft",
+    "animationName": "zoomInLeft"
+  },
+  "animate__zoomInRight": {
+    "WebkitAnimationName": "zoomInRight",
+    "animationName": "zoomInRight"
+  },
+  "animate__zoomInUp": {
+    "WebkitAnimationName": "zoomInUp",
+    "animationName": "zoomInUp"
+  },
+  "animate__zoomOut": {
+    "WebkitAnimationName": "zoomOut",
+    "animationName": "zoomOut"
+  },
+  "animate__zoomOutDown": {
+    "WebkitAnimationName": "zoomOutDown",
+    "animationName": "zoomOutDown",
+    "WebkitTransformOrigin": "center bottom",
+    "transformOrigin": "center bottom"
+  },
+  "animate__zoomOutLeft": {
+    "WebkitAnimationName": "zoomOutLeft",
+    "animationName": "zoomOutLeft",
+    "WebkitTransformOrigin": "left center",
+    "transformOrigin": "left center"
+  },
+  "animate__zoomOutRight": {
+    "WebkitAnimationName": "zoomOutRight",
+    "animationName": "zoomOutRight",
+    "WebkitTransformOrigin": "right center",
+    "transformOrigin": "right center"
+  },
+  "animate__zoomOutUp": {
+    "WebkitAnimationName": "zoomOutUp",
+    "animationName": "zoomOutUp",
+    "WebkitTransformOrigin": "center bottom",
+    "transformOrigin": "center bottom"
+  },
+  "animate__slideInDown": {
+    "WebkitAnimationName": "slideInDown",
+    "animationName": "slideInDown"
+  },
+  "animate__slideInLeft": {
+    "WebkitAnimationName": "slideInLeft",
+    "animationName": "slideInLeft"
+  },
+  "animate__slideInRight": {
+    "WebkitAnimationName": "slideInRight",
+    "animationName": "slideInRight"
+  },
+  "animate__slideInUp": {
+    "WebkitAnimationName": "slideInUp",
+    "animationName": "slideInUp"
+  },
+  "animate__slideOutDown": {
+    "WebkitAnimationName": "slideOutDown",
+    "animationName": "slideOutDown"
+  },
+  "animate__slideOutLeft": {
+    "WebkitAnimationName": "slideOutLeft",
+    "animationName": "slideOutLeft"
+  },
+  "animate__slideOutRight": {
+    "WebkitAnimationName": "slideOutRight",
+    "animationName": "slideOutRight"
+  },
+  "animate__slideOutUp": {
+    "WebkitAnimationName": "slideOutUp",
+    "animationName": "slideOutUp"
+  },
   "round": {
     "borderRadius": "5000upx"
   },

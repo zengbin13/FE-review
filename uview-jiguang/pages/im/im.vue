@@ -65,8 +65,8 @@
 			<view class="gray-text">加载中...</view>
 		</view> -->
 		
-		<view class="m-load load-modal">
-			<view class="t-icon t-icon-emoji8"></view>
+		<view class="m-load load-modal" v-if="loadModal">
+			<view class="t-icon t-icon-emoji8 animate__animated animate__bounce animate__infinite infinite"></view>
 		</view>
 	</view>
 </template>
@@ -91,7 +91,7 @@
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null,
-				loadModal: true,
+				loadModal: false,
 				lists: [],
 				adminList: [
 					{
@@ -111,11 +111,15 @@
 				]
 			}
 		},
-		onShow() {
-			
+		onShow() {	
 			_self = this;
-			
-			this.getList();
+			if(this.hasLogin) {
+				this.getList();
+			} else {
+				let userInfo = uni.getStorageSync('userInfo')
+				this.login(userInfo.account_number)
+				this.getList();
+			}
 		},
 		onLoad() {
 			uni.showLoading({
@@ -132,7 +136,6 @@
 		},
 		computed: {
 			...mapState(['hasLogin', 'loginProvider', 'nickname', 'avatar', 'receiveMessage', 'newFriendInvitiaon']),
-			
 		},
 		watch: {
 			receiveMessage(res) {
@@ -141,6 +144,7 @@
 			}
 		},
 		methods:{
+			...mapMutations(['login', 'logout']),
 			clickLog() {
 				uni.navigateTo({
 					url:'./log/log'
@@ -328,9 +332,38 @@
 		align-items: center;
 		font-size: 28rpx;
 		line-height: 2.4em;
+		
+		&::after {
+			content: "";
+			position: absolute;
+			background-color: #ffffff;
+			border-radius: 50%;
+			width: 200upx;
+			height: 200upx;
+			font-size: 10px;
+			border-top: 6upx solid rgba(0, 0, 0, 0.05);
+			border-right: 6upx solid rgba(0, 0, 0, 0.05);
+			border-bottom: 6upx solid rgba(0, 0, 0, 0.05);
+			border-left: 6upx solid #ffd833;
+			animation: spin 1s infinite linear;
+			z-index: -1;
+		}
+		
+		.t-icon {
+			width: 100rpx;
+			height: 100rpx;
+		}
 	}
-	.m-load.load-modal > .t-icon {
-		font-size: 160rpx;
+	@keyframes spin {
+		0% {
+			-webkit-transform: rotate(0);
+			transform: rotate(0);
+		}
+	
+		100% {
+			-webkit-transform: rotate(359deg);
+			transform: rotate(359deg);
+		}
 	}
 	
 	page {

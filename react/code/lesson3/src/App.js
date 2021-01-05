@@ -1,30 +1,61 @@
-// import './App.css';
+import React, { Component } from 'react'
+import PropTypes from "prop-types"
 
 
-// 函数式组件
-// 没有this对象； 没有内部状态
-// function App() {
-//   return (
-//     <div className="App">
-//       函数式组件： 没有this对象； 没有内部状态
-//     </div>
-//   );
-// }
-
-import { Component } from "react";
-
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      message: '类组件的内部状态'
-    }
-  }
+export default class App extends Component {
   render() {
     return (
-      <h2>{this.state.message}</h2>
+      <div>
+        <ChildCom name="小鱼" age={18} level="20"></ChildCom>
+        <ChildCom></ChildCom>
+        <ChildComF name="小曾" age={20} level="24"></ChildComF>
+        <ChildComF></ChildComF>
+      </div>
     )
   }
 }
 
-export default App;
+
+class ChildCom extends Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number,
+    level: PropTypes.number
+  }
+  static defaultProps = {
+    name: '暂无',
+    age: 0,
+    level: 0
+  }
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let { name, age, level } = this.props
+    return (
+      <div>
+        <h2>姓名:{name} - 年龄: {age} - 等级: {level}</h2>
+        <hr />
+      </div>
+    )
+  }
+}
+
+function ChildComF(props) {
+  return (
+    <div>
+      <h2>姓名:{props.name} - 年龄: {props.age} - 等级: {props.level}</h2>
+      <hr />
+    </div>
+  )
+}
+ChildComF.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number,
+  level: PropTypes.number
+}
+ChildComF.defaultProps = {
+  name: '暂无',
+  age: 0,
+  level: 0
+}

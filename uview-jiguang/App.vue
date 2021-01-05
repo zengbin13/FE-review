@@ -399,6 +399,8 @@ import store from './store'
 @import '@/static/css/iconfont.css';
 //多色图标
 @import '@/static/css/iconfont-weapp-icon.css';
+//动画
+@import '@/static/css/animation.css';
 
 // IM
 @import "colorui/main.css";
@@ -440,4 +442,5 @@ page {
   height: var(--status-bar-height);
   width: 100%;
 }
+
 </style>

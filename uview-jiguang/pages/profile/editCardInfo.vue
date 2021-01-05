@@ -59,7 +59,7 @@
 			
 			<u-form-item label="出生日期">
 				<view @tap="showTimePicker" class="tap">{{ cardInfo.birthday || "请选择" }}</view>
-				<u-picker mode="time" v-model="show.time" @confirm="timeConfirm"></u-picker>
+				<u-picker mode="time" v-model="show.time" @confirm="timeConfirm" end-year="2021"></u-picker>
 			</u-form-item>
 			<u-form-item label="性别">
 				{{ cardInfo.sex === 1 ? '男' : '女' }}
