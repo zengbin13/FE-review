@@ -10,6 +10,8 @@
 					type="text"
 					maxlength="11"
 					placeholder="请输入手机号码"
+					:isAreaCode="true"
+					:areaCode="areaCode"
 				></wInput>
 				<wInput
 					v-model="passData"
@@ -64,9 +66,14 @@
 		mounted() {
 			_this= this;
 		},
+		computed:{
+			areaCode() {
+				return this.$store.state.areaCode
+			}
+		},
 		methods: {
 			async getVerCode(){
-				if (_this.phoneData.length != 11) {
+				if (_this.phoneData.length > 11) {
 				     uni.showToast({
 				        icon: 'none',
 						position: 'bottom',
@@ -74,7 +81,10 @@
 				    });
 				    return false;
 				}
-				let res = await this.$service.login.send_sms({mobile: _this.phoneData})
+				let res = await this.$service.login.send_sms({
+					mobile: _this.phoneData,
+					area_code: this.areaCode
+				})
 				if(res.data.code === 0) {
 					this.$utils.showToast(res.data.msg)
 				}

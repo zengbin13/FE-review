@@ -13,6 +13,8 @@
 					maxlength="11"
 					placeholder="用户名/电话"
 					:focus="isFocus"
+					:isAreaCode="true"
+					:areaCode="areaCode"
 				></wInput>
 				<wInput
 					v-if="loginMode === 0"
@@ -104,10 +106,16 @@
 			_this= this;
 			this.isLogin();
 		},
+		onReady() {
+			uni.preloadPage({url: "/pages/login/choose-area-code"});
+		},
 		computed:{
 			...mapState(['hasLogin','loginProvider']),
 			loginButtonText() {
 				return this.loginMode === 0 ? '注册 / 登录' : '开 始 [ 俩 边 ]'
+			},
+			areaCode() {
+				return this.$store.state.areaCode
 			}
 		},
 		methods: {
@@ -151,7 +159,7 @@
 			},
 			//获取验证码
 			async getVerCode(){
-				if (_this.phoneData.length != 11) {
+				if (_this.phoneData.length > 11) {
 				     uni.showToast({
 				        icon: 'none',
 						position: 'bottom',
@@ -159,7 +167,10 @@
 				    });
 				    return false;
 				}
-				let res = await this.$service.login.send_sms({mobile: _this.phoneData})
+				let res = await this.$service.login.send_sms({
+					mobile: _this.phoneData,
+					area_code: this.areaCode
+				})
 				if(res.data.code === 0) {
 					this.$utils.showToast(res.data.msg)
 				}

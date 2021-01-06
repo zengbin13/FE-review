@@ -25,7 +25,8 @@ const login = {
 	third_party_login: params => http.request('POST', '/api/userAuths', params, '加载中'),
 	// 第三方登录绑定手机号 
 	bind_phone_data: params => http.request('POST', '/api/userAuthsMobile', params),
-	
+	// 获取验证区号
+	get_sms_code: params => http.request('GET', '/api/smsCode', params),
 }
 const mall = {
 	//商品数据

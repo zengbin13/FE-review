@@ -362,6 +362,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/login/choose-area-code",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "选择手机号归属地",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

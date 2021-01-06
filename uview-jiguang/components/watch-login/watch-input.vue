@@ -35,7 +35,10 @@
 			:class="['vercode',{'vercode-run': second>0}]" 
 			@click="setCode"
 		>{{ getVerCodeSecond }}</view>
-		
+		<!-- 区号 -->
+		<view class="area-code" v-if="_isAreaCode" @click="chooseAreaCode">
+			+ {{areaCode}}
+		</view>
 	</view>
 </template>
 
@@ -81,7 +84,15 @@
 				//是否聚焦  
 				type: [Boolean,String],  
 				default: false  
-			}  
+			},
+			isAreaCode: {
+				type: [Boolean,String],  
+				default: false  
+			},
+			areaCode: {
+				type: Number,
+				default: 86  
+			}
 		},
 		model: {
 			prop: 'value',
@@ -96,6 +107,11 @@
 			clearInterval(countDown);//先清理一次循环，避免缓存
 		},
 		methods:{
+			chooseAreaCode() {
+				uni.navigateTo({
+					url:'/pages/login/choose-area-code'
+				})
+			},
 			showPass(){
 				//是否显示密码
 				this.showPassword = !this.showPassword
@@ -144,6 +160,10 @@
 			_isShowPass() {
 				//处理值
 				return String(this.isShowPass) !== 'false'
+			},
+			_isAreaCode() {
+				//处理值
+				return String(this.isAreaCode) !== 'false'
 			},
 			_isShowCode() {
 				//处理值
@@ -216,5 +236,14 @@
 	    border-radius: 2.5rem ;
 	    -webkit-box-shadow: 5rpx 10rpx 80rpx 8rpx rgba(26, 15, 15, 0.15) ;
 	    box-shadow: 5rpx 10rpx 80rpx 8rpx rgba(26, 15, 15, 0.15) ;
+	}
+	.area-code::before {
+		content: '';
+		display: inline-block;
+		width: 2rpx;
+		height: 40rpx;
+		background-color: #858585;
+		margin-right: 30rpx;
+		vertical-align: middle;
 	}
 </style>

@@ -789,7 +789,7 @@ module.exports = {
 		// 转换 数据 格式
 		var json_sort = {}
 		for (var i = 0; i < resault.length; i++) {
-			resault[i].list.sort(this.compareAscSort('pinyinName'))
+			resault[i].list.sort(this.compareAscSort(field))
 			json_sort[resault[i].letter] = resault[i].list;
 		}
 		return json_sort;

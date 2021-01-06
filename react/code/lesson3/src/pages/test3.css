@@ -1,0 +1,15 @@
+ul {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+
+}
+.active {
+    color: rgb(243, 69, 16);
+    padding-bottom: 5px;
+    border-bottom: 4px solid rgb(243, 69, 16);
+}

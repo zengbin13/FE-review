@@ -1,0 +1,12 @@
+.navbar {
+    display: flex;
+    line-height: 44px;
+    text-align: center;
+}
+.nav-left, .nav-right {
+    width: 50px;
+    background-color: rgba(243, 99, 99, 0.651);
+}
+.nav-center {
+    flex: 1;
+}

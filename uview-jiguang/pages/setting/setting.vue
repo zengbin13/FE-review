@@ -2,6 +2,7 @@
 	<view>
 		设置
 		<view class="">
+			
 			<u-button @tap="handleTap">点击</u-button>
 			<u-button @tap="handleTap2">点击2</u-button>
 			<u-button @tap="handleTap3">点击3</u-button>

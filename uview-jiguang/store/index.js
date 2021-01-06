@@ -13,6 +13,7 @@ const store = new Vuex.Store({
 		token: '',
 		userInfo: {},
 		cardInfo: {},
+		areaCode: 86,
 		// im
 		hasLogin: false,
 		loginProvider: "", // 用户名或其他唯一值
@@ -57,6 +58,13 @@ const store = new Vuex.Store({
 			uni.setStorageSync('token', val.token);
 			uni.setStorageSync('userInfo', val.userInfo);
 		},
+		// 改变区号
+		changeAreaCode(state, value) {
+			state.areaCode = value
+		},
+		
+		
+		
 		//im登录
 		login(state, val) {
 			// 不去登录接口获取用户资料并赋值，是因为信息同步是异步的，可能还没同步下来（官方答案）
