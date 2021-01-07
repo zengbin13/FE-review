@@ -40,19 +40,19 @@
 		<!-- cell -->
 		<u-cell-group :border="false" class="cell-group">
 			<u-cell-item title="可用心动币" :value="numberFormat(userInfo.balance, 0)" @click="handleJump" :index="1">
-				<text slot="icon" class="iconfont icon-biaoqing"></text>
+				<text slot="icon" class="iconfont icon-qianbao1"></text>
 			</u-cell-item>
 			<u-cell-item title="积分商城" @click="handleJump" :index="2">
 				<text slot="icon" class="iconfont icon-shangcheng"></text>
 			</u-cell-item>
 		</u-cell-group>
 		<u-cell-group :border="false" class="cell-group">
-			<u-cell-item title="会员中心" @click="handleJump" :index="3"><text slot="icon" class="iconfont icon-tequan"></text></u-cell-item>
-			<u-cell-item title="我的发布" @click="handleJump" :index="4"><text slot="icon" class="iconfont icon-fabu"></text></u-cell-item>
-			<u-cell-item title="我的申请" @click="handleJump" :index="5"><text slot="icon" class="iconfont icon-aiqingyuehui"></text></u-cell-item>
+			<u-cell-item title="会员中心" @click="handleJump" :index="3"><text slot="icon" class="iconfont icon-huiyuan"></text></u-cell-item>
+			<u-cell-item title="我的发布" @click="handleJump" :index="4"><text slot="icon" class="iconfont icon-fabu1"></text></u-cell-item>
+			<u-cell-item title="我的申请" @click="handleJump" :index="5"><text slot="icon" class="iconfont icon-yaoqing"></text></u-cell-item>
 		</u-cell-group>
 		<u-cell-group :border="false" class="cell-group">
-			<u-cell-item title="匿名保护" @click="handleJump" :index="6"><text slot="icon" class="iconfont icon-iconset0114"></text></u-cell-item>
+			<u-cell-item title="匿名保护" @click="handleJump" :index="6"><text slot="icon" class="iconfont icon-baohu"></text></u-cell-item>
 			<u-cell-item title="设置" @click="handleJump" :index="7"><text slot="icon" class="iconfont icon-Setup"></text></u-cell-item>
 		</u-cell-group>
 		<!--  -->

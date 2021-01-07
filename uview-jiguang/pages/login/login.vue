@@ -269,6 +269,7 @@
 					username: data.account_number,
 					password: data.invite_code
 				}
+				console.log(imParams);
 				uni.showLoading({
 					title: 'IM登录中..',
 					mask: false

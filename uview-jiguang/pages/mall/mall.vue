@@ -31,6 +31,7 @@
 
 <script>
 import goodsItem from './goods-item.vue';
+
 export default {
 	data() {
 		return {

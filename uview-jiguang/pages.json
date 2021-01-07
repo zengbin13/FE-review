@@ -7,7 +7,33 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "邀约"
+				"navigationBarTitleText": "邀约",
+				"app-plus":{
+					"subNVues":[
+						 {//弹出层
+							"id": "invitePopup",
+							"path": "pages/index/subnvue/popup",
+							"style": {
+								"position": "absolute",
+								"margin":"0",
+								"width": "750rpx",
+								"height": "1rpx"
+						    }
+						}
+					]
+				}
+			}
+		},
+		{
+		"path": "pages/popup/popup-rel",
+			"style": {
+				"navigationStyle": "custom",
+				"backgroundColor": "transparent",
+				"app-plus": {
+					"animationType": "fade-in",
+					"background": "transparent",
+					"popGesture": "none"
+				}
 			}
 		},
 		{
@@ -367,6 +393,15 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "选择手机号归属地",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/release-invite/release-invite",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发布邀约",
                 "enablePullDownRefresh": false
             }
             

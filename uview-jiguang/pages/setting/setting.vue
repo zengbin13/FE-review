@@ -8,6 +8,10 @@
 			<u-button @tap="handleTap3">点击3</u-button>
 			<u-button @tap="logout">退出</u-button>
 		</view>
+		<view class="">
+			<button @click="open">打开弹窗</button>
+			<uni-popup ref="popup" type="bottom">底部弹出 Popup</uni-popup>
+		</view>
 	</view>
 </template>
 
@@ -19,6 +23,9 @@
 			};
 		},
 		methods:{
+			open(){
+				 this.$refs.popup.open()
+			 },
 			// 获取用户信息
 			async handleTap() {
 				let res = await this.$service.index.get_user_info();
