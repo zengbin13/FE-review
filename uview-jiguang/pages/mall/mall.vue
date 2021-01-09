@@ -26,6 +26,8 @@
 				</template>
 			</u-waterfall>
 		</view>
+		<!--引用组件-->
+		<u-skeleton :loading="loading" :animation="true" bgColor="#FFF"></u-skeleton>
 	</scroll-view>
 </template>
 
@@ -35,6 +37,7 @@ import goodsItem from './goods-item.vue';
 export default {
 	data() {
 		return {
+			loading: true,
 			showNavBg: false,
 			windowHeight: 0,
 			currentIndex: 0,

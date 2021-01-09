@@ -402,7 +402,10 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "发布邀约",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView": false
+				}
             }
             
         }

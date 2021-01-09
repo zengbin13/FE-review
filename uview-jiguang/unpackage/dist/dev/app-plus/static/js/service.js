@@ -9,6 +9,8 @@ const index = {
 	get_invite_list: params => http.request('GET', '/api/getDynamicList', params),
 	//  分类列表
 	cate_list: params => http.request('GET', '/api/getCateList', params),
+	// 发布邀约
+	release_dynamic: params => http.request('POST', '/api/issueDynamic', params, '加载中...'),
 }
 const login = {
 	//获取验证码

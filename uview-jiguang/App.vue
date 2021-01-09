@@ -443,4 +443,19 @@ page {
   width: 100%;
 }
 
+.upload {
+	background-color: $light-main-color;
+	width: 150rpx;
+	height: 150rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	// opacity: .9;
+	margin-left: 10rpx;
+	.iconfont {
+		color: #FFFFFF;
+		// font-weight: 600;
+		font-size: 60rpx;
+	}
+}
 </style>

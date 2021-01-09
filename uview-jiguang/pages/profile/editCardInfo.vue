@@ -52,7 +52,11 @@
 				</u-form-item>
 			</view> -->
 			<u-form-item label="照片墙">
-				<u-upload :action="upload.action" :header="upload.header" name="image" ref="uUpload" :file-list="fileList" width="120" height="120"></u-upload>
+				<u-upload :action="upload.action" :header="upload.header" name="image" ref="uUpload" :file-list="fileList" width="120" height="120" :source-type="['album']" del-bg-color="#ff7243" :custom-btn="true">
+					<view class="upload" slot="addBtn" style="width: 120rpx; height: 120rpx;">
+						<text class="iconfont icon-shangchuantupian7"></text>
+					</view>
+				</u-upload>
 			</u-form-item>
 			
 			<view class="line"></view>
@@ -214,7 +218,6 @@
 						header:this.upload.header
 					});
 					this.cardInfo.avatar = JSON.parse(avatarRes[1].data).data.url;
-					console.log(111, this.cardInfo.avatar);
 				}
 				// wall
 				let files = this.$refs.uUpload.lists.filter(val => {
