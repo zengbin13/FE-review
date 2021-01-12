@@ -31,10 +31,22 @@ const login = {
 	get_sms_code: params => http.request('GET', '/api/smsCode', params),
 }
 const mall = {
-	//商品数据
+	// 商品数据
 	get_goods_list: () => http.request('GET', '/api/getList'),
-	//商品分类
+	// 商品分类
 	get_goods_cart: () => http.request('GET', '/api/cateList'),
+	// 获取商品详情
+	get_goods_detail: params => http.request('GET', '/api/goods/details', params),
+	// 商品收藏
+	collect: params => http.request('GET', '/api/goods/collect', params),
+	// 取消商品收藏
+	un_collect: params => http.request('GET', '/api/goods/unCollect', params),
+	// 获取订单列表
+	order_list: params => http.request('GET', '/api/order/list', params),
+	// 提交商品信息
+	order_buy: params => http.request('POST', '/api/order/buy', params),
+	// 订单详情
+	order_detail: params => http.request('GET', '/api/order/details', params),
 }
 //im
 const im = {

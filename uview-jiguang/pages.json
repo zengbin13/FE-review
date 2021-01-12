@@ -409,6 +409,25 @@
             }
             
         }
+        ,{
+            "path" : "pages/mall/goods-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"type":"transparent",
+						"buttons": [ //原生标题栏按钮配置,
+							{
+								"type": "menu" 
+							}
+						]
+					}
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -4,6 +4,7 @@
 		@scroll="changeNavColor"
 		@scrolltolower="getGoodsList"
 		@refresherrefresh="onRefresh" 
+		class="u-skeleton"
 		>
 		<view class="nav-bg" v-show="showNavBg"  :style="{ backgroundColor: navBgColor }"></view>
 		<view class="carousel-section" :style="{ backgroundColor: curBgColor }">
@@ -11,33 +12,49 @@
 			<view class="titleNview-placing"></view>
 			<swiper class="swiper" :autoplay="true" :interval="3000" :duration="1500" circular="true" @change="changeCurIndex">
 				<swiper-item v-for="(item, index) in bannerList" :key="index">
-					<u-image :src="item.img" width="90%" mode="widthFix" class="swiper-item-img" border-radius="20" :fade="true" duration="300"></u-image>
+					<u-image :src="item.img" width="90%" mode="widthFix" class="swiper-item-img u-skeleton-fillet" border-radius="20" :fade="true" duration="300"></u-image>
 				</swiper-item>
 			</swiper>
 		</view>
+		<!-- 虚拟骨架屏 -->
+		<view class="skeleton-waterfall" v-if="loading">
+			<view class="left">
+				<view v-for="(goods, index) in skeletonGoodsList1" :key="index" class="waterfall-item">
+					<goods-item :goodsInfo="goods" class="goods-item u-skeleton-fillet" ::lazyLoad="false"></goods-item>
+				</view>
+			</view>
+			<view class="right">
+				<view v-for="(goods, index) in skeletonGoodsList2" :key="index" class="waterfall-item">
+					<goods-item :goodsInfo="goods" class="goods-item u-skeleton-fillet" ::lazyLoad="false"></goods-item>
+				</view>
+			</view>
+			
+		</view>
 		<!-- 商品 -->
 		<view class="goods-wrap">
-			<u-waterfall v-model="goodsList">
+			<u-waterfall v-model="goodsList" class="goods-wrap-water">
 				<template v-slot:left="{ leftList }">
-					<view v-for="(goods, index) in leftList" :key="index"><goods-item :goodsInfo="goods" class="goods-item"></goods-item></view>
+					<view v-for="(goods, index) in leftList" :key="index" class="waterfall-item">
+						<goods-item :goodsInfo="goods" class="goods-item u-skeleton-fillet" :lazyLoad="index > 3"></goods-item>
+					</view>
 				</template>
 				<template v-slot:right="{ rightList }">
-					<view v-for="(goods, index) in rightList" :key="index"><goods-item :goodsInfo="goods" class="goods-item"></goods-item></view>
+					<view v-for="(goods, index) in rightList" :key="index" class="waterfall-item"><goods-item :goodsInfo="goods" class="goods-item u-skeleton-fillet" :lazyLoad="index > 3"></goods-item></view>
 				</template>
 			</u-waterfall>
 		</view>
-		<!--引用组件-->
+		<!--骨架屏-->
 		<u-skeleton :loading="loading" :animation="true" bgColor="#FFF"></u-skeleton>
 	</scroll-view>
 </template>
 
 <script>
 import goodsItem from './goods-item.vue';
-
+let timer = null;
 export default {
 	data() {
 		return {
-			loading: true,
+			loading: true,	
 			showNavBg: false,
 			windowHeight: 0,
 			currentIndex: 0,
@@ -58,6 +75,42 @@ export default {
 				}
 			],
 			goodsList: [],
+			skeletonGoodsList1: [
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall1.jpg",
+					title: "纪梵希"
+				},
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall2.jpg",
+					title: "纪梵希"
+				},
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall3.jpg",
+					title: "纪梵希"
+				},
+				
+			],
+			skeletonGoodsList2: [
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall5.jpg",
+					title: "纪梵希"
+				},
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall6.jpg",
+					title: "纪梵希"
+				},
+				{
+					cate_name: "纪梵希",
+					image: "../../static/images/mall/mall4.jpg",
+					title: "纪梵希"
+				},
+				
+			],
 			goodsCount: 0
 		};
 	},
@@ -65,6 +118,10 @@ export default {
 		let systemInfo = uni.getSystemInfoSync();
 		this.windowHeight = systemInfo.windowHeight;
 		this.init();
+	},
+	onUnload() {
+		clearTimeout(timer)
+		timer = null
 	},
 	//点击导航栏 buttons 时触发
 	onNavigationBarButtonTap(e) {
@@ -92,6 +149,9 @@ export default {
 		//获取商品数据
 		async getGoodsList() {
 			let res = await this.$service.mall.get_goods_list();
+			timer = setTimeout(() => {
+				this.loading = false;
+			}, 1000)
 			this.goodsCount = res.data.count;
 			this.goodsList = [...this.goodsList, ...res.data.data];
 		},
@@ -147,13 +207,36 @@ page {
 	}
 }
 .goods-wrap {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	padding: 0 20rpx;
+	.goods-wrap-water {
+		display: flex;
+		justify-content: space-evenly;
+		padding: 0 20rpx;
+	}
+	.waterfall-item {
+		width: 45vw;
+		display: flex;
+		justify-content: center;
+		margin-left: 8rpx;
+	}
 	.goods-item {
-		width: 95%;
-		margin: 15rpx 0;
+		width: 100%;
+		min-height: 300rpx;
+		margin: 15rpx 0rpx;
+	}
+}
+// 骨架屏
+.skeleton-waterfall {
+	padding: 0 20rpx;
+	display: flex;
+	justify-content: space-evenly;
+	.left, .right {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		width: 50vw;
+		.waterfall-item {
+			margin: 15rpx 8rpx;
+		}
 	}
 }
 </style>

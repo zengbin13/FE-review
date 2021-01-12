@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types"
+import eventBus from '../utils/eventBus'
+
 
 
 export default class Test1 extends Component {
@@ -12,6 +14,16 @@ export default class Test1 extends Component {
         <ChildComF></ChildComF>
       </div>
     )
+  }
+  componentDidMount() {
+    eventBus.addListener('test15', (message, num) => {
+      console.log('监听到事件test15', message, num);
+    })
+  }
+  componentWillUnmount() {
+    eventBus.removeListener('test15', (message, num) => {
+      console.log('监听到事件test15', message, num);
+    })
   }
 }
 

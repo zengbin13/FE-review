@@ -1,12 +1,13 @@
 <template>
-	<view class="goods-item">
+	<view class="goods-item" @tap="enterGoodsDetail()">
 		<view class="img-wrap">
 			<text>已换购{{goodsInfo.sold_number}}件</text>
-			<image :src="goodsInfo.image" mode="widthFix"  class="img"></image>
+			<u-lazy-load :image="goodsInfo.image"  :loading-img="loadingImg" class="img" v-if="lazyLoad"></u-lazy-load>
+			<u-image :src="goodsInfo.image" mode="widthFix" class="img" v-else></u-image>
 		</view>
 		<view class="title">
 			<text class="brand">{{goodsInfo.brand_name}}</text>
-			{{goodsInfo.title}}
+			<text>{{goodsInfo.title}}</text>
 		</view>
 	</view>
 </template>
@@ -15,17 +16,24 @@
 	export default {
 		data() {
 			return {
-				
+				loadingImg: "../../static/images/mall/loading.gif"
 			}
 		},
 		props: {
 			goodsInfo: {
 				type: Object,
 				required: true,
+			},
+			lazyLoad: {
+				default: false
 			}
 		},
 		methods:{
-			
+			enterGoodsDetail() {
+				uni.navigateTo({
+					url: `./goods-detail?id=${this.goodsInfo.gid}`
+				})
+			}
 		}
 	}
 </script>

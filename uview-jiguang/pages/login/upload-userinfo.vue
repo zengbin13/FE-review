@@ -1,5 +1,5 @@
 <template>
-	<view class="upload">
+	<view class="upload-info">
 		<view class="header">
 			<u-image :src="avatar" width="160" height="160" shape="circle" class="avatar" v-if="avatar" @tap="uploadAvatar"></u-image>
 			<text class="iconfont icon-nv" v-if="gender === 2 && !avatar" @tap="uploadAvatar"></text>
@@ -140,7 +140,7 @@
 </script>
 
 <style lang="scss" scoped>
-.upload {
+.upload-info {
 	overflow: hidden;
 }
 .header {
