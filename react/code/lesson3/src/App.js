@@ -16,6 +16,7 @@ import Test14 from './pages/14_render函数-shouldCompoentUpdate'
 import Test15 from './pages/15_跨组件通信_events'
 import Test16 from './pages/16_使用ref'
 import Test17 from './pages/17_受控组件'
+import Test18 from './pages/18_状态提升'
 
 
 export default class App extends Component {
@@ -59,6 +60,8 @@ export default class App extends Component {
         <Test16></Test16>
         <hr />
         <Test17></Test17>
+        <hr />
+        <Test18></Test18>
       </div>
     )
   }
