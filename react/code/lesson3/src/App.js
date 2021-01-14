@@ -17,6 +17,12 @@ import Test15 from './pages/15_跨组件通信_events'
 import Test16 from './pages/16_使用ref'
 import Test17 from './pages/17_受控组件'
 import Test18 from './pages/18_状态提升'
+import Test19 from './pages/19_高阶组件props增强'
+import Test20 from './pages/20_高阶组件props增强_context'
+import Test21 from './pages/21_高级组件_登录鉴权'
+import Test22 from './pages/22_高阶组件_生命周期劫持'
+import Test23 from './pages/23_ref转发'
+import Test24 from './pages/24_portal使用'
 
 
 export default class App extends Component {
@@ -62,6 +68,18 @@ export default class App extends Component {
         <Test17></Test17>
         <hr />
         <Test18></Test18>
+        <hr />
+        <Test19></Test19>
+        <hr />
+        <Test20></Test20>
+        <hr />
+        <Test21></Test21>
+        <hr />
+        <Test22></Test22>
+        <hr />
+        <Test23></Test23>
+        <hr />
+        <Test24></Test24>
       </div>
     )
   }
