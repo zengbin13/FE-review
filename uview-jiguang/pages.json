@@ -428,6 +428,39 @@
             }
             
         }
+        ,{
+            "path" : "pages/mall/submit-order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提交订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mall/address-manage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "收货地址-管理",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/mall/edit-address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "收货地址-编辑",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

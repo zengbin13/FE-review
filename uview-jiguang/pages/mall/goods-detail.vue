@@ -55,7 +55,7 @@
 		<u-popup v-model="skuShow" mode="bottom" closeable border-radius="20">
 			<view class="sku" v-if="sku.length">
 				<view class="goods-info">
-					<u-image :src="cur.curImage[0]" width="200" height="200" class="goods-image" @tap="previewCurImage"></u-image>
+					<u-image :src="cur.curImage[0]" width="200" height="200" @tap="previewCurImage"></u-image>
 					<view class="info">
 						<text class="price">￥ <text>{{sku[curSku].price}}</text></text>
 						<text class="stock">库存: {{sku[curSku].stock}}</text>
@@ -83,6 +83,7 @@
 						size="medium" 
 						:ripple="true" 
 						class="buy-btn"
+						@tap="submitOrder"
 					>确定</u-button>
 				</view>
 			</view>
@@ -109,6 +110,9 @@
 		onLoad(options) {
 			this.id = options.id
 			this.getGoodsDetail(options.id)
+			uni.setNavigationBarTitle({
+				title: options.title || '商品详情'
+			})
 		},
 		methods: {
 			// 获取商品详情
@@ -149,6 +153,13 @@
 				uni.previewImage({
 					urls:this.cur.curImage
 				})
+			},
+			// 提交订单
+			submitOrder() {
+				const orderInfo = JSON.stringify(this.cur)
+				uni.navigateTo({
+					url: `./submit-order?orderInfo=${orderInfo}`
+				})
 			}
 		},
 		computed:{
@@ -159,7 +170,10 @@
 				return {
 					curTitle: this.sku[this.curSku].difference[0],
 					curImage: [ this.infoList[0].property_list[this.curSku].image ],
-					curNumber: this.number
+					curNumber: this.number,
+					curPrice: this.sku[this.curSku].price,
+					title: this.goodsDetail.title,
+					stock: this.sku[this.curSku].stock
 				}
 			}
 		}

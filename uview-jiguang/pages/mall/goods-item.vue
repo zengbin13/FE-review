@@ -31,7 +31,7 @@
 		methods:{
 			enterGoodsDetail() {
 				uni.navigateTo({
-					url: `./goods-detail?id=${this.goodsInfo.gid}`
+					url: `./goods-detail?id=${this.goodsInfo.gid}&title=${this.goodsInfo.title}`
 				})
 			}
 		}

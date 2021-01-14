@@ -47,13 +47,19 @@ const mall = {
 	order_buy: params => http.request('POST', '/api/order/buy', params),
 	// 订单详情
 	order_detail: params => http.request('GET', '/api/order/details', params),
+	//添加地址
+	add_address: params => http.request('POST', '/api/address/add', params),
+	//地址列表
+	get_address_list: params => http.request('GET', '/api/address/getList', params),
+	//修改地址
+	edit_address: params => http.request('POST', '/api/address/edit', params),
 }
 //im
 const im = {
 	//获取好友列表
 	get_friend_list: params => http.request('GET', '/im/getFriendList', params),
 	//发送文件信息
-	send_file_msg: (params) => http.request('POST', '/im/sendFileMsg', params),
+	send_file_msg: params => http.request('POST', '/im/sendFileMsg', params),
 	//发送文字消息
 	sendMessage: params => http.request('POST', '/im/sendMessage', params),
 	//获取资料卡
