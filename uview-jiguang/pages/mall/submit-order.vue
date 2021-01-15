@@ -37,7 +37,10 @@
 		</view>
 		<view class="address-line line">
 			<text class="iconfont icon-dizhi"></text>
-			<text class="address" @tap="enterAddress">请选择地址<text class="iconfont icon-icon-right"></text></text>
+			<text class="address" @tap="enterAddress">{{curAddress}}<text class="iconfont icon-icon-right"></text></text>
+		</view>
+		<view class="tip">
+			<text class="iconfont icon-weixian"></text>积分商品一旦兑换概不退还, 请检查订单防止填写有误
 		</view>
 		
 		<view class="pay-order">
@@ -78,6 +81,17 @@
 				uni.navigateTo({
 					url:'./address-manage'
 				})
+			}
+		},
+		computed: {
+			curAddress() {
+				let address = this.$store.state.address
+				const flag = Object.keys(address)
+				if(!flag.length) {
+					return '请选择地址'
+				} else {
+					return address.province_name + address.city_name + address.area_name + address.address
+				}
 			}
 		}
 	}
@@ -128,7 +142,7 @@
 		align-items: center;
 		justify-content: space-between;
 		text:first-child {
-			font-weight: 600;
+			font-weight: bold;
 			font-size: 30rpx;
 		}
 		text:last-child {
@@ -175,6 +189,19 @@
 			}
 		}
 	}
+	.tip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24rpx;
+		padding: 30rpx 0;
+		text-align: center;
+		color: $sec-font-color;
+		line-height: 64rpx;
+		.iconfont {
+			padding-right: 20rpx;
+		}
+	}
 	.pay-order {
 		position: fixed;
 		left: 0;
@@ -191,7 +218,7 @@
 			text {
 				color: $main-color;
 				padding: 0 5rpx;
-				font-weight: 600;
+				font-weight: bold;
 			}
 		}
 		.btn {

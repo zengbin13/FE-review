@@ -14,6 +14,7 @@ const store = new Vuex.Store({
 		userInfo: {},
 		cardInfo: {},
 		areaCode: 86,
+		address: {},
 		// im
 		hasLogin: false,
 		loginProvider: "", // 用户名或其他唯一值
@@ -62,7 +63,11 @@ const store = new Vuex.Store({
 		changeAreaCode(state, value) {
 			state.areaCode = value
 		},
-		
+		// 修改地址
+		changeAddress(state, value) {
+			state.address = value
+			uni.setStorageSync('address', value)
+		},
 		
 		
 		//im登录

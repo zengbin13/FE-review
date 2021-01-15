@@ -53,6 +53,8 @@ const mall = {
 	get_address_list: params => http.request('GET', '/api/address/getList', params),
 	//修改地址
 	edit_address: params => http.request('POST', '/api/address/edit', params),
+	// 删除地址
+	del_address: params => http.request('GET', '/api/address/del', params),
 }
 //im
 const im = {
