@@ -164,6 +164,9 @@
 	}
 	.content {
 		flex: 1;
+		min-width: 600rpx;
+		display: flex;
+		flex-direction: column;
 		padding-top: 10rpx;
 		.top {
 			font-size: 32rpx;

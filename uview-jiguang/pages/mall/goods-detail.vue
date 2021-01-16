@@ -173,7 +173,9 @@
 					curNumber: this.number,
 					curPrice: this.sku[this.curSku].price,
 					title: this.goodsDetail.title,
-					stock: this.sku[this.curSku].stock
+					stock: this.sku[this.curSku].stock,
+					gid: this.sku[this.curSku].gid,
+					id: this.sku[this.curSku].id,
 				}
 			}
 		}

@@ -304,7 +304,10 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "钱包",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": true,
+				"app-plus":{
+					"titleNView": false
+				}
             }
             
         }
