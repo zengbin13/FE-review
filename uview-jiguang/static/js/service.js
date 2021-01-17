@@ -103,6 +103,8 @@ const profile = {
 	invite_list: params => http.request('GET', '/api/getDynamicList', params, '加载中...'),
 	// 添加访客数据
 	set_visitlog: params => http.request('POST', '/api/getVisitLog', params),
+	// 消费明细 getUserBalanceLog
+	get_balance_log: params => http.request('GET', '/api/getUserBalanceLog', params),
 }
 
 export default {
