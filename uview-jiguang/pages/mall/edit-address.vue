@@ -1,6 +1,6 @@
 <template>
 	<view class="edit">
-		<u-navbar :title="title">
+		<u-navbar :title="title" back-icon-color="#ff7243">
 			<view slot="right" class="save" @tap="handleSave">保存</view>
 		</u-navbar>
 		<view class="address">

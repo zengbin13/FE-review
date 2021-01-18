@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="编辑资料">
+		<u-navbar title="编辑资料" back-icon-color="#ff7243">
 			<view slot="right" class="save" @tap="handleSave">保存</view>
 		</u-navbar>
 		<!-- 资料完成度 -->

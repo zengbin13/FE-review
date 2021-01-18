@@ -344,7 +344,10 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "匿名",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+								"app-plus": {
+									"titleNView": false
+								}
             }
             
         }

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="收货地址-管理">
+		<u-navbar title="收货地址-管理" back-icon-color="#ff7243">
 			<view slot="right" class="add" @tap="addAddress">新增</view>
 		</u-navbar>
 		<view class="loading">
