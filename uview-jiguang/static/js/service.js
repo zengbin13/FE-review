@@ -106,11 +106,27 @@ const profile = {
 	// 消费明细 getUserBalanceLog
 	get_balance_log: params => http.request('GET', '/api/getUserBalanceLog', params),
 }
+const square = {
+	// 发布广场 
+	release_square: params => http.request('POST', '/api/square/release', params, '加载中...'),
+	// 动态标签
+	get_tag_list: () => http.request('GET', '/api/getTagList'),
+	// 广场列表
+	get_square_list: params => http.request('GET', '/api/square/get/content/list', params, '加载中...'),
+	// 点赞动态 
+	like_square: params => http.request('POST', '/api/square/like', params),
+}
+const common = {
+	// 上传文件
+	upload_file: params => http.request('POST', '/api/uploadFile', params, '加载中...'),
+}
 
 export default {
 	login,
 	index,
 	mall,
 	im,
-	profile
+	profile,
+	square,
+	common
 }

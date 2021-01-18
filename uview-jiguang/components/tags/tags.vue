@@ -2,8 +2,14 @@
 	<view class="tags" :style="{'font-size': size * 20 + 'px'}">
 		<!-- 性别 -->
 		<view v-if="sex" class="sex">
+			<!-- #ifdef APP-NVUE -->
 			<text v-if="sex === 1" class="iconfont icon-nan1">&#xe628;</text>
 			<text v-if="sex === 2" class="iconfont icon-nv1">&#xe615;</text>
+			<!-- #endif -->
+			<!-- #ifndef APP-NVUE -->
+			<text v-if="sex === 1" class="iconfont icon-nan1"></text>
+			<text v-if="sex === 2" class="iconfont icon-nv1"></text>
+			<!-- #endif -->
 		</view>
 		<!-- 年龄 -->
 		<text v-if="ageFormat && ageFormat > 0" class="age" :class="[sex === 1 ? 'age1' : 'age2']">{{ageFormat}}岁</text>
@@ -47,13 +53,24 @@
 		border-radius: 50%;
 		margin: 0 10rpx;
 	}
+	/* #ifdef APP-NVUE */
 	.icon-nan1 {
 		background-color: #63bcfa;
 	}
 	.icon-nv1 {
 		background-color: #f76e79;
 	}
-	
+	/* #endif */
+	/* #ifndef APP-NVUE */
+	.icon-nan1 {
+		background-color: #63bcfa;
+		padding: 6rpx;
+	}
+	.icon-nv1 {
+		background-color: #f76e79;
+		padding: 6rpx;
+	}
+	/* #endif */
 	.tags {
 		display: flex;
 		flex-direction: row;

@@ -73,11 +73,12 @@
 							<view class="remark">{{item.remark}}</view>
 							<view class="time">{{item.ctime_t}}</view>
 						</view>
-						<view class="money">
-							{{item.change}}
+						<view class="money" :class="[Number(item.before) > Number(item.after) ? 'minus-color' : 'plus-color']">
+							{{item.change | filterChange}}
 						</view>
 					</view>
 				</view>
+				<u-loadmore :status="status" v-if="count"/>
 		</view>
 	</view>
 </template>
@@ -91,11 +92,19 @@
 				page: 1,
 				count: 0,
 				balanceList: [],
-				loading: true
+				loading: true,
+				status: 'loadmore'
 			}
 		},
 		onLoad() {
 			this.init()
+		},
+		onPullDownRefresh() {
+			this.init()
+			uni.stopPullDownRefresh()
+		},
+		onReachBottom() {
+			this.balanceLog()
 		},
 		methods: {
 			async init() {
@@ -111,14 +120,24 @@
 			},
 			async balanceLog() {
 				let params = {
-					limit: 20,
+					limit: 15,
 					page: this.page
+				}
+				this.status = 'loading'
+				if(this.count <= this.balanceList.length && this.count !== 0) {
+					this.status = 'nomore'
+					return
 				}
 				let res = await this.$service.profile.get_balance_log(params)
 				this.count = res.data.count
 				this.loading = false
-				this.balanceList = [this.balanceList, ...res.data.data]
+				this.status = 'loadmore'
+				this.balanceList = [...this.balanceList, ...res.data.data]
 				console.log(this.balanceList);
+				this.page += 1;
+			},
+			explain() {
+				
 			}
 		},
 		computed:{
@@ -136,13 +155,23 @@
 					return '永久'
 				}
 			}
+		},
+		filters:{
+			filterChange(value) {
+				if (!value) return ''
+				if(value.indexOf('-') === -1) {
+					return '+' + value
+				} else {
+					return value
+				}
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	page {
-		background-color: #FFFFFF;
+		background-color: #FFFFFF !important;
 	}
 	.right {
 		margin-right: 30rpx;
@@ -194,7 +223,7 @@
 			}
 			.btn {
 				background-color: #FFFFFF;
-				font-size: 34rpx;
+				font-size: 32rpx;
 				color: #ff8560;
 				padding: 5rpx 20rpx;
 				border-radius: 30rpx;
@@ -258,7 +287,7 @@
 	}
 	.balance-log {
 		.loading {
-			padding: 30rpx;
+			margin: 30rpx 0;
 			text-align: center;
 		}
 		.empty {
@@ -291,6 +320,13 @@
 				color: $sec-font-color;
 				margin-bottom: 10rpx;
 			}
+			.minus-color {
+				color: $female-color;
+			}
+			.plus-color {
+				color: $male-color;
+			}
+		
 		}
 	}
 </style>

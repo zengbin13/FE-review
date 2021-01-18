@@ -15,6 +15,7 @@ const store = new Vuex.Store({
 		cardInfo: {},
 		areaCode: 86,
 		address: {},
+		tag: {},
 		// im
 		hasLogin: false,
 		loginProvider: "", // 用户名或其他唯一值
@@ -68,8 +69,11 @@ const store = new Vuex.Store({
 			state.address = value
 			uni.setStorageSync('address', value)
 		},
-		
-		
+		//修改话题
+		changeTag(state, value) {
+			state.tag = value
+			uni.setStorageSync('tag', value)
+		},
 		//im登录
 		login(state, val) {
 			// 不去登录接口获取用户资料并赋值，是因为信息同步是异步的，可能还没同步下来（官方答案）

@@ -305,6 +305,7 @@
             {
                 "navigationBarTitleText": "钱包",
                 "enablePullDownRefresh": true,
+				"backgroundColor":"#FFFFFF",
 				"app-plus":{
 					"titleNView": false
 				}
@@ -464,6 +465,42 @@
             }
             
         }
+        ,{
+            "path" : "pages/square/square",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "广场",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/square/release-square/release-square",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发布广场",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/square/release-square/choose-tag",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "选择话题",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -488,6 +525,12 @@
 				"iconPath": "static/center.png",
 				"selectedIconPath": "static/center-selected.png",
 				"text": "商城"
+			},
+			{
+				"pagePath": "pages/square/square",
+				"iconPath": "static/center.png",
+				"selectedIconPath": "static/center-selected.png",
+				"text": "广场"
 			},
 			{
 				"pagePath": "pages/im/im",

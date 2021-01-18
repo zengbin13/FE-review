@@ -20,7 +20,7 @@
 			</view>
 		</view>
 		<!-- admin消息 -->
-		<view class="admin" v-for="(admin, index) in adminList" :key="admin.title">
+		<view class="admin" v-for="(admin, index) in adminList" :key="admin.title" @click="adminToSingleChat(index)">
 			<view class="avatar">
 				<view class="t-icon t-icon-shequhudong" v-if="admin.target.username === 'admin002'"></view>
 				<view class="t-icon t-icon-xitongxiaoxi" v-else></view>
@@ -284,6 +284,23 @@
 				});
 				return newItems;
 			},
+			// 创建admin会话
+			adminToSingleChat: function(index) {
+				let item = this.adminList[index];
+				let title = item.nickname ? item.nickname : item.nickname;
+				if (item.conversationType == "single") {
+					// 单聊会话
+					let title = item.target.nickname ? item.target.nickname : item.target.username;
+					uni.navigateTo({
+						url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
+					});
+				} else if (item.conversationType == "group") {
+					// 群聊会话
+					uni.navigateTo({
+						url: './im-chat/im-chat-group?groupId=' + item.target.id + '&title=' + item.target.name
+					});
+				}
+			},
 			// 创建会话
 			skipToSingleChat: function(index) {
 				let item = this.lists[index];
@@ -301,8 +318,7 @@
 					});
 				}
 			},
-		
-			}
+		}
 	}
 </script>
 
