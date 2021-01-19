@@ -119,6 +119,15 @@ const square = {
 	get_square_list: params => http.request('GET', '/api/square/get/content/list', params, '加载中...'),
 	// 点赞动态 
 	like_square: params => http.request('POST', '/api/square/like', params),
+	// 动态评论 
+	square_comment: params => http.request('POST', '/api/square/comment', params),
+	// 评论列表 
+	get_comment: params => http.request('GET', '/api/square/get/comment', params),
+	// 添加回复
+	reply_comment: params => http.request('POST', '/api/square/comment/reply', params),
+	// 回复列表
+	reply_list: params => http.request('GET', '/api/square/get/comment/reply', params),
+	// 
 }
 const common = {
 	// 上传文件

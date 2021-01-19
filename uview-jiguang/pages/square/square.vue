@@ -6,7 +6,7 @@
 			</view>
 		</u-navbar>
 		<view class="square-wrap">
-			<square-item v-for="(item, index) in squareList" :squareInfo="item" :tags="tagList"></square-item>
+			<square-item v-for="(item, index) in squareList" :squareInfo="item" :enter="true" :mode="1"></square-item>
 		</view>
 	</view>
 </template>
@@ -48,7 +48,8 @@
 				uni.navigateTo({
 					url: './release-square/release-square'
 				})
-			}
+			},
+			
 		},
 		components:{
 			squareItem

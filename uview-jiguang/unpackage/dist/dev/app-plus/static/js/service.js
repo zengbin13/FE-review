@@ -105,6 +105,10 @@ const profile = {
 	set_visitlog: params => http.request('POST', '/api/getVisitLog', params),
 	// 消费明细 getUserBalanceLog
 	get_balance_log: params => http.request('GET', '/api/getUserBalanceLog', params),
+	// 获取隐私设置
+	get_privacy: () => http.request('POST', '/api/getUserPrivacy'),
+	// 修改隐私设置
+	set_privacy: params => http.request('POST', '/api/saveUserPrivacy', params),
 }
 const square = {
 	// 发布广场 
@@ -115,6 +119,15 @@ const square = {
 	get_square_list: params => http.request('GET', '/api/square/get/content/list', params, '加载中...'),
 	// 点赞动态 
 	like_square: params => http.request('POST', '/api/square/like', params),
+	// 动态评论 
+	square_comment: params => http.request('POST', '/api/square/comment', params),
+	// 评论列表 
+	get_comment: params => http.request('GET', '/api/square/get/comment', params),
+	// 添加回复
+	reply_comment: params => http.request('POST', '/api/square/comment/reply', params),
+	// 回复列表
+	reply_list: params => http.request('GET', '/api/square/get/comment/reply', params),
+	// 
 }
 const common = {
 	// 上传文件

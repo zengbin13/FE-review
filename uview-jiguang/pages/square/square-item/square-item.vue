@@ -24,7 +24,7 @@
 			</view>
 		</view>
 		<!-- 内容区域 -->
-		<view class="content-wrap">
+		<view class="content-wrap" @tap="enterSquareDetail">
 			<text class="content-txt">{{squareInfo.content}}</text>
 			<view class="content-img-wrap" v-if="squareInfo.ncftpput.length">
 				<u-image v-for="(img, index) in squareInfo.ncftpput" class="content-img" :src="img.accesspath" :width="330" :height="330" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
@@ -33,7 +33,7 @@
 			</view>
 		</view>
 		<!-- 标签区域 -->
-		<view class="tag-wrap">
+		<view class="tag-wrap" @tap="enterSquareDetail">
 			<view class="location tag">
 				<text class="iconfont icon-dingwei3"></text>
 				{{squareInfo.areas_name}}
@@ -43,10 +43,17 @@
 				{{tagName}}
 			</view>
 		</view>
+		<!-- 评论列表 -->
+		<view class="comment-list" v-if="squareInfo.comment_list.length && mode === 1" @tap="enterSquareDetail">
+			<view class="comment-item" v-for="(item, index) in squareInfo.comment_list">
+				<text class="nickname">{{item.nickname}} :</text>
+				<text class="content">{{item.content}}</text>
+			</view>
+		</view>
 		<!-- 评论区域 -->
 		<view class="comment-wrap">
-			<text class="text">有新的评论</text>
-			<!-- <text>{{squareInfo.beforetime}}前</text> -->
+			<text class="text" @tap="enterSquareDetail" v-if="squareInfo.comment_count">有新的评论</text>
+			<text class="text" v-else>{{squareInfo.beforetime}}前</text>
 			<view class="tag">
 				<text class="iconfont icon-weibiaoti-"></text>
 				{{squareInfo.comment_count}}
@@ -66,9 +73,13 @@
 				type: Object,
 				require: true
 			},
-			tags: {
-				type: Array,
-				require: true
+			enter: {
+				type: Boolean,
+				default: false
+			},
+			mode: {
+				type: Number,
+				default: 0
 			}
 		},
 		data() {
@@ -92,6 +103,15 @@
 					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})
 			},
+			// 进入动态详情
+			enterSquareDetail() {
+				if(!this.enter) return false
+				let currentSquare = JSON.stringify(this.squareInfo)
+				uni.navigateTo({
+					url: `./square-details/square-details?squareInfo=${currentSquare}`
+				})
+			},
+			// 点赞
 			async likeSquare() {
 				let state = this.squareInfo.is_like ? 0 : 1
 				let params = {
@@ -121,8 +141,7 @@
 			},
 			tagName() {
 				if(!this.squareInfo.tag_id) return false
-				let id = this.squareInfo.tag_id - 2
-				return this.tags[id].title.substring(1)
+				return this.squareInfo.tag_desc.substring(1)
 			}
 		},
 	}
@@ -194,12 +213,34 @@
 			padding-right: 4rpx;
 		}
 	}
+	.comment-list {
+		margin: 20rpx 10rpx;
+		border-left: 8rpx solid $light-main-color;
+		padding-left: 10rpx;
+		font-size: 26rpx;
+		.comment-item {
+			display: flex;
+			align-items: center;
+		}
+		.nickname {
+			color: #bfbfbf;
+		}
+		.content {
+			flex: 1;
+			display: inline-block;
+			padding-left: 10rpx;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
 	.comment-wrap {
 		display: flex;
 		color: #bfbfbf;
 		margin-bottom: 10rpx;
 		.text {
 			flex: 1;
+			font-size: 26rpx;
 		}
 		.tag {
 			width: 100rpx;

@@ -504,6 +504,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/square/square-details/square-details",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "动态详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
