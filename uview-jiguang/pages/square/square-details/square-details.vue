@@ -3,48 +3,48 @@
 		<square-item :squareInfo="squareInfo"></square-item>
 		<!-- 评论区域 -->
 		<view class="comment-wrap">
-			<view class="title">评论</view>
-			<view class="comment-item" v-for="(item, index) in commentList">
-				<view class="info-line">
-					<u-image :src="item.user_info.avatar" width="60" height="60" shape="circle"></u-image>
-					<text class="name" @tap="reply(index)">{{item.user_info.nickname}}</text>
-					<text class="time">{{$u.timeFrom(Date.parse(item.ctime))}}</text>	
-				</view>
-				<view class="content">
-					{{item.content}}
-				</view>
+			<view class="title">
+				<text>评论</text>
+				<text class="iconfont icon-liaotian2" @click="comment"></text>
 			</view>
+			<!-- empty -->
+			<view class="loading">
+				<u-loading mode="circle" color="#ff7243" size="42" :show="loading" ></u-loading>
+			</view>
+			<view v-if="commentList.length === 0 && !loading" class="empty">
+				<image 
+					src="@/static/images/empty/empty2.png" 
+					mode="widthFix" 
+					class="empty-img"></image>
+				<text class="empty-txt">暂无评论</text>
+			</view>
+			<comment-item v-for="(item, index) in commentList" :commentInfo="item" @reply="reply(index)" :key="item.id"></comment-item>
 		</view>
-		<!-- 底部输入栏 -->
-		<view class="input-box">
-			<view class="anonymity">
-				<text class="iconfont icon-nimingfuwu1"></text>
-				{{anonymity ? '匿名' : '公开'}}
-			</view>
-			<view class="text-box">
-				<textarea auto-height="true" cursor-spacing="10" v-model="commentMsg" @focus="textareaFocus" class="input" :placeholder="placeholder" confirm-type="send" :focus="focus"/>
-			</view>
-			<view class="send" :class="{'send-active': commentMsg}" @tap="send">
-				发送
-			</view>
-		</view>
+		<!-- 底部输入 -->
+		<square-input :commentMsg.sync="commentMsg" :placeholder="placeholder" :focus="focus" @send="send"></square-input>
+		<!-- 加载更多 -->
+		<!-- <u-loadmore :status="status" /> -->
 	</view>
 </template>
 
 <script>
 	import squareItem from '../square-item/square-item.vue'
+	import commentItem from '../comment-item/comment-item.vue'
+	import squareInput from '../square-input/square-input.vue'
 	export default {
 		data() {
 			return {
+				userInfo: {},
+				loading: true,
+				status: 'loadmore',
 				squareInfo: {},
-				anonymity: 0,
 				commentMsg: '',
 				page: 1,
 				count: 0,
 				commentList: [],
 				focus: false,
 				placeholder: '说点好听的',
-				replyIndex: 0
+				replyIndex: 0,
 			};
 		},
 		onLoad(options) {
@@ -52,14 +52,36 @@
 			uni.setNavigationBarTitle({
 				title: this.squareInfo.nickname
 			})
+			uni.getStorage({
+				key:'userInfo',
+				success: (value) => {
+					this.userInfo = value.data
+				}
+			})
 			console.log(this.squareInfo);
-			
-			
+			this.getComment()
+			this.seeComment()
+		},
+		onPullDownRefresh() {
+			this.commentList = []
+			this.count = 0
+			this.page = 1
+			this.loading = true
+			this.getComment()
+			uni.stopPullDownRefresh()
+		},
+		onReachBottom() {
+			this.loading = true
+			this.page += 1
 			this.getComment()
 		},
-		methods:{
-			textareaFocus() {
-				
+		methods:{			
+			// 查看动态
+			async seeComment() {
+				let params = {
+					content_id: this.squareInfo.id,
+				}
+				let res = await this.$service.square.see_comment(params)
 			},
 			// 获取评论 
 			async getComment() {
@@ -72,35 +94,47 @@
 				console.log(res.data.data);
 				this.commentList = [...this.commentList, ...res.data.data]
 				this.count = res.data.count
+				this.loading = false
 			},
 			// 发送
-			send() {
-				if(this.placeholder === '说点好听的') {
-					this.releaseComment()
-				} else {
-					this.replyComment()
+			send(mode, anonymity) {
+				if(mode === 0) {
+					this.releaseComment(anonymity)
+				} 
+				if(mode === 1) {
+					this.replyComment(anonymity)
 				}
 			},
+			// 评论-输入
+			comment() {
+				this.focus = true
+				this.placeholder = '说点好听的'
+			},
 			// 发布评论
-			async releaseComment() {
+			async releaseComment(anonymity) {
 				if(!this.commentMsg) return false
 				let params = {
 					content_id: this.squareInfo.id,
 					content: this.commentMsg,
-					anonymity: this.anonymity
+					anonymity: anonymity
 				}
 				let res = await this.$service.square.square_comment(params)
 				console.log(res);
 				if(res.data.code === 0) {
 					let newComment = {
 						content: this.commentMsg,
-						ctime: this.$u.timeFrom(Date.now()),
+						ctime: Date.now(),
+						id: Date.now(),
+						anonymity: anonymity,
 						user_info: {
-							nickname:  this.$store.state.userInfo.nickname,
-							avatar:  this.$store.state.userInfo.avatar,
+							nickname:  this.userInfo.nickname,
+							avatar:  this.userInfo.avatar,
+							sex: this.userInfo.sex,
 						}
 					}
+					console.log(newComment);
 					this.commentList.push(newComment)
+					console.log(this.commentList);
 					this.commentMsg = ''
 				}
 			},
@@ -111,100 +145,72 @@
 				let comment = this.commentList[index]
 				this.placeholder = '回复' + comment.user_info.nickname + ':'
 			},
-			//回复评论
-			async replyComment() {
+			//发布回复
+			async replyComment(anonymity) {
 				let comment = this.commentList[this.replyIndex]
 				let params = {
-					content: comment.content,
+					content: this.commentMsg,
 					comment_id: comment.id,
-					reply_id: comment.content_id,
-					anonymity: this.anonymity
+					// reply_id: comment.content_id,
+					anonymity: anonymity
 				}
 				let res = await this.$service.square.reply_comment(params)
 				if(res.data.code === 0) {
 					this.commentMsg = ''
 				}
-			}
+			},
+
 		},
 		components:{
-			squareItem
+			squareItem,
+			commentItem,
+			squareInput
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	page {
+		// background-color: #FFFFFF !important;
 	}
-	.input-box {
-		background-color: #FFFFFF;
-		padding: 20rpx 30rpx 30rpx;
-		min-height: 100rpx;
+	.empty {
 		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		align-items: center;
-		position: fixed;
-		z-index: 20;
-		bottom:-2rpx;
-		left: 0;
-		right: 0;
-		.anonymity {
-			.iconfont {
-				padding-right: 10rpx;
-			}
-			min-width: 100rpx;
-			text-align: center;
+		.empty-img {
+			width: 300rpx;
+			margin-top: 100rpx;
 		}
-		.send {
-			min-width: 100rpx;
-			height: 60rpx;
-			line-height: 60rpx;
-			text-align: center;
-			background-color: #e1e0e3;
-			border-radius: 30rpx;
-			color: #FFFFFF;
-		}
-		.send-active {
-			background-color: $main-color;
-		}
-		.text-box {
-			flex: 1;
-			margin: 0 20rpx;
-			background-color: #f2f1f6;
-			// background-color: #cecdd1;
-			padding: 10rpx 20rpx;
-			border-radius: 30rpx;
-			.input {
-				width: 100%;
-				min-height: 44rpx;
-			}
+		.empty-txt {
+			font-size: 30rpx;
+			line-height: 50rpx;
+			color: $sec-font-color;
 		}
 	}
+	.loading {
+		text-align: center;
+		margin-top: 20rpx;
+	}
+	
 	.comment-wrap {
 		margin-top: 25rpx;
 		margin-bottom: 120rpx;
 		background-color: #FFFFFF;
 		padding: 20rpx 30rpx 30rpx;
+		// min-height: 700rpx;
 		.title {
 			line-height: 60rpx;
+			border-bottom: 1px solid $page-bg-color;
 			font-weight: bold;
-		}
-		.comment-item {
-			padding: 10rpx 0;
-			.info-line {
-				display: flex;
-				align-items: center;
-				color: $sec-font-color;
-				.name {
-					padding-left: 10rpx;
-				}
-				.time {
-					flex: 1;
-					text-align: right;
-				}
-			}
-			.content {
-				margin-left: 70rpx;
-				padding: 20rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.iconfont {
+				color: $light-main-color;
+				font-size: 42rpx;
 			}
 		}
+		
 	}
 </style>

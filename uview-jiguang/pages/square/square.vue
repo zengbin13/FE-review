@@ -8,6 +8,7 @@
 		<view class="square-wrap">
 			<square-item v-for="(item, index) in squareList" :squareInfo="item" :enter="true" :mode="1"></square-item>
 		</view>
+		<u-loadmore :status="status" />
 	</view>
 </template>
 
@@ -18,11 +19,26 @@
 			return {
 				tagList: [],
 				squareList: [],
-				page: 1
+				count: 0,
+				page: 1,
+				status: 'loadmore',
 			};
 		},
 		onLoad() {
 			this.getTagList()
+			this.getSquareList()
+		},
+		onPullDownRefresh() {
+			this.squareList = []
+			this.count = 0
+			this.page = 1
+			this.status = 'loadmore'
+			this.getSquareList()
+			uni.stopPullDownRefresh()
+		},
+		onReachBottom() {
+			if(this.status === 'nomore') return
+			this.page += 1
 			this.getSquareList()
 		},
 		methods:{
@@ -40,8 +56,14 @@
 					limit: 10,
 					page: this.page
 				}
+				this.status = 'loading'
 				let res = await this.$service.square.get_square_list(params)
 				this.squareList = [...this.squareList, ...res.data.data]
+				this.count = res.data.count
+				this.status = 'loadmore'
+				if(this.count <= this.squareList.length) {
+					this.status = 'nomore'
+				}
 				console.log(this.squareList);
 			},
 			handleReleaseSquare() {

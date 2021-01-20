@@ -116,7 +116,7 @@ const square = {
 	// 动态标签
 	get_tag_list: () => http.request('GET', '/api/getTagList'),
 	// 广场列表
-	get_square_list: params => http.request('GET', '/api/square/get/content/list', params, '加载中...'),
+	get_square_list: params => http.request('GET', '/api/square/get/content/list', params),
 	// 点赞动态 
 	like_square: params => http.request('POST', '/api/square/like', params),
 	// 动态评论 
@@ -127,7 +127,8 @@ const square = {
 	reply_comment: params => http.request('POST', '/api/square/comment/reply', params),
 	// 回复列表
 	reply_list: params => http.request('GET', '/api/square/get/comment/reply', params),
-	// 
+	// 动态访问量 
+	see_comment: params => http.request('POST', '/api/square/browse', params),
 }
 const common = {
 	// 上传文件

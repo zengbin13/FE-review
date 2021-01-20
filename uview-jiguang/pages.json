@@ -473,7 +473,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "广场",
-                "enablePullDownRefresh": false,
+                "enablePullDownRefresh": true,
 				"app-plus":{
 					"titleNView":false
 				}
@@ -506,10 +506,19 @@
         }
         ,{
             "path" : "pages/square/square-details/square-details",
-            "style" :                                                                                    
+            "style" :                                                                     
             {
                 "navigationBarTitleText": "动态详情",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/square/reply-page/reply-page",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "回复",
+                "enablePullDownRefresh": true
             }
             
         }
