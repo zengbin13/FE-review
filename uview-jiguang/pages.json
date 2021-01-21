@@ -522,6 +522,18 @@
             }
             
         }
+        ,{
+            "path" : "pages/popup/popup-tip",
+            "style": {
+            	"navigationStyle": "custom",
+            	"backgroundColor": "transparent",
+            	"app-plus": {
+            		"animationType": "fade-in",
+            		"background": "transparent",
+            		"popGesture": "none"
+            	}
+            }
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

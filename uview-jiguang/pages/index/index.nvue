@@ -17,7 +17,7 @@
 					<seekItem v-for="(item, index) in seekList" :seekInfo="item" class="seek-item u-skeleton-circle" />
 					</scroll-view>
 				<view style="flex-direction: row; align-items:center; justify-content: center; margin-bottom: 20rpx;">
-					<text style="line-height: 100rpx; color: #ff7243; font-size: 32rpx;">查看全部会员推荐</text>
+					<text style="line-height: 100rpx; color: #ff7243; font-size: 32rpx;" @tap="moreRecommend">查看全部会员推荐</text>
 					<text class="iconfont icon-right">&#xe601;</text>
 				</view>
 			</view>
@@ -218,6 +218,17 @@ export default {
 		LbPicker
 	},
 	methods: {
+		moreRecommend() {
+			let tip = {
+				title: '标题1',
+				icon: 't-icon-jianshenbao',
+				content: '内容1',
+				event: 'buy'
+			}
+			utils.showTipCard(tip, () => {
+				console.log('全局事件处理函数执行');
+			})
+		},
 		// 发布邀约
 		openRelease1(){			
 			if(this.invitePopupShow) {

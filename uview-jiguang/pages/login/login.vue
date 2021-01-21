@@ -314,6 +314,7 @@
 					token: data.token,
 					userInfo: userInfo
 				})
+				this.getUserConfig()
 				uni.reLaunch({
 					url:'../index/index'
 				})
@@ -331,6 +332,13 @@
 			// 	})
 			// 	uni.setStorageSync('cateList1', cateList)
 			// },
+			// 获取用户配置信息
+			async getUserConfig() {
+				let res = await this.$service.login.config()
+				if(res.data.code === 0) {
+					this.$storage.set('config', res.data.data)
+				}
+			},
 			//获取用户信息
 			async getUserInfo() {
 				let res = await this.$service.index.get_user_info()

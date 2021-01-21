@@ -23,7 +23,7 @@
 			</view>
 			<view class="apply-btn">
 				<text class="iconfont icon-liao">&#xe63b;</text>
-				<text style="font-size: 26rpx; color: #FFFFFF;">申请</text>
+				<text style="font-size: 26rpx; color: #FFFFFF;" @click="applyInvite">{{ inviteData.if_applyfor ? '已申请' : '申请' }}</text>
 			</view>
 		</view>
 		<!-- 内容区域 -->
@@ -97,6 +97,7 @@
 
 <script>
 	import utils from '@/static/js/utils.js'
+	import service from '@/static/js/service.js'
 	import moment from '@/static/js/moment.js';
 	
 	export default {
@@ -151,6 +152,32 @@
 				uni.navigateTo({
 					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})
+			},
+			// 申请邀约
+			applyInvite() {
+				// 非会员
+				let tip = {
+					title: '会员权益',
+					icon: 't-icon-emoji6',
+					content: '申请邀约,需要成为平台正式会员',
+					event: 'NonMember',
+					button: '成为会员'
+				}
+				// #ifdef APP-NVUE
+				utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+				// #endif
+
 			}
 		}
 	}

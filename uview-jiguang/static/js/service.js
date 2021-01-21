@@ -29,6 +29,8 @@ const login = {
 	bind_phone_data: params => http.request('POST', '/api/userAuthsMobile', params),
 	// 获取验证区号
 	get_sms_code: params => http.request('GET', '/api/smsCode', params),
+	// 获取消费金额配置
+	config: () => http.request('GET', '/api/user/config'),
 }
 const mall = {
 	// 商品数据

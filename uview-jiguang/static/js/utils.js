@@ -2,6 +2,13 @@
  * 通用公共js库，常量值和通用函数
  */
 const utils = {
+	// 显示提示层
+	showTipCard(tip, fn) {
+		uni.$once(tip.event, fn)
+		uni.navigateTo({
+			url: `/pages/popup/popup-tip?tip=${JSON.stringify(tip)}`
+		})
+	},
 	// 获取字体图标
 	iconfont() {
 		let domModule = weex.requireModule("dom");
