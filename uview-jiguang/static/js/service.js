@@ -11,6 +11,9 @@ const index = {
 	cate_list: params => http.request('GET', '/api/getCateList', params),
 	// 发布邀约
 	release_dynamic: params => http.request('POST', '/api/issueDynamic', params, '加载中...'),
+	//申请邀约
+	apply_invite: params => http.request('POST', '/api/addApplyfor', params),
+
 }
 const login = {
 	//获取验证码
@@ -136,7 +139,10 @@ const common = {
 	// 上传文件
 	upload_file: params => http.request('POST', '/api/uploadFile', params, '加载中...'),
 }
-
+const seek = {
+	// 觅约列表
+	get_seek_list: params => http.request('POST', '/api/getInviteList', params),
+}
 export default {
 	login,
 	index,
@@ -144,5 +150,6 @@ export default {
 	im,
 	profile,
 	square,
-	common
+	common,
+	seek
 }

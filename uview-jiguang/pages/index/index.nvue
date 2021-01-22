@@ -4,9 +4,7 @@
 		<!-- 推荐区域 -->
 		<cell>
 			<!-- 发布邀约 存在bug 目前写在推荐区域内部-->
-			<view class="release-invite" @click="openRelease">
-				<text class="iconfont icon-release">&#xe678;</text>
-			</view>
+			<invite-circle></invite-circle>
 			<!-- 头部区域 -->
 			<view id="head" style="padding-left: 30rpx; padding-right: 30rpx;" class="u-skeleton">
 				<view style="flex-direction: row; align-items: flex-end; padding-bottom: 20rpx;">
@@ -105,6 +103,7 @@ import areaList from '@/static/data/area-data-min.js'; //城市数据
 
 import seekItem from '@/components/seek-item/seek-item';
 import inviteItem from '@/components/invite-item/invite-item';
+import inviteCircle from './invite-circle/invite-circle.vue';
 import swiperPage from './swiper-page.nvue';
 import simpleAddress from '@/components/simple-address/simple-address.vue';
 import LbPicker from '@/components/lb-picker'; //省市组件
@@ -213,20 +212,15 @@ export default {
 	components: {
 		seekItem,
 		inviteItem,
+		inviteCircle,
 		swiperPage,
 		simpleAddress,
 		LbPicker
 	},
 	methods: {
 		moreRecommend() {
-			let tip = {
-				title: '标题1',
-				icon: 't-icon-jianshenbao',
-				content: '内容1',
-				event: 'buy'
-			}
-			utils.showTipCard(tip, () => {
-				console.log('全局事件处理函数执行');
+			uni.navigateTo({
+				url: '../seek/seek'
 			})
 		},
 		// 发布邀约
@@ -239,19 +233,6 @@ export default {
 					this.invitePopupShow = true
 				})
 			}
-		 },
-		 openRelease() {
-		 	// #ifdef APP-PLUS
-		 	uni.navigateTo({
-		 		url: '/pages/popup/popup-rel',
-				animationType:"slide-in-bottom"
-		 	})
-		 	// #endif
-		 	// #ifndef APP-PLUS
-		 	uni.showModal({
-		 		title: '仅支持App端'
-		 	})
-		 	// #endif
 		 },
 		// 地区选择
 		handleAreaSelect() {
@@ -691,14 +672,4 @@ page {
 	display: inline-block;
 	/* #endif */
 }
-
-.release-invite {
-	position: fixed;
-	bottom: 100rpx;
-	right: 50rpx;
-	background-color: #FF7243;
-	border-radius: 50%;
-	padding: 20rpx;
-}
-
 </style>

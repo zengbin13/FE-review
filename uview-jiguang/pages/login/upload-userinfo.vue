@@ -109,18 +109,62 @@
 					sex: data.sex,
 					state: data.state,
 				}
+				
+				// IM登录
+				// #ifdef APP-PLUS
+				let imParams = {
+					username: data.account_number,
+					password: data.invite_code
+				}
+				uni.showLoading({
+					title: 'IM登录中..',
+					mask: false
+				});
+				this.jpushIM.userLogin(imParams, (res) => {
+					uni.hideLoading();
+					if(res.errorCode == 0){
+						this.imLogin(imParams.username);
+						uni.showToast({
+							title: '登录成功',
+							icon:'none'
+						});
+					} else {
+						uni.showModal({
+							title: '登录失败',
+							content: "原因：" + res.errorMsg,
+							showCancel: false,
+							cancelText: '',
+							confirmText: '确定',
+							success: res => {	
+								if (res.confirm) {
+									console.log("点击了确定按钮");
+								} 
+							}
+						});
+					}
+				})
+				
+				// #endif
 				this.$storage.setSync('token', data.token)
 				this.$storage.setSync('state', state)
-				
 				let userInfo = await this.getUserInfo()
 				
-				this.$store.commit('login', {
+				this.$storage.setSync('uid', userInfo.uid)
+				this.$store.commit('userLogin', {
 					token: data.token,
 					userInfo: userInfo
 				})
+				this.getUserConfig()
 				uni.reLaunch({
 					url:'../index/index'
 				})
+			},
+			// 获取用户配置信息
+			async getUserConfig() {
+				let res = await this.$service.login.config()
+				if(res.data.code === 0) {
+					this.$storage.set('config', res.data.data)
+				}
 			},
 			//获取用户信息
 			async getUserInfo() {

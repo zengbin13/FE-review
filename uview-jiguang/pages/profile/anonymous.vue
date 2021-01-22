@@ -39,14 +39,8 @@
 		},
 		methods:{
 			test() {
-				let tip = {
-					title: '标题1',
-					icon: 't-icon-jianshenbao',
-					content: '内容1',
-					event: 'buy'
-				}
-				this.$utils.showTipCard(tip, () => {
-					console.log('全局事件处理函数执行');
+				uni.navigateTo({
+					url:'/pages/index/release-invite/release-invite'
 				})
 			},
 			async getPrivacy() {

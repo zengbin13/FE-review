@@ -76,7 +76,7 @@
 			</view>
 			<!-- 邀约详情 -->
 			<view class="invite-content">
-				<invite-item v-for="(invite, index) in inviteList" :key="invite.id" :inviteData="invite" class="invite-item"></invite-item>
+				<invite-item v-for="(invite, index) in inviteList" :key="invite.id" :inviteData="invite" class="invite-item" :self="self"></invite-item>
 			</view>
 		</view>
 	</view>

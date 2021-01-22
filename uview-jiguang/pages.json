@@ -534,6 +534,18 @@
             	}
             }
         }
+        ,{
+            "path" : "pages/seek/seek",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "觅约",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -4,7 +4,7 @@
 		<view class="user-info-wrap flex-row" style="flex-direction: row; align-items: center;">
 			<!-- 非匿名头像 -->
 			<image 
-			v-if="!inviteData.anonymity"
+			v-if="anonymity"
 			 :src="inviteData.avatar"  class="avatar" @tap="enterCard(inviteData.uid)"></image>
 			<!-- 匿名头像 -->
 			<image 
@@ -15,15 +15,15 @@
 			 src="../../static/images/index/n-female.png"  class="avatar"></image>
 			<view class="name-wrap">
 				<view style="flex-direction: row; padding-bottom: 10rpx; align-items: center;" class="flex-row">
-					<text v-if="!inviteData.anonymity" style="font-size: 30rpx; font-weight: 600;" @tap="enterCard(inviteData.uid)">{{inviteData.nickname}}</text>
+					<text v-if="anonymity" style="font-size: 30rpx; font-weight: 600;" @tap="enterCard(inviteData.uid)">{{inviteData.nickname}}</text>
 					<text v-else style="font-size: 30rpx; font-weight: 600;">匿名用户</text>
 					<tags :sex="inviteData.sex" :age="inviteData.end_time" ></tags>
 				</view>
 				<text style="font-size: 28rpx; color: #858585;">发布于{{inviteData.beforetime}}前</text>
 			</view>
-			<view class="apply-btn">
+			<view class="apply-btn" @click="validateInvite(inviteData.if_applyfor)" v-if="!isExpired && !self">
 				<text class="iconfont icon-liao">&#xe63b;</text>
-				<text style="font-size: 26rpx; color: #FFFFFF;" @click="applyInvite">{{ inviteData.if_applyfor ? '已申请' : '申请' }}</text>
+				<text style="font-size: 26rpx; color: #FFFFFF;">{{ inviteData.if_applyfor ? '已申请' : '申请' }}</text>
 			</view>
 		</view>
 		<!-- 内容区域 -->
@@ -98,6 +98,7 @@
 <script>
 	import utils from '@/static/js/utils.js'
 	import service from '@/static/js/service.js'
+	import store from '@/store/index.js'
 	import moment from '@/static/js/moment.js';
 	
 	export default {
@@ -111,11 +112,18 @@
 				default: 0,
 				//0 不具有申请按钮
 				//1 具有申请按钮
+			},
+			self: {
+				type: Boolean,
+				default: false,
 			}
 		},
 		data() {
 			return {
-				
+				state: {},
+				config: {},
+				balance: 0,
+				payNum: 100,
 			};
 		},
 		computed:{
@@ -131,13 +139,41 @@
 				let endTime = moment(this.inviteData.end_time);
 				return endTime.diff(now) > 0 ? false : true;
 			},
+			anonymity() {
+				if(this.self) return true
+				if(!this.self && this.inviteData.anonymity) {
+					return false
+				}
+				return true
+			}
 		},
 		created() {
 			// #ifdef APP-PLUS
 			utils.iconfont()
 			// #endif
+			this.getBalanceLog()
+			this.state = uni.getStorageSync('state')
+			this.config = uni.getStorageSync('config')
+			if(this.state.sex === 1) {
+				this.payNum = this.config.invitation_apply.pay_num
+			}
 		},
 		methods:{
+			async getBalanceLog() {
+				let params = {
+					limit: 1,
+					page: 1
+				}
+				// #ifdef APP-NVUE
+				let res = await service.profile.get_balance_log(params)
+				// #endif
+				// #ifndef APP-NVUE
+				let res = await this.$service.profile.get_balance_log(params)
+				// #endif
+				if(res.data.code === 0) {
+					this.balance = res.data.data[0].after
+				}
+			},
 			previewImg(index) {
 				uni.previewImage({
 					current: index,
@@ -153,8 +189,8 @@
 					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})
 			},
-			// 申请邀约
-			applyInvite() {
+			// 非会员
+			nonMember() {
 				// 非会员
 				let tip = {
 					title: '会员权益',
@@ -177,7 +213,101 @@
 					})
 				})
 				// #endif
-
+			},
+			// 余额不足
+			lowBalance() {
+				let tip = {
+					title: '余额不足',
+					icon: 't-icon-emoji6',
+					content: `申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`,
+					event: 'LowBalance',
+					button: '充值'
+				}
+				// #ifdef APP-NVUE
+				utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+				// #endif
+			},			
+			// 扣除心动币
+			coinDeduction() {
+				let tip = {
+					title: '扣除心动币',
+					icon: 't-icon-emoji6',
+					content: `申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`,
+					event: 'CoinDeduction',
+				}
+				// #ifdef APP-NVUE
+				utils.showTipCard(tip, () => {
+					uni.navigateBack()
+					this.applyInvite()
+				})
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.showTipCard(tip, () => {
+					uni.navigateBack()
+					this.applyInvite()
+				})
+				// #endif
+			},
+			// 申请邀约
+			validateInvite(isApply) {
+				console.log(this.state);
+				console.log(this.config);
+				// 已申请
+				if(isApply) {
+					// #ifdef APP-NVUE
+					utils.showToast('请勿重复申请')
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.showToast('请勿重复申请')
+					// #endif
+					return 
+				}
+				// 非会员
+				if(!this.state.level) {
+					this.nonMember()
+					return
+				}
+				// 性别为女
+				if(this.state.sex === 2) {
+					this.applyInvite()
+					return
+				}
+				// 余额不足
+				if(this.balance < this.payNum){
+					this.lowBalance()
+					return
+				}
+				// 申请
+				this.coinDeduction()
+			},
+			// 发出邀约
+			async applyInvite() {
+				// #ifdef APP-NVUE
+				let res = await service.index.apply_invite({id: this.inviteData.id})
+				// #endif
+				// #ifndef APP-NVUE
+				let res = await this.$service.index.apply_invite({id: this.inviteData.id})
+				// #endif
+				if(res.data.code === 0) {
+					this.inviteData.if_applyfor = 1
+					// #ifdef APP-NVUE
+					utils.showToast('申请成功')
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.showToast('申请成功')
+					// #endif
+				}
 			}
 		}
 	}

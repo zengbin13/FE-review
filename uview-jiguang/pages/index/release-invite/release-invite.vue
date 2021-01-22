@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-navbar back-icon-color="#ff7243" :title="title" >
-			<view class="right" slot="right" @tap="releaseInvite">
+			<view class="right" slot="right" @tap="release" :class="{release: isRelease}">
 				发布
 			</view>
 		</u-navbar>
@@ -47,6 +47,9 @@
 	export default {
 		data() {
 			return {
+				config: {},
+				state: {},
+				payNum: 100,
 				title: "发布邀约",
 				areaShow: false,
 				costShow: false,
@@ -115,6 +118,12 @@
 		onLoad(options) {
 			this.title += ' - ' + options.title;
 			this.releaseForm.cate = options.cate
+			
+			this.state = uni.getStorageSync('state')
+			this.config = uni.getStorageSync('config')
+			if(this.state.sex === 1) {
+				this.payNum = this.config.dynamic_apply.pay_num
+			}
 		},
 		onUnload() {
 			clearTimeout(timerId)
@@ -137,14 +146,17 @@
 			checkInvite() {
 				if(!this.releaseForm.content) {
 					this.$utils.showToast('请填写邀约信息')
+					this.isRelease =false
 					return false 
 				}
 				if(!this.releaseForm.area) {
 					this.$utils.showToast('请填写约会地点')
+					this.isRelease =false
 					return false 
 				}
 				if(!this.releaseForm.time) {
 					this.$utils.showToast('请填写过期时间')
+					this.isRelease =false
 					return false 
 				}
 				if(!this.releaseForm.cost) {
@@ -153,11 +165,50 @@
 				}
 				return true
 			},
-			// 发布邀约
-			async releaseInvite() {
+			// 余额不足
+			lowBalance() {
+				let tip = {
+					title: '余额不足',
+					icon: 't-icon-emoji6',
+					content: `发布邀约将扣除${this.payNum}心动币,每天可以发布两次`,
+					event: 'LowBalance',
+					button: '充值'
+				}
+				this.$utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+			},
+			// 扣除心动币
+			coinDeduction() {
+				let tip = {
+					title: '扣除心动币',
+					icon: 't-icon-emoji6',
+					content: `发布邀约将扣除${this.payNum}心动币,每天可以发布两次`,
+					event: 'CoinDeduction',
+				}
+				this.$utils.showTipCard(tip, () => {
+					uni.navigateBack()
+					this.releaseInvite()
+				})
+			},
+			release() {
 				let flag = this.checkInvite()
 				if(!flag) return false
-				
+				console.log(222222, this.$store.state.userInfo.balance);
+				// 判断金额 男会员
+				if(this.state.sex === 1 && this.$store.state.userInfo.balance < this.payNum) {
+					this.lowBalance()
+					return
+				}
+				if(this.state.sex === 1 && this.$store.state.userInfo.balance >= this.payNum) {
+					this.coinDeduction()
+					return
+				}
+			},
+			// 发布邀约
+			async releaseInvite() {
 				// 过滤图片数据
 				let files = this.$refs.relUpload.lists.filter(val => {
 					return val.progress == 100;
@@ -193,6 +244,23 @@
 				}
 				
 			}
+		},
+		computed:{
+			isRelease() {
+				if(!this.releaseForm.content) {
+					return false 
+				}
+				if(!this.releaseForm.area) {
+					return false 
+				}
+				if(!this.releaseForm.timeLabel) {
+					return false 
+				}
+				if(!this.releaseForm.cost) {
+					return false 
+				}
+				return true
+			}
 		}
 	}
 </script>
@@ -201,10 +269,13 @@
 	.right {
 		margin-right: 30rpx;
 		padding: 6rpx 25rpx;
-		background-color: $main-color;
+		background-color: #cecece;
 		border-radius: 30rpx;
 		color: #FFFFFF;
 		letter-spacing: 0.05em;
+	}
+	.release {
+		background-color: $main-color;
 	}
 	.content {
 		margin-top: 30rpx;
