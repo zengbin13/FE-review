@@ -6,7 +6,7 @@
 			</view>
 		</u-navbar>
 		<view class="square-wrap">
-			<square-item v-for="(item, index) in squareList" :squareInfo="item" :enter="true" :mode="1"></square-item>
+			<square-item v-for="(item, index) in squareList" :squareInfo="item" :enter="true" :mode="1" class="square-item"></square-item>
 		</view>
 		<u-loadmore :status="status" />
 	</view>
@@ -91,5 +91,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	.square-item {
+		margin: 20rpx 24rpx 20rpx 20rpx;
 	}
 </style>

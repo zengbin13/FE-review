@@ -5,7 +5,7 @@
 			
 			<u-button @tap="handleTap">点击</u-button>
 			<u-button @tap="handleTap2">点击2</u-button>
-			<u-button @tap="handleTap3">点击3</u-button>
+			<u-button @tap="handleTap3">test</u-button>
 			<u-button @tap="logout">退出</u-button>
 		</view>
 		<view class="">
@@ -37,9 +37,8 @@
 				});
 			},
 			handleTap3() {
-				uni.clearStorage();
 				uni.navigateTo({
-					url: '/pages/login/login'
+					url: '/pages/test/test'
 				});
 			},
 			// 退出登录

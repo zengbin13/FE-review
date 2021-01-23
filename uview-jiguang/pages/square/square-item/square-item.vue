@@ -108,7 +108,7 @@
 				if(!this.enter) return false
 				let currentSquare = JSON.stringify(this.squareInfo)
 				uni.navigateTo({
-					url: `./square-details/square-details?squareInfo=${currentSquare}`
+					url: `/pages/square/square-details/square-details?squareInfo=${currentSquare}`
 				})
 			},
 			// 点赞

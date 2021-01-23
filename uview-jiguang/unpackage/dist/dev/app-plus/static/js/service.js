@@ -114,6 +114,8 @@ const profile = {
 	get_privacy: () => http.request('POST', '/api/getUserPrivacy'),
 	// 修改隐私设置
 	set_privacy: params => http.request('POST', '/api/saveUserPrivacy', params),
+	// 获取申请列表
+	apply_list: params => http.request('GET', '/api/getMyApplyforList', params),
 }
 const square = {
 	// 发布广场 

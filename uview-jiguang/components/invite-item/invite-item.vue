@@ -19,11 +19,20 @@
 					<text v-else style="font-size: 30rpx; font-weight: 600;">匿名用户</text>
 					<tags :sex="inviteData.sex" :age="inviteData.end_time" ></tags>
 				</view>
+				<!-- #ifndef APP-NVUE -->
+				<text style="font-size: 28rpx; color: #858585;">发布于{{$u.timeFrom(Date.parse(inviteData.ctime), 'yyyy年mm月dd日')}}</text>
+				<!-- #endif -->
+				<!-- #ifdef APP-NVUE -->
 				<text style="font-size: 28rpx; color: #858585;">发布于{{inviteData.beforetime}}前</text>
+				<!-- #endif -->
 			</view>
-			<view class="apply-btn" @click="validateInvite(inviteData.if_applyfor)" v-if="!isExpired && !self">
+			<view class="apply-btn" @click="validateInvite(inviteData.if_applyfor)" v-if="!isExpired && !self && !apply">
 				<text class="iconfont icon-liao">&#xe63b;</text>
 				<text style="font-size: 26rpx; color: #FFFFFF;">{{ inviteData.if_applyfor ? '已申请' : '申请' }}</text>
+			</view>
+			<view class="apply-btn" v-if="apply">
+				<text class="iconfont icon-liao">&#xe63b;</text>
+				<text style="font-size: 26rpx; color: #FFFFFF;">{{ inviteData.applyfor_state | applyState }}</text>
 			</view>
 		</view>
 		<!-- 内容区域 -->
@@ -96,6 +105,7 @@
 </template>
 
 <script>
+	// import { $u } from '/uview-ui/index.js'
 	import utils from '@/static/js/utils.js'
 	import service from '@/static/js/service.js'
 	import store from '@/store/index.js'
@@ -116,7 +126,11 @@
 			self: {
 				type: Boolean,
 				default: false,
-			}
+			},
+			apply: {
+				type: Boolean,
+				default: false,
+			},
 		},
 		data() {
 			return {
@@ -156,6 +170,14 @@
 			this.config = uni.getStorageSync('config')
 			if(this.state.sex === 1) {
 				this.payNum = this.config.invitation_apply.pay_num
+			}
+		},
+		filters:{
+			applyState(state) {
+				if(state === 0) return "待审核"
+				if(state === 1) return "已通过"
+				if(state === 2) return "已拒绝"
+				if(state === 3) return "超时"
 			}
 		},
 		methods:{
@@ -370,7 +392,8 @@
 		background-color: #FFFFFF;
 		border-radius: 30rpx;
 		padding: 20rpx !important;
-		// margin: 20rpx 0;
+		margin: 20rpx 20rpx;
+		// margin: 20rpx 20rpx;
 		position: relative;
 	}
 	.user-info-wrap {

@@ -158,7 +158,7 @@
 					this.self = true
 				} else {
 					this.uid = uni.getStorageSync('uid')
-					this.self = this.uid === openId ? true : false;
+					this.self = this.uid == openId ? true : false;
 				}
 				this.uid = openId
 			},

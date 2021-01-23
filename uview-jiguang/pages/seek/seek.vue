@@ -1,6 +1,27 @@
 <template>
 	<div class="seek-page">
-		<view class="choice">22222222</view>
+		<view class="status-bar"></view>
+		<u-dropdown class="dropdown" ref='uDropdown' 
+		active-color="#ff7243" title-size='32' :border-bottom='true' 
+		@open="isOpen = true"
+		@close="isOpen = false"
+		:class="[isOpen ? 'dropdown-open' : 'dropdown-close']"
+		>
+			<u-dropdown-item title="地区">
+				<view class="slot-content" style="background-color: #FFFFFF;">
+					<scroll-view scroll-y="true" style="height: 400rpx; padding: 20rpx 0;">
+						<view 
+							class="u-text-center u-content-color u-m-t-20 u-m-b-20" 
+							style="font-size: 30rpx;"
+							v-for="(item, index) in areaList" 
+							:key="item.value"
+							@click="changeArea(item.value)"
+						>{{item.label}}</view>
+					</scroll-view>
+				</view>
+			</u-dropdown-item>
+			<u-dropdown-item v-model="value" title="类别" :options="options" @change="changeCate"></u-dropdown-item>
+		</u-dropdown>
 		<movable-area>
 			<block v-for="(item, index) in seekList" :key="item.nickname">
 				<movable-view :damping="20" :x="item.x" :y="item.y" inertia out-of-bounds direction="all" @change="onMovableChange($event, index)">
@@ -35,7 +56,7 @@
 								<view class="tag" v-if="item.kq">体重 {{ item.kq }}KG</view>
 							</view>
 						</view>
-						<u-image :src="item.image" :width="700" :height="1000" @click="enterCard(item.uid)"></u-image>
+						<u-image :src="item.image" :width="700" :height="1150" @click="enterCard(item.uid)"></u-image>
 					</div>
 				</movable-view>
 			</block>
@@ -46,37 +67,76 @@
 			<view class="t-icon t-icon-icon_wodeyuehuiquanzi"></view>
 			<text class="iconfont icon-xingbie-nan"></text>
 		</view>
+		<!-- <u-select v-model="areaShow" mode="mutil-column-auto" :list="areaList" @confirm="areaConfirm"></u-select> -->
 	</div>
 </template>
 
 <script>
-import _ from 'lodash';
-
+// import _ from 'lodash';
+import areaList from '@/static/data/area-data-min.js'
+				
 export default {
 	data() {
 		return {
 			page: 1,
+			cateId: 1,
 			areaId: null,
-			seekList: []
+			seekList: [],
+			areaShow: false,
+			areaList,
+			value: 1,
+			isOpen: false,
+			options: [
+				{
+					label: '征求',
+					value: 1
+				},
+				{
+					label: '急约',
+					value: 2
+				},
+				{
+					label: '旅行',
+					value: 3
+				},
+				{
+					label: '救火',
+					value: 4
+				},
+			]
 		};
 	},
 	onLoad() {
-		this.getSeeklist(3);
+		this.getSeeklist(4);
 	},
 	methods: {
+		changeCate(id) {
+			if(id === this.cateId) return
+			this.cateId = id,
+			this.page = 1
+			this.seekList = []
+			this.getSeeklist(4);
+		},
+		changeArea(id) {
+			if(id === this.areaId) return
+			this.areaId = id
+			this.page = 1
+			this.$refs.uDropdown.close();
+			this.seekList = []
+			this.getSeeklist(4);
+		},
 		enterCard(uid) {
 			uni.navigateTo({
 				url: `../../pages/profile/cardInfo?uid=${uid}`
 			});
 		},
 		// 请求觅约数据
-		async getSeeklist(limit) {
+		async getSeeklist(limit = 1) {
 			let params = {
-				cate_id: 1,
+				cate_id: this.cateId,
 				page: this.page,
-				areas_id: this.areaId,
+				province_id: this.areaId,
 				limit,
-				flag: false
 			};
 			let res = await this.$service.seek.get_seek_list(params);
 
@@ -93,7 +153,6 @@ export default {
 				item = Object.assign(item, res.data.data);
 			});
 			this.seekList = [...res.data.data, ...this.seekList];
-			console.log(this.seekList);
 			this.page += 1;
 		},
 		/**
@@ -106,11 +165,10 @@ export default {
 
 			item.old.x = x;
 			item.old.y = y;
-
 			// 移动结束/手指离开屏幕
 			if (source == 'friction') {
 				this.onMovableEnd(index);
-			}
+			} 
 		},
 		/**
 		 * 移动结束回调
@@ -144,9 +202,11 @@ export default {
 				item.x = mode == 'like' ? 1000 : -1000; // 喜欢向右滚出、不喜欢向左滚出
 				item.y = item.old.y <= 0 ? item.old.y - 100 : item.old.y + 100; // y小于0说明向上滑出，加一点向上的偏移值，效果好一些
 				setTimeout(() => {
-					this.seekList.splice(index, 1); // 移除数据（等动画结束）
-					console.log(this.seekList.length);
-					this.getSeeklist(1); // 继续请求新的数据
+					let removeItem = this.seekList.splice(index, 1); // 移除数据（等动画结束）
+					console.log('移除', index, removeItem);
+					this.$u.debounce(this.getSeeklist, 50, true)
+					// _.debounce(this.getSeeklist, 500)() 
+					// 继续请求新的数据
 				}, 200);
 			});
 		},
@@ -169,14 +229,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.choice {
-	height: calc(88rpx + var(--status-bar-height));
-	background-color: #ffffff;
-	position: absolute;
-	z-index: 1;
-	left: 0;
-	right: 0;
-}
+	.status-bar {
+		// height: var(--status-bar-height);
+		background-color: #ffffff;
+	}
+	.dropdown {
+		background-color: #ffffff;
+		// line-height: 88rpx;
+		// z-index: 1;
+		// position: fixed;
+		// top: 0;
+		// transition: all 1s ease 0s;
+	}
+	/deep/ .dropdown-open {
+		.u-dropdown__content {
+			display: block;
+		}
+	}
+	/deep/ .dropdown-close {
+		.u-dropdown__content {
+			// display: none;
+			height: 0 !important;
+		}
+	}
+	.choice {
+		height: calc(88rpx + var(--status-bar-height));
+		padding-top: var(--status-bar-height);
+		background-color: #ffffff;
+		line-height: 88rpx;
+		position: absolute;
+		z-index: 1;
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: space-around;
+		.iconfont {
+			padding-left: 10rpx;
+			position: relative;
+			top: 2rpx;
+		}
+	}
 .seek-page {
 	// height: calc(100vh - var(--status-bar-height) - 44px - var(--window-bottom));
 	height: calc(100vh);
@@ -187,7 +279,7 @@ export default {
 		width: 300vw;
 		height: 300vh;
 		left: calc(-100vw);
-		top: calc(-105vh);
+		top: calc(-108vh);
 		// background-color: salmon;
 	}
 
@@ -199,7 +291,7 @@ export default {
 		left: 0;
 		margin: auto;
 		width: 700rpx;
-		height: 1000rpx;
+		height: 1150rpx;
 	}
 
 	.item {

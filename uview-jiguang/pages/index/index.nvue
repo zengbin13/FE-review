@@ -126,6 +126,7 @@ invitePopup.hide();
 export default {
 	data() {
 		return {
+			state: {},
 			seekList: [],
 			inviteList: [],
 			tabList: [
@@ -196,6 +197,7 @@ export default {
 		// #endif
 		this.getSeekList();
 		this.getInviteList();
+		this.state = uni.getStorageSync('state')
 	},
 	onReady() {		
 		this.pageHeight = uni.getSystemInfoSync().windowHeight;
@@ -219,9 +221,37 @@ export default {
 	},
 	methods: {
 		moreRecommend() {
-			uni.navigateTo({
-				url: '../seek/seek'
+			if(this.state.level) {
+				uni.navigateTo({
+					url: '../seek/seek'
+				})
+			} else {
+				this.nonMember()
+			}
+		},
+		nonMember() {
+			// 非会员
+			let tip = {
+				title: '会员权益',
+				icon: 't-icon-emoji6',
+				content: '发布邀约,需要成为平台正式会员',
+				event: 'NonMember',
+				button: '成为会员'
+			}
+			// #ifdef APP-NVUE
+			utils.showTipCard(tip, () => {
+				uni.redirectTo({
+					url: '../../pages/member/member'
+				})
 			})
+			// #endif
+			// #ifndef APP-NVUE
+			this.$utils.showTipCard(tip, () => {
+				uni.redirectTo({
+					url: '../../pages/member/member'
+				})
+			})
+			// #endif
 		},
 		// 发布邀约
 		openRelease1(){			

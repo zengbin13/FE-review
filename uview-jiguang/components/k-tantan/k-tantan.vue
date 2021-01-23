@@ -26,7 +26,11 @@
               transition: 'all .3s',
             }"
           >
+		 <view style="font-size: 40rpx;">
+		 	{{item.id}}
+		 </view>
             <u-image :src="item.cover" :width="700" :height="900"></u-image>
+			
           </div>
         </movable-view>
       </block>
@@ -66,7 +70,7 @@ export default {
             y: 0,
           },
         });
-
+		console.log(this.goods);
         this.pageNum += 1;
       }
     },
@@ -77,7 +81,7 @@ export default {
     onMovableChange(event, index) {
       let item = this.goods[index];
       let { x, y, source } = event.detail; // 赋值当前坐标
-      // console.log(x, y, source);
+      console.log(x, y, source);
 
       item.old.x = x;
       item.old.y = y;
@@ -119,7 +123,8 @@ export default {
         item.y = item.old.y <= 0 ? item.old.y - 100 : item.old.y + 100; // y小于0说明向上滑出，加一点向上的偏移值，效果好一些
 
         setTimeout(() => {
-          this.goods.splice(index, 1); // 移除数据（等动画结束）
+          let removeItem = this.goods.splice(index, 1); // 移除数据（等动画结束）
+		  console.log('移除', index, removeItem);
           this.getGoodList(); // 继续请求新的数据
         }, 200);
       });
