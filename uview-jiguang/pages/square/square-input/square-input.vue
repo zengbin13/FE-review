@@ -51,8 +51,12 @@
 						text: '匿名',
 						anonymity: 1,
 					}
-				]
+				],
+				state: {}
 			};
+		},
+		created() {
+			this.state = uni.getStorageSync('state')
 		},
 		methods:{
 			textareaFocus() {
@@ -66,6 +70,10 @@
 				this.currentAnonymity = index
 			},
 			send() {
+				if(!this.state.level) {
+					this.$utils.nonMember('评论动态,需要成为平台正式会员')
+					return
+				}
 				let mode;
 				if(this.placeholder === '说点好听的') {
 					mode = 0

@@ -126,6 +126,7 @@ export default {
 			this.getSeeklist(4);
 		},
 		enterCard(uid) {
+			console.log(uid);
 			uni.navigateTo({
 				url: `../../pages/profile/cardInfo?uid=${uid}`
 			});
@@ -230,16 +231,18 @@ export default {
 
 <style lang="scss" scoped>
 	.status-bar {
-		// height: var(--status-bar-height);
-		background-color: #ffffff;
+		height: var(--status-bar-height);
+		background-color: #ffffff !important;
+		position: absolute;
+		z-index: 1;
+		top: 0;
 	}
 	.dropdown {
 		background-color: #ffffff;
 		// line-height: 88rpx;
-		// z-index: 1;
-		// position: fixed;
-		// top: 0;
-		// transition: all 1s ease 0s;
+		z-index: 1;
+		position: fixed;
+		top: var(--status-bar-height);
 	}
 	/deep/ .dropdown-open {
 		.u-dropdown__content {
@@ -279,7 +282,7 @@ export default {
 		width: 300vw;
 		height: 300vh;
 		left: calc(-100vw);
-		top: calc(-108vh);
+		top: calc(-100vh);
 		// background-color: salmon;
 	}
 

@@ -22,9 +22,12 @@
 				count: 0,
 				page: 1,
 				status: 'loadmore',
+				state: {}
 			};
 		},
 		onLoad() {
+			this.state = uni.getStorageSync('state')
+			console.log(this.state);
 			this.getTagList()
 			this.getSquareList()
 		},
@@ -66,7 +69,27 @@
 				}
 				console.log(this.squareList);
 			},
+			// 非会员
+			nonMember() {
+				// 非会员
+				let tip = {
+					title: '会员权益',
+					icon: 't-icon-emoji6',
+					content: '发布动态,需要成为平台正式会员',
+					event: 'NonMember',
+					button: '成为会员'
+				}
+				this.$utils.showTipCard(tip, () => {
+					uni.redirectTo({
+						url: '../../pages/member/member'
+					})
+				})
+			},
 			handleReleaseSquare() {
+				if(!this.state.level) {
+					this.nonMember()
+					return
+				}
 				uni.navigateTo({
 					url: './release-square/release-square'
 				})

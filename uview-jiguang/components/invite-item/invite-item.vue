@@ -165,7 +165,7 @@
 			// #ifdef APP-PLUS
 			utils.iconfont()
 			// #endif
-			this.getBalanceLog()
+			// this.getBalanceLog()
 			this.state = uni.getStorageSync('state')
 			this.config = uni.getStorageSync('config')
 			if(this.state.sex === 1) {
@@ -207,6 +207,7 @@
 				});
 			},
 			enterCard(uid) {
+				
 				uni.navigateTo({
 					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})
@@ -297,7 +298,12 @@
 				}
 				// 非会员
 				if(!this.state.level) {
-					this.nonMember()
+					// #ifdef APP-NVUE
+					utils.nonMember('申请邀约,需要成为平台正式会员')
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.nonMember('申请邀约,需要成为平台正式会员')
+					// #endif
 					return
 				}
 				// 性别为女
@@ -306,12 +312,23 @@
 					return
 				}
 				// 余额不足
-				if(this.balance < this.payNum){
-					this.lowBalance()
-					return
-				}
-				// 申请
-				this.coinDeduction()
+				// if(this.balance < this.payNum){
+				// 	// #ifdef APP-NVUE
+				// 	utils.lowBalance(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`)
+				// 	// #endif
+				// 	// #ifndef APP-NVUE
+				// 	this.$utils.lowBalance(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`)
+				// 	// #endif
+				// 	return
+				// }
+				// 扣除心动币
+				// #ifdef APP-NVUE
+				utils.coinDeduction(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`,this.payNum, this.applyInvite)
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.coinDeduction(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`, this.payNum, this.applyInvite)
+				// #endif
+				return
 			},
 			// 发出邀约
 			async applyInvite() {

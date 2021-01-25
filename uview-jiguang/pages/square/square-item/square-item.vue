@@ -84,8 +84,11 @@
 		},
 		data() {
 			return {
-				
+				state: {}
 			};
+		},
+		created() {
+			this.state = uni.getStorageSync('state')
 		},
 		methods:{
 			previewImg(index) {
@@ -99,6 +102,11 @@
 				});
 			},
 			enterCard(uid) {
+				console.log(this.state);
+				if(!this.state.level) {
+					this.$utils.nonMember('查看资料卡,需要成为平台正式会员')
+					return
+				}
 				uni.navigateTo({
 					url: `../../pages/profile/cardInfo?uid=${uid}`
 				})

@@ -270,5 +270,190 @@ for (let a in arr) {
 
 ## 剩余/扩展运算符
 
+
+
 ## 正则表达式
+
+## Symbol的使用场景
+
+### 基本使用
+
+- Symbol 值通过`Symbol`函数生成，且Symbol函数不能使用 `new`命令
+
+- `Symbol`函数前接受字符串，表示对Symbol实例的描述
+
+  - 非字符串调用 `toString`方法
+  - 相同参数的 `Symbol`函数返回值不相等
+
+- Symnol值不能与其他类型进行运算，可显式转换为**字符串或布尔值**
+
+- `Symbol.for()`——查找某symbol值，有则返回，无则全局注册
+
+- `Symbol.keyFor()`——返回一个已登记的 Symbol 类型值的`key`
+
+  ```js
+  let s1 = Symbol.for("foo");
+  Symbol.keyFor(s1) // "foo"
+  
+  let s2 = Symbol("foo");
+  Symbol.keyFor(s2) // undefined
+  ```
+
+  
+
+### 消除魔法字符串
+
+——在代码之中多次出现、与代码形成强耦合的某一个具体的字符串或者数值，应使用含义清晰的变量代替
+
+```js
+//魔法字符串
+const shapeType = {
+  triangle: 'Triangle'
+};
+
+//symbol
+const shapeType = {
+  triangle: Symbol()
+};
+
+function getArea(shape, options) {
+  let area = 0;
+  switch (shape) {
+    case shapeType.triangle:
+      area = .5 * options.width * options.height;
+      break;
+  }
+  return area;
+}
+
+getArea(shapeType.triangle, { width: 100, height: 100 });
+```
+
+### 阻止对象属性名冲突
+
+——利用 Symbol 值作为属性名防止将对象原有属性名覆盖
+
+```javascript
+let obj = {
+  [s](arg) { ... }
+};
+```
+
+### 模拟类的私有方法
+
+——ES6 中的类是没有 private 关键字来声明类的私有方法和私有变量的，可以利用 Symbol 的唯一性来模拟
+
+```js
+const speak = Symbol();
+class Person {
+    [speak]() {
+        ...
+    }
+}
+```
+
+- 使用者无法在外部创建出一个相同的 speak，无法调用该方法
+
+
+
+## Promise：消灭嵌套调用和多次错误处理
+
+### 异步回调
+
+- 页面主线程发起一个耗时任务，并将任务交给其他进程处理，页面主线程继续执行消息队列的任务
+- 其他进程处理耗时任务完成，将该任务添加到渲染进程的消息队列，排队等待循环系统处理
+- 排队完成，循环系统取出消息队列的任务进行处理，触发相关回调
+
+![image-20210125100639105](ES6.assets/image-20210125100639105.png)
+
+
+
+### 消灭嵌套调用
+
+- 实现回调函数延时绑定
+
+  - 执行resolve函数时，onResolve回调函数并未绑定，Promise采用**微任务**实现回调函数延时绑定技术
+  - 微任务比 `setTimeout(() => {}, 0)`效率更高
+
+  ```js
+  //创建Promise实例p1,并在executor函数中执行业务逻辑
+  function executor(resolve, reject) {
+      //some code
+      resolve(100) //回调函数未绑定
+  }
+  let p1 = new Promise(executor)
+  
+  // p1延时绑定回调函数 onResolve
+  function onResolve(value) {
+      console.log(value)
+  }
+  p1.then(onResolve)
+  ```
+
+- 回调函数返回值穿透到最外层
+
+  ```js
+  function executor(resolve, reject) {
+      //some code
+      resolve(100)
+  }
+  let p1 = new Promise(executor)
+  
+  function onResolve(value) {
+      console.log(value)
+    	//调用Promise.resolve() 包装为promise实例  
+      return value + 1
+  }
+  let p2 = p1.then(onResolve)
+  p2.then( value => {
+      console.log(value)
+  })
+  ```
+
+  
+
+### 多次错误处理
+
+- Promise 对象的错误**具有“冒泡”性质**，会一直向后传递，直到被 onReject 函数处理或 catch 语句**捕获为止**
+
+
+
+###  Promise 中为什么要引入微任务？
+
+**异步操作处理回调的方式**
+
+- 使用同步回调，直到异步任务进行完，再进行后面的任务
+- 使用异步回调，将回调函数放在进行`宏任务队列`的队尾
+- 使用异步回调，将回调函数放到`当前宏任务中`的最后面
+
+**微任务解决的痛点**
+
+- 采用**异步回调**替代同步回调解决了浪费 CPU 性能的问题
+  - 同步回调造成脚本阻塞，当前任务等待，后续任务无法执行，CPU利用率低
+- 放到**当前宏任务最后**执行，解决了回调执行的实时性问题
+  - 将回调函数放在宏任务队列队尾，若当前任务队列非常长，回调不能及时执行造成页面卡顿
+
+
+
+### promise规范
+
+[Promises/A+规范](https://www.ituring.com.cn/article/66566)
+
+- 存在三个状态：等待态(pending)，执行态(fulfilled)，失败态(rejected)
+- 初始态为等待态，可以转化为执行态和失败态
+- 执行态不可转化为其他状态，且必须有一个不可变的终值(value)
+- 失败态不可转化为其他状态，且必须有一个不可变的原因(reason)
+- 必须提供一个`then`方法，以供访问其当前值，终值及原因
+- then方法提供两个参数：`onFulfilled`和`onRejected`  
+- `onFulfilled`和`onRejected`如果不是函数类型，必须忽略
+- 如果`executor`执行报错，直接执行`reject`
+- 不同的`promise`可以相互套用
+
+
+
+### 分布实现Promise
+
+> https://juejin.cn/post/6901513900466896904
+
+
 

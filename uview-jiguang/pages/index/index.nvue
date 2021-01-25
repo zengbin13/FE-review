@@ -120,8 +120,8 @@ const MAX_CACHE_PAGE = 3;
 const TAB_PRELOAD_OFFSET = 1;
 
 //subnvue
-const invitePopup = uni.getSubNVueById('invitePopup')
-invitePopup.hide();
+// const invitePopup = uni.getSubNVueById('invitePopup')
+// invitePopup.hide();
 
 export default {
 	data() {

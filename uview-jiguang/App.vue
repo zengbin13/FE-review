@@ -6,6 +6,23 @@ import store from './store'
 		onLaunch: function() {
 			console.log('App launch')
 			
+			//app启动时打开启动广告页
+			let token = uni.getStorageSync('token')
+			if(token) {
+				var w = plus.webview.open(
+					'hybrid/html/advertise/advertise.html',
+					'本地地址',
+					{ top: 0, bottom: 0, zindex: 9999 },
+					'fade-in',
+					500
+				);
+				//设置定时器，4s后关闭启动广告页
+				setTimeout(function() {
+					plus.webview.close(w);
+				}, 4000);
+			}
+			
+			// IM
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP

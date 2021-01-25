@@ -40,9 +40,9 @@
 				共
 				<text>{{ orederInfo.curNumber }}</text>
 				件, 合计
-				<text>￥{{ (orederInfo.curNumber * orederInfo.curPrice).toFixed(2) }}</text>
+				<text>￥{{ totalPirce }}</text>
 			</text>
-			<u-button shape="circle" type="primary" size="medium" :ripple="true" class="btn" @tap="payOrder">确定</u-button>
+			<u-button shape="circle" type="primary" size="medium" :ripple="true" class="btn" @tap="checkOrder">确定</u-button>
 		</view>
 	</view>
 </template>
@@ -72,11 +72,14 @@ export default {
 			});
 		},
 		// 提交订单
-		async payOrder() {
+		async checkOrder() {
 			if (!this.addressId) {
 				this.$utils.showToast('请选择收货地址');
 				return;
 			}
+			this.$utils.coinDeduction(`购买${this.orederInfo.curNumber}件${this.orederInfo.title}${this.orederInfo.curTitle}, 将花费${this.totalPirce}个心动币`, this.totalPirce, this.payOrder)
+		},
+		async payOrder() {
 			let params = {
 				address_id: this.addressId,
 				remark: this.remark,
@@ -91,7 +94,9 @@ export default {
 			};
 			let res = await this.$service.mall.order_buy(params);
 			if(res.data.code === 0) {
-				console.log(res);
+				uni.redirectTo({
+					url: './buy-tip'
+				})
 			}
 		}
 	},
@@ -105,6 +110,9 @@ export default {
 				this.addressId = address.id;
 				return address.province_name + address.city_name + address.area_name + address.address;
 			}
+		},
+		totalPirce() {
+			return (this.orederInfo.curNumber * this.orederInfo.curPrice).toFixed(2)
 		}
 	}
 };

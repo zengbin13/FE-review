@@ -90,6 +90,7 @@
 				//用户/电话
 				// phoneData:'17338674728', 
 				// #ifndef H5
+				// phoneData:'',
 				phoneData:'15824369452',
 				// #endif
 				// #ifdef H5
@@ -97,7 +98,7 @@
 				// #endif
 				passData:'', //密码
 				isRotate: false, //是否加载旋转
-				isFocus: true ,// 是否聚焦
+				isFocus:  false,// 是否聚焦
 				verCode:'555666' ,//验证码
 				loginMode: 0, //0:验证码 1：密码 2:微信
 				userInfo: {}
