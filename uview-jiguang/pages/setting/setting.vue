@@ -38,7 +38,7 @@
 			},
 			handleTap3() {
 				uni.navigateTo({
-					url: '/pages/test/test'
+					url: '/pages/member/open-member/open-member'
 				});
 			},
 			// 退出登录

@@ -457,3 +457,104 @@ class Person {
 
 
 
+## Generator 生成器
+
+——一种可以用来**控制迭代器（iterator）的函数**，**可以随时暂停，并可以在任意时候恢复**
+
+```js
+// for循环
+for(let i = 0; i < 5; i++) {
+    console.log(i)
+}
+// 立即返回 0 1 2 3 4 
+
+// 生成器函数
+function* generatorForLoop(num) {
+    for(let i = 0; i < num; i++) {
+        yield console.log(i)
+    }
+}
+let genForLoop = generatorForLoop(5)
+genForLoop.next(); // 0 {value: undefined, done: false}
+genForLoop.next(); // 1 {value: undefined, done: false}
+genForLoop.next(); // 2 {value: undefined, done: false}
+genForLoop.next(); // 3 {value: undefined, done: false}
+genForLoop.next(); // 4 {value: undefined, done: false}
+genForLoop.next(); //   {value: undefined, done: true}
+```
+
+- 生成器——只在需要时才会产生下一个值
+- 不能使用箭头函数来创建一个生成器
+- Generator 函数调用返回一个指向内部状态的指针对象 （**遍历器对象**）
+- 调用遍历器对象的`next`方法，使得指针移向下一个状态
+
+
+
+### yield
+
+类似于 `return`，
+
+- `return`  在完成函数调用后简单将值返回，return语句后代码将不会执行
+- `yield`  
+  - 返回的值只会返回一次，再次调用该函数时将执行到下一个 `yield`语句处
+  - `yield` 通常返回一个对象，返回值作为对象value属性，另一属性done表示是否完成
+  - `yield`表达式是暂停执行的标记，而`next`方法可以恢复执行
+
+```js
+function* generator(b) {
+    let a = 6;
+    yield a + b;
+    a = 10;
+    yield a * b;
+    console.log(a, b)
+}
+const calc = generator(6)
+calc.next() // {value: 12, done: false}
+calc.next() // {value: 60, done: false}
+calc.next() // 10 6 {value: undefined, done: true}
+```
+
+
+
+- `yield`用于其他表达式需在圆括号中 `console.log('Hello' + (yield));`
+
+- `yield`表达式用作**函数参数或放在赋值表达式的右边**，可以不加括号
+
+  ```js
+  function* demo() {
+    foo(yield 'a', yield 'b'); // OK
+    let input = yield; // OK
+  }
+  ```
+
+  
+
+### next 方法的参数
+
+- yield表达式本身没有返回值，或者说总是返回`undefined`
+
+- `next`方法可以带一个参数，该参数就会被**当作上一个`yield`表达式的返回值**
+
+  - 第一次使用`next`方法时，传递参数是无效的
+
+- 通过`next`方法的参数，在 Generator 函数开始运行之后，继续向函数体内部注入值
+
+  ```js
+  function* foo(x) {
+    var y = 2 * (yield (x + 1));
+    var z = yield (y / 3);
+    return (x + y + z);
+  }
+  
+  var a = foo(5);
+  a.next() // Object{value:6, done:false}
+  a.next() // Object{value:NaN, done:false}
+  a.next() // Object{value:NaN, done:true}
+  
+  var b = foo(5);
+  b.next() // { value:6, done:false }
+  b.next(12) // { value:8, done:false }
+  b.next(13) // { value:42, done:true }
+  ```
+
+  

@@ -5,6 +5,12 @@
 				<text class="iconfont icon-jia1"></text>
 			</view>
 		</u-navbar>
+		<view class="tag-wrap">
+			<view class="tag" v-for="(tag, index) in tagList">
+				<text class="iconfont icon-huati3"></text>
+				{{tag.title}}
+			</view>
+		</view>
 		<view class="square-wrap">
 			<square-item v-for="(item, index) in squareList" :squareInfo="item" :enter="true" :mode="1" class="square-item"></square-item>
 		</view>
@@ -51,6 +57,7 @@
 				if(res.data.code === 0) {
 					this.$storage.set('tags', res.data.data)
 					this.tagList = res.data.data
+					console.log(222, this.tagList);
 				}
 			},
 			// 获取动态

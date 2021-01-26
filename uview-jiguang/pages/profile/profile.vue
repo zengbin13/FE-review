@@ -42,12 +42,9 @@
 			<u-cell-item title="可用心动币" :value="balanceFormat" @click="handleJump" :index="1">
 				<text slot="icon" class="iconfont icon-qianbao1"></text>
 			</u-cell-item>
-			<u-cell-item title="积分商城" @click="handleJump" :index="2">
-				<text slot="icon" class="iconfont icon-shangcheng"></text>
-			</u-cell-item>
 		</u-cell-group>
 		<u-cell-group :border="false" class="cell-group">
-			<u-cell-item title="会员中心" @click="handleJump" :index="3"><text slot="icon" class="iconfont icon-huiyuan"></text></u-cell-item>
+			<u-cell-item title="会员中心" @click="handleJump" :index="3"><text slot="icon" class="iconfont icon-huiyuan" :value="level"></text></u-cell-item>
 			<u-cell-item title="我的发布" @click="handleJump" :index="4"><text slot="icon" class="iconfont icon-fabu1"></text></u-cell-item>
 			<u-cell-item title="我的申请" @click="handleJump" :index="5"><text slot="icon" class="iconfont icon-yaoqing"></text></u-cell-item>
 		</u-cell-group>
@@ -64,7 +61,8 @@ import tags from '@/components/tags/tags.vue';
 export default {
 	data() {
 		return {
-			userInfo: {}
+			userInfo: {},
+			state: {}
 		};
 	},
 	components: {
@@ -72,6 +70,7 @@ export default {
 	},
 	onLoad() {
 		this.userInfo = uni.getStorageSync('userInfo');
+		this.state = uni.getStorageSync('state');
 	},
 
 	methods: {
@@ -80,11 +79,6 @@ export default {
 			if(index === 1 ) {
 				uni.navigateTo({
 					url:'../wallet/wallet'
-				})
-			}
-			if(index === 2 ) {
-				uni.switchTab({
-					url:'../mall/mall'
 				})
 			}
 			if(index === 3 ) {
@@ -124,6 +118,13 @@ export default {
 	computed:{
 		balanceFormat() {
 			return this.$utils.numberFormat(this.userInfo.balance, 0)
+		},
+		level() {
+			if(this.state.level) {
+				return this.userInfo.level
+			} else {
+				return '开通会员享受更多特权'
+			}
 		}
 	}
 };

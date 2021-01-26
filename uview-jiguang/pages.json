@@ -317,7 +317,10 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "会员中心",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView": false
+				}
             }
             
         }
@@ -555,6 +558,18 @@
             {
                 "navigationBarTitleText": "购买提示",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/member/open-member/open-member",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "开通会员",
+                "enablePullDownRefresh": false,
+				"app-plus":{
+					"titleNView":false
+				}
             }
             
         }
