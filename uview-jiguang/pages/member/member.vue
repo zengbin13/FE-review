@@ -32,7 +32,16 @@
 					以上评价均来自真实会员反馈
 				</view>
 			</view>
-			<image src="../../static/images/member/m2.jpg" mode="widthFix" class="introduce"></image>
+		</view>
+		<!-- 服务介绍 -->
+		<view class="service-card">
+			<view class="title-wrap">
+				<view class="title">
+					服务介绍
+				</view>
+				<text>以高质量的服务为核心宗旨</text>
+			</view>
+			<image src="../../static/images/member/m2.png" mode="widthFix" style="width: 100%;"></image>
 		</view>
 		<!-- 会员特权介绍卡片 -->
 		<view class="privilege-card">
@@ -40,24 +49,25 @@
 				<view class="title">
 					会员专属特权
 				</view>
-				<text>14项会员特权打造不一样的会员体验</text>
+				<text v-if="this.state.sex === 1">14项会员特权打造不一样的会员体验</text>
+				<text v-if="this.state.sex === 2">10项会员特权打造不一样的会员体验</text>
 			</view>
-			<member-card></member-card>
+			
+			<member-card :level="4" v-if="this.state.sex === 1"></member-card>
+			<member-card :level="8" v-if="this.state.sex === 2"></member-card>
 		</view>
 		<!-- 按钮 -->
-	<!-- 	<view class="btn-wrap">
-			<view class="btn">
-				<button type="default" class="btn1" @tap="goNews">咨询客服</button>
-				<button type="default" class="btn2" @click="openMember">{{state.sex === 1 ? '开通会员' : '女生认证'}}<text>据说80%的会员都约到心仪的TA</text></button>
-			</view>
-		</view> -->
+		<view class="button-wrap">
+			<u-button class="servire" plain type="primary">咨询客服</u-button>
+			<u-button class="open" type="primary" @click="openMember">{{state.sex === 1 ? '开通会员' : '免费认证'}} <text>据说80%的会员都约到了心仪的TA</text></u-button>
+		</view>
 		<!-- popup -->
-		<u-popup v-model="show" mode="bottom" border-radius="14" :closeable="true">
+		<u-popup v-model="show" mode="bottom" border-radius="14" :closeable="true" class="popup">
 			<view class="title">
 				免费认证会员
 			</view>
 			<u-cell-group class="cell-wrap">
-				<u-cell-item title="第一步: 完善个人资料" :arrow="true" arrow-direction="right" label="完成度超过60%才能认证" @tap='step1'>{{this.completionPercentage}}%</u-cell-item>
+				<u-cell-item title="第一步: 完善个人资料" :arrow="true" arrow-direction="right" label="完成度超过60%才能认证" @tap='step1'>{{$store.state.cardInfo.completionPercentage}}%</u-cell-item>
 				<u-cell-item title="第二步: 人工认证" :arrow="true" arrow-direction="right" label="客服人工认证,保证用户资料真实有效" @tap='step2'></u-cell-item>
 			</u-cell-group>
 		</u-popup>
@@ -72,17 +82,11 @@
 				state: {},
 				show: false,
 				memberLevelList: [],
-				cardInfo: {},
-				completionPercentage: 0
 			};
 		},
 		onLoad() {		
 			this.state = uni.getStorageSync('state')
-		},
-		onShow() {
-			// if(this.sex === 2) {
-			// 	this.getCardInfo()
-			// }
+			this.getCardInfo()
 		},
 		components: {
 			memberCard
@@ -93,20 +97,18 @@
 				this.memberLevelList = res.data.data.data
 			},
 			openMember() {
-				this.sex = uni.getStorageSync('sex')
-				if(this.sex === 1) {
+				if(this.state.sex === 1) {
 					uni.navigateTo({
-						url:'memberDetail'
+						url: './open-member/open-member'
 					})
 				} else {
 					this.show = true
 				}
-				
 			},
 			step1() {
 				this.show = false
 				uni.navigateTo({
-					url:"../mine/editUserInfo"
+					url:"../profile/editCardInfo"
 				})
 			},
 			step2() {
@@ -122,19 +124,18 @@
 			handleNavBack() {
 				uni.navigateBack()
 			},
-			// async getCardInfo() {
-			// 	let res = await this.$service.profile.get_card_info();
-			// 	this.cardInfo = res.data.data;
-			// 	this.$storage.set('cardInfo', this.cardInfo);
-			// 	this.completionPercentage = this.cardInfo.completionPercentage
-			// },
-			// async goNews() {
-			// 	var current = this.$storage.getSync('userService') //得到专属客服数据
-			// 	uni.navigateTo({
-			// 		url: '../news/im-chat/im-chat?title=' + current.nickname + '&fromUser=' + current.account_number + '&nickname=' +
-			// 			current.nickname + '&noteName=' + current.nickname
-			// 	});
-			// }
+			async getCardInfo() {
+				let res = await this.$service.profile.get_card_info();
+				console.log(res.data.data);
+				this.$store.commit('updateCardInfo', res.data.data)
+			},
+			async goNews() {
+				var current = this.$storage.getSync('userService') //得到专属客服数据
+				uni.navigateTo({
+					url: '../news/im-chat/im-chat?title=' + current.nickname + '&fromUser=' + current.account_number + '&nickname=' +
+						current.nickname + '&noteName=' + current.nickname
+				});
+			}
 		}
 	}
 </script>
@@ -143,7 +144,44 @@
 	page {
 		background-color: #FFFFFF;
 	}
-	.privilege-card {
+	.member {
+		position: relative;
+		padding-bottom: 80rpx;
+		.back {
+			position: fixed;
+			font-size: 40rpx;
+			z-index: 9;
+			top: var(--status-bar-height);
+			left: 20rpx;
+			color: #FFFFFF;
+			width: 60rpx;
+			height: 60rpx;
+			text-align: center;
+			line-height: 60rpx;
+			border-radius: 50%;
+			background-color: $main-color;
+		}
+	}
+	.content-wrap {
+		background-color: #FFFFFF;
+		padding-bottom: 20rpx;
+		.introduce {
+			width: 750rpx;
+		} 
+		.feedback {
+			background-color: #FFFFFF;
+			swiper {
+				height: 200rpx;
+			}
+			.feedback-text {
+				font-size: 28rpx;
+				line-height: 50rpx;
+				text-align: center;
+			}
+		}
+	}
+	.privilege-card, .service-card {
+		margin: 30rpx 0;
 		.title-wrap {
 			text-align: center;
 			.title {
@@ -160,70 +198,41 @@
 			}
 		}
 	}
-	.title {
-		text-align: center;
-		line-height: 100rpx;
-		font-size: 32rpx;
-		font-weight: 600;
-	}
-	.cell-wrap {
-		padding-bottom: 50rpx;
-	}
-	.member {
-		position: relative;
-		.back {
-			position: fixed;
-			font-size: 40rpx;
-			z-index: 9;
-			line-height: 88rpx;
-			top: var(--status-bar-height);
-			left: 20rpx;
-		}
-	}
-	.content-wrap {
-		margin-bottom: 60rpx;
-	}
-	.introduce {
-		width: 750rpx;
-	} 
-	.feedback {
-		background-color: #FFFFFF;
-		swiper {
-			height: 200rpx;
-		}
-		.feedback-text {
-			font-size: 28rpx;
-			line-height: 50rpx;
+	.popup {
+		.title {
 			text-align: center;
+			line-height: 100rpx;
+			font-size: 32rpx;
+			font-weight: 600;
+		}
+		.cell-wrap {
+			padding-bottom: 50rpx;
 		}
 	}
-	.btn-wrap {
-		width: 100vw;
-		position: fixed;
-		bottom: 0;
-	}
-	.btn {
+
+	.button-wrap {
+		height: 100rpx;
 		display: flex;
-		padding: 30rpx 30rpx 45rpx;
 		background-color: #FFFFFF;
-		button {
-			border-radius: 14rpx;
-			font-size: 30rpx;
-			padding: 10rpx 0;
-		}
-		.btn1 {
-			border: 1rpx solid $main-color;
-			color: $main-color;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99;
+		align-items: center;
+		justify-content: space-evenly;
+		padding: 0 30rpx;
+		.servire {
 			flex: 1;
-			margin-right: 20rpx;
+			margin-right: 30rpx;
+			height: 70rpx;
 		}
-		.btn2 {
-			color: #fff;
-			background-color: $main-color;
-			flex: 3;
+		.open {
+			flex: 4;
+			height: 70rpx;
 			text {
-				font-size: 20rpx;
 				padding-left: 10rpx;
+				font-size: 20rpx;
 			}
 		}
 	}

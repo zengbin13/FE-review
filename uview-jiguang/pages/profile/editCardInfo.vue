@@ -4,26 +4,31 @@
 			<view slot="right" class="save" @tap="handleSave">保存</view>
 		</u-navbar>
 		<!-- 资料完成度 -->
-		<view class="finish-state">
-			<view class="finish-state-item" v-if="finishState === 0">
+		<view class="finish-state" v-if="cardInfo.sex === 2 && show.finish">
+			<view class="finish-state-item" v-if="rate < 20">
 				<text class="emoji">😴</text>
-				<text>资料完成度: 10% 完善资料，快来偶遇你的TA</text>
+				<text>资料完成度: {{rate}}% 完善资料，快来偶遇你的TA</text>
+				<text class="iconfont icon-ziyuan2" @click="show.finish = false"></text>
 			</view>
-			<view class="finish-state-item" v-if="finishState === 1">
+			<view class="finish-state-item" v-else-if="rate < 40">
 				<text class="emoji">😪</text>
-				<text>资料完成度: 22% 咦! 好像这里还没填, 去看看吧</text>
+				<text>资料完成度: {{rate}}% 咦! 好像这里还没填, 去看看吧</text>
+				<text class="iconfont icon-ziyuan2" @click="show.finish = false"></text>
 			</view>
-			<view class="finish-state-item" v-if="finishState === 2">
+			<view class="finish-state-item" v-else-if="rate < 60">
 				<text class="emoji">🤔</text>
-				<text>资料完成度: 40% 完善资料，找到适合你的TA</text>
+				<text>资料完成度: {{rate}}% 完善资料，找到适合你的TA</text>
+				<text class="iconfont icon-ziyuan2" @click="show.finish = false"></text>
 			</view>
-			<view class="finish-state-item" v-if="finishState === 3">
+			<view class="finish-state-item" v-else-if="rate < 80">
 				<text class="emoji">😊</text>
-				<text>资料完成度: 75% 离完美的自己就差一步啦</text>
+				<text>资料完成度: {{rate}}% 离完美的自己就差一步啦</text>
+				<text class="iconfont icon-ziyuan2" @click="show.finish = false"></text>
 			</view>
-			<view class="finish-state-item" v-if="finishState === 4">
+			<view class="finish-state-item" v-else>
 				<text class="emoji">😘</text>
-				<text>资料完成度: 100% 果然是个优秀的同学</text>
+				<text>资料完成度: {{rate}}% 果然是个优秀的同学</text>
+				<text class="iconfont icon-ziyuan2" @click="show.finish = false"></text>
 			</view>
 		</view>
 		<!-- 资料编辑 -->
@@ -148,7 +153,8 @@
 					height: false,
 					weight:false,
 					constell: false,
-					area: false
+					area: false,
+					finish: true,
 				},
 				heightList,
 				weightList,
@@ -176,14 +182,16 @@
 					imgs.push({url: item})
 				} )
 				return [...new Set(imgs)]
+			},
+			rate() {
+				return this.$store.state.cardInfo.completionPercentage
 			}
 		},
 		methods:{
 			async getCardInfo() {
 				let res = await this.$service.profile.get_card_info();
 				this.cardInfo = res.data.data;
-				
-				this.$storage.set('cardInfo', this.cardInfo);
+				this.$store.commit('updateCardInfo', res.data.data)
 			},
 			// 修改头像
 			editAvatar() {
@@ -324,6 +332,9 @@
 			line-height: 60rpx;
 			color: #FFFFFF;
 			font-size: 30rpx;
+			.iconfont {
+				float: right;
+			}
 		}
 		.emoji {
 			font-size: 38rpx;
@@ -339,7 +350,7 @@
 		background-color: $page-bg-color;
 	}
 	.card-form {
-		padding: 80rpx 30rpx 0;
+		padding: 70rpx 30rpx 0;
 		.avatar {
 			display: flex;
 			justify-content: space-between;

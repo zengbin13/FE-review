@@ -35,7 +35,7 @@
 			>
 			<swiper-item v-for="(item, index) in tabList" :key="item.text">
 				<!-- <scroll-view scroll-y="true" class="scroll-wrap" refresher-enabled='true' refresher-background='#ebebeb' @refresherrefresh="onRefresh(index)" :refresher-triggered='item.triggered' refresher-default-style="none" @scrolltolower="reactBottom(index)"> -->
-				<scroll-view scroll-y="true" class="scroll-wrap" refresher-enabled='true' refresher-background='#ebebeb' @refresherrefresh="onRefresh(index)" :refresher-triggered='item.triggered' refresher-default-style="none" @scrolltolower="reactBottom(index)">
+				<scroll-view scroll-y="true" class="scroll-wrap" :refresher-enabled='false' refresher-background='#ebebeb' @refresherrefresh="onRefresh(index)" :refresher-triggered='item.triggered' refresher-default-style="none" @scrolltolower="reactBottom(index)">
 					<view class="loading">
 						<u-loading mode="circle" color="#ff7243" size="42" :show="item.loading" ></u-loading>
 					</view>

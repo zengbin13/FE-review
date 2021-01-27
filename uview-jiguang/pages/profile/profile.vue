@@ -44,7 +44,10 @@
 			</u-cell-item>
 		</u-cell-group>
 		<u-cell-group :border="false" class="cell-group">
-			<u-cell-item title="会员中心" @click="handleJump" :index="3"><text slot="icon" class="iconfont icon-huiyuan" :value="level"></text></u-cell-item>
+			<u-cell-item title="会员中心" @click="handleJump" :index="3" :value="level">
+				<text slot="icon" class="iconfont icon-huiyuan"></text>
+				<!-- <level :level="1" slot="icon"></level> -->
+			</u-cell-item>
 			<u-cell-item title="我的发布" @click="handleJump" :index="4"><text slot="icon" class="iconfont icon-fabu1"></text></u-cell-item>
 			<u-cell-item title="我的申请" @click="handleJump" :index="5"><text slot="icon" class="iconfont icon-yaoqing"></text></u-cell-item>
 		</u-cell-group>
@@ -58,6 +61,8 @@
 
 <script>
 import tags from '@/components/tags/tags.vue';
+import level from '@/components/level/level.vue';
+
 export default {
 	data() {
 		return {
@@ -121,7 +126,7 @@ export default {
 		},
 		level() {
 			if(this.state.level) {
-				return this.userInfo.level
+				return this.userInfo.level_name
 			} else {
 				return '开通会员享受更多特权'
 			}
