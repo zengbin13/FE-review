@@ -44,7 +44,7 @@
 				</view>
 			</swiper-item>
 		</swiper>
-		<swiper class="swiper-card" :current="currentIndex" @change="changeIndex">
+		<swiper class="swiper-card" :current="currentIndex" @change="changeIndex" :class="[currentCoupon.l_id === levelId ? 'isCoupon' : '']">
 			<swiper-item v-for="(item, index) in memberList">
 				<scroll-view scroll-y="true" class="scroll-view">
 					<member-card :level="index + 1" ></member-card>
@@ -53,8 +53,21 @@
 		</swiper>
 		<view class="button-wrap">
 			<u-button class="servire" plain type="primary">咨询客服</u-button>
-			<u-button class="open" type="primary">开通{{memberList[currentIndex].level}}</u-button>
+			<u-button class="open" type="primary" @tap="pay">开通{{memberList[currentIndex].level}}</u-button>
 		</view>
+		<!-- 优惠券 -->
+		<view class="coupon-wrap" v-if="state.sex === 1 && currentCoupon.l_id === 0 ||currentCoupon.l_id === levelId">
+			支付即可使用优惠券: <text>{{currentCoupon.level_name}}{{currentCoupon.number}}</text>
+		</view>
+		<!-- 支付 -->
+		<uni-popup ref="payPopup" type="center">
+			<view class="pay-wrap">
+				<view class="pay-item" v-for="(item,index) in payList" :key="index" @tap="payChange(index)">
+					<text class="iconfont" :class="item.icon"></text>
+					<view class="title">{{item.title}}</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -64,7 +77,18 @@
 	export default {
 		data() {
 			return {
+				state: {},
+				userInfo: {},
+				couponList: [],
+				currentCoupon: {},
 				currentIndex: 3,
+				payList: [{
+					icon: 'icon-weixinzhifu',
+					title: '微信支付'
+				}, {
+					icon: 'icon-zhifubaozhifu',
+					title: '支付宝'
+				}],
 				memberList: [
 					{
 						level: '普通会员',
@@ -114,9 +138,69 @@
 			memberCard,
 			level
 		},
+		onLoad() {
+			this.state = uni.getStorageSync('state')
+			this.userInfo = uni.getStorageSync('userInfo')
+			if(this.state.level === 0 && this.state.sex === 1) {
+				this.getCoupon()
+			}
+		},
 		methods:{
+			async getCoupon() {
+				let res = await this.$service.profile.user_coupon()
+				this.couponList = res.data.data
+				this.currentCoupon = this.couponList[0] || {}
+			},
 			changeIndex(e) {
 				this.currentIndex = e.detail.current
+			},
+			pay() {
+				if(!this.userInfo.is_pay) {
+					this.$utils.showToast('开通会员，请先咨询客服')
+					return 
+				}
+				this.$refs.payPopup.open()
+			},
+			async payChange(index) {
+				// #ifdef H5
+					this.$refs.payPopup.close()
+					this.$utils.showToast('请前往App端进行支付')
+					return
+				// #endif
+				let payType = index === 0 ? 2 : 1
+				let params = {
+					level_id: this.levelId,
+					pay_type: payType
+				}
+				let res = await this.$service.profile.open_level(params)
+				
+				this.$refs.payPopup.close()
+				if (res.data.code === 0) {
+					this.PayOrder(payType, res.data.data)
+				}
+			},
+			async PayOrder(payType, orderInfo) {
+				let provider = payType == 2 ? 'wxpay' : 'alipay'
+				uni.requestPayment({
+					provider,
+					orderInfo,
+					success: () => {
+						this.$utils.showToast('支付成功')
+					},
+					fail: () => {
+						this.$utils.showToast('支付失败')
+					},
+				})
+			},
+		},
+		computed:{
+			levelId() {
+				if(this.currentIndex === 0) return 3
+				if(this.currentIndex === 1) return 5
+				if(this.currentIndex === 2) return 2
+				if(this.currentIndex === 3) return 1
+				if(this.currentIndex === 4) return 4
+				return 0
 			}
 		}
 	}
@@ -207,6 +291,9 @@
 			height: 100%;
 		}
 	}
+	.isCoupon {
+		height: calc(100vh - 600rpx - var(--status-bar-height));
+	}
 	.button-wrap {
 		height: 106rpx;
 		display: flex;
@@ -227,6 +314,43 @@
 		.open {
 			flex: 4;
 			height: 70rpx;
+		}
+	}
+	.coupon-wrap {
+		position: fixed;
+		z-index: 99;
+		bottom: 106rpx;
+		left: 0rpx;
+		right: 0rpx;
+		background-color: #FFFFFF;
+		color: $main-color;
+		text-align: center;
+	}
+	.pay-wrap {
+		margin-top: 200rpx;
+		width: 450rpx;
+		height: 300rpx;
+		background-color: #FFFFFF;
+		border-radius: 30rpx;
+		padding: 20rpx;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		.pay-item {
+			width: 140rpx;
+			text-align: center;
+		}
+		.iconfont {
+			display: inline-block;
+			width: 100%;
+			font-size: 80rpx;
+			text-align: center;
+		}
+		.icon-weixinzhifu {
+			color: #26da6f;
+		}
+		.icon-zhifubaozhifu {
+			color: #1678ff;
 		}
 	}
 </style>

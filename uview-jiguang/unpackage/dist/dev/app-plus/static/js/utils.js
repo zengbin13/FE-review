@@ -11,6 +11,35 @@ const utils = {
 			url: `/pages/popup/popup-tip?tip=${JSON.stringify(tip)}`
 		})
 	},
+	// 确定锁定
+	lockMember(content, callback) {
+		let tip = {
+			title: '锁定会员',
+			icon: 't-icon-emoji6',
+			content,
+			event: 'lockMember'
+		}
+		this.showTipCard(tip, () => {
+			uni.navigateBack()
+			callback()
+		})
+	},
+	// 锁定状态
+	lockState(content) {
+		// 非会员
+		let tip = {
+			title: '会员已锁定',
+			icon: 't-icon-emoji6',
+			content,
+			event: 'lockState',
+			button: '解锁'
+		}
+		this.showTipCard(tip, () => {
+			uni.redirectTo({
+				url:'../login/forget?mode=1'
+			})
+		})
+	},
 	// 非会员
 	nonMember(content) {
 		// 非会员
@@ -18,8 +47,7 @@ const utils = {
 			title: '会员权益',
 			icon: 't-icon-emoji6',
 			content,
-			event: 'NonMember',
-			button: '成为会员'
+			event: 'NonMember'
 		}
 		this.showTipCard(tip, () => {
 			uni.redirectTo({

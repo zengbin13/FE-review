@@ -116,6 +116,18 @@ const profile = {
 	set_privacy: params => http.request('POST', '/api/saveUserPrivacy', params),
 	// 获取申请列表
 	apply_list: params => http.request('GET', '/api/getMyApplyforList', params),
+	// 锁定会员
+	lock_level: params => http.request('POST', '/api/lockLevel', params),
+	// 解锁会员
+	unlock_level: params => http.request('POST', '/api/unlockLevel', params),
+	//获取会员列表 
+	get_level_list: () => http.request('GET', '/api/level/getList'),
+	// 开通会员 
+	open_level: params => http.request('POST', '/api/level/openup', params),
+	//版本更新
+	version: () => http.request('GET', '/api/app/version'),
+	//优惠券
+	user_coupon: () => http.request('POST', '/api/level/userCoupon'),
 }
 const square = {
 	// 发布广场 

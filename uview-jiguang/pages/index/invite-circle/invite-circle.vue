@@ -42,7 +42,22 @@
 			},
 			openRelease() {
 				if(!this.state.level) {
-					this.nonMember()
+					// #ifdef APP-NVUE
+					utils.nonMember('发布邀约,需要成为平台正式会员')
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.nonMember('发布邀约,需要成为平台正式会员')
+					// #endif
+					return
+				} else if(this.state.state === 3) {
+					// #ifdef APP-NVUE
+					utils.lockState(`尊敬的会员,当前会员权益已被冻结
+					发布邀约,需要解锁会员`)
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.lockState(`尊敬的会员,当前会员权益已被冻结
+					发布邀约,需要解锁会员`)
+					// #endif
 					return
 				}
 				uni.navigateTo({

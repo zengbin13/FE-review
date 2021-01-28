@@ -221,12 +221,26 @@ export default {
 	},
 	methods: {
 		moreRecommend() {
-			if(this.state.level) {
+			if(this.state.state === 3) {
+				// #ifdef APP-NVUE
+				utils.lockState(`尊敬的会员,当前会员权益已被冻结
+				查看更多会员推荐,需要解锁会员`)
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.lockState(`尊敬的会员,当前会员权益已被冻结
+				查看更多会员推荐,需要解锁会员`)
+				// #endif
+			} else if(!this.state.level) {
+				// #ifdef APP-NVUE
+				utils.nonMember('查看更多会员推荐,需要成为会员')
+				// #endif
+				// #ifndef APP-NVUE
+				this.$utils.nonMember('查看更多会员推荐,需要成为会员')
+				// #endif
+			} else {
 				uni.navigateTo({
 					url: '../seek/seek'
 				})
-			} else {
-				this.nonMember()
 			}
 		},
 		nonMember() {

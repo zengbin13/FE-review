@@ -1,9 +1,85 @@
 /* *
  * 通用公共js库，常量值和通用函数
  */
+import service from '@/static/js/service.js'
+
 const utils = {
-	//加载状态延时
-	delay: null,
+	// 显示提示层
+	showTipCard(tip, fn) {
+		uni.$once(tip.event, fn)
+		uni.navigateTo({
+			url: `/pages/popup/popup-tip?tip=${JSON.stringify(tip)}`
+		})
+	},
+	// 非会员
+	nonMember(content) {
+		// 非会员
+		let tip = {
+			title: '会员权益',
+			icon: 't-icon-emoji6',
+			content,
+			event: 'NonMember',
+			button: '成为会员'
+		}
+		this.showTipCard(tip, () => {
+			uni.redirectTo({
+				url: '../../pages/member/member'
+			})
+		})
+	},
+	// 余额不足
+	lowBalance(content, balance) {
+		if(balance) {
+			content = '当前余额:' + balance
+		}
+		let tip = {
+			title: '余额不足',
+			icon: 't-icon-emoji6',
+			content,
+			event: 'LowBalance',
+			button: '充值'
+		}
+		this.showTipCard(tip, () => {
+			uni.redirectTo({
+				url: '../../pages/member/member'
+			})
+		})
+	},			
+	// 扣除心动币
+	async coinDeduction(content, coin, callback) {
+		let params = {
+			limit: 1,
+			page: 1
+		}
+		let balance
+		let res = await service.profile.get_balance_log(params)
+		if(res.data.code === 0) {
+			balance = res.data.data[0].after
+		}
+		let tip = {
+			title: '扣除心动币',
+			icon: 't-icon-emoji6',
+			content,
+			event: 'CoinDeduction',
+		}
+		console.log(balance , coin);
+		if(Number(balance) > Number(coin)) {
+			this.showTipCard(tip, () => {
+				uni.navigateBack()
+				callback()
+			})
+		} else {
+			this.lowBalance('', balance)
+		}
+	},
+	// 获取字体图标
+	iconfont() {
+		let domModule = weex.requireModule("dom");
+		domModule.addRule('fontFace', {
+			   'fontFamily': 'iconfont',
+			   'src': "url(\'http://at.alicdn.com/t/font_2134639_n3c0j8cq4ko.ttf\')"
+		})
+	},
 	//显示成功提示
 	showToast(title) {
 		uni.showToast({
@@ -26,6 +102,38 @@ const utils = {
 			title: title,
 			mask: true,
 		})
+	},
+	// 金额格式化
+	numberFormat(number, decimals, dec_point, thousands_sep) {
+		/*
+		 * 参数说明：
+		 * number：要格式化的数字
+		 * decimals：保留几位小数
+		 * dec_point：小数点符号
+		 * thousands_sep：千分位符号
+		 * */
+		number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+		var n = !isFinite(+number) ? 0 : +number,
+			prec = !isFinite(+decimals) ? 2 : Math.abs(decimals),
+			sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+			dec = typeof dec_point === 'undefined' ? '.' : dec_point,
+			s = '',
+			toFixedFix = function(n, prec) {
+				var k = Math.pow(10, prec);
+				return '' + Math.ceil(n * k) / k;
+			};
+	
+		s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+		var re = /(-?\d+)(\d{3})/;
+		while (re.test(s[0])) {
+			s[0] = s[0].replace(re, '$1' + sep + '$2');
+		}
+	
+		if ((s[1] || '').length < prec) {
+			s[1] = s[1] || '';
+			s[1] += new Array(prec - s[1].length + 1).join('0');
+		}
+		return s.join(dec);
 	},
 	//获取uniPush参数
 	getUniPush() {

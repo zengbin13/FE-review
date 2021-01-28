@@ -94,7 +94,9 @@ const store = new Vuex.Store({
 			state.loginProvider = ""
 			state.openid = null
 			state.avatar = "/static/images/face.jpg"
-			
+			uni.reLaunch({
+				url:'/pages/login/login'
+			})
 		},
 		setOpenid(state, openid) {
 			state.openid = openid

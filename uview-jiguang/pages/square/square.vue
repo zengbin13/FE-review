@@ -94,7 +94,11 @@
 			},
 			handleReleaseSquare() {
 				if(!this.state.level) {
-					this.nonMember()
+					this.$utils.nonMember('发布动态,需要成为平台正式会员')
+					return
+				} else if(this.state.state === 3) {
+					this.$utils.lockState(`尊敬的会员,当前会员权益已被冻结
+					发布动态,需要解锁会员`)
 					return
 				}
 				uni.navigateTo({
@@ -124,5 +128,25 @@
 	}
 	.square-item {
 		margin: 20rpx 24rpx 20rpx 20rpx;
+	}
+	.tag-wrap {
+		display: flex;
+		align-items: center;
+		background-color: #FFFFFF;
+		margin: 20rpx 24rpx 20rpx 20rpx;
+		padding: 30rpx 20rpx;
+		border-radius: 30rpx;
+		.tag {
+			margin-right: 20rpx;
+			padding: 6rpx 20rpx;
+			border-radius: 30rpx;
+			background-color: #f0f0f2;
+			font-size: 28rpx;
+		}
+		.iconfont {
+			color: $main-color;
+			font-size: 34rpx;
+			padding-right: 4rpx;
+		}
 	}
 </style>

@@ -573,6 +573,27 @@
             }
             
         }
+        ,{
+            "path" : "pages/setting/coupon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的优惠券",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/square/square-tag/square-tag",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "话题广场",
+                "enablePullDownRefresh": true,
+				"app-plus":{
+					"titleNView":false
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

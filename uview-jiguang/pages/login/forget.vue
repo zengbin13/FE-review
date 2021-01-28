@@ -1,10 +1,10 @@
 <template>
 	<view class="forget">
-		
 		<view class="content">
 			<!-- 主体 -->
 			<view class="main">
-				<view class="tips">若你忘记了密码，可在此重置新密码。</view>
+				<view class="tips" v-if="mode === 0">若你忘记了密码，可在此重置新密码。</view>
+				<view class="unlock" v-if="mode === 1"></view>
 				<wInput
 					v-model="phoneData"
 					type="text"
@@ -14,6 +14,7 @@
 					:areaCode="areaCode"
 				></wInput>
 				<wInput
+					v-if="mode === 0"
 					v-model="passData"
 					type="password"
 					maxlength="11"
@@ -37,7 +38,7 @@
 			
 			<wButton 
 				class="wbutton"
-				text="重置密码"
+				:text="buttonText"
 				:rotate="isRotate" 
 				@click.native="startRePass()"
 			></wButton>
@@ -57,6 +58,8 @@
 				passData: "", //密码
 				verCode:"", //验证码
 				isRotate: false, //是否加载旋转
+				mode: 0, //0 修改密码 1 解锁会员
+				state: {}
 			}
 		},
 		components:{
@@ -69,7 +72,19 @@
 		computed:{
 			areaCode() {
 				return this.$store.state.areaCode
+			},
+			buttonText() {
+				return this.mode === 0 ? '重置密码' : '解锁会员'
 			}
+		},
+		onLoad(options) {
+			if(options.mode) {
+				this.mode = 1
+				uni.setNavigationBarTitle({
+					title:'解锁会员'
+				})
+			}
+			this.state = uni.getStorageSync('state')
 		},
 		methods: {
 			async getVerCode(){
@@ -104,7 +119,7 @@
 				    });
 				    return false;
 				}
-			    if (this.passData.length < 6) {
+			    if (this.passData.length < 6 && this.mode === 0) {
 			        uni.showToast({
 			            icon: 'none',
 						position: 'bottom',
@@ -120,7 +135,32 @@
 				    });
 				    return false;
 				}
-				this.rePass()	
+				if(this.mode === 0) {
+					this.rePass()
+				} else {
+					this.unlockLevel()
+				}
+			},
+			async unlockLevel() {
+				_this.isRotate=true
+				setTimeout(function(){
+					_this.isRotate=false
+				},3000)
+				let params = {
+					mobile: this.phoneData,
+					code: this.verCode
+				}
+				let res = await this.$service.profile.unlock_level(params)
+				if(res.data.code === 0) {
+					this.$utils.showToast('解锁成功')
+					this.state.state = 1
+					uni.setStorageSync('state', this.state)
+					setTimeout(() => {
+						uni.reLaunch({
+							url:'../profile/profile'
+						})
+					}, 1500)
+				}
 			},
 			async rePass() {
 				_this.isRotate=true
@@ -151,6 +191,9 @@
 	@import url("./css/main.css");
 	.content {
 		// justify-content: start !important;
+	}
+	.unlock {
+		margin-top: 200rpx;
 	}
 </style>
 

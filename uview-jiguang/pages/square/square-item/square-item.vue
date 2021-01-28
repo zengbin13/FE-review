@@ -27,9 +27,14 @@
 		<view class="content-wrap" @tap="enterSquareDetail">
 			<text class="content-txt">{{squareInfo.content}}</text>
 			<view class="content-img-wrap" v-if="squareInfo.ncftpput.length">
-				<u-image v-for="(img, index) in squareInfo.ncftpput" class="content-img" :src="img.accesspath" :width="330" :height="330" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
-					<text slot="error" style="font-size: 24rpx;">加载失败</text>
-				</u-image>
+				<view class="img-wrap" v-for="(img, index) in squareInfo.ncftpput">
+					<u-image  class="content-img" :src="img.accesspath" :width="330" :height="330" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
+						<text slot="error" style="font-size: 24rpx;">加载失败</text>
+					</u-image>
+					<view class="blur-wrap" v-if="img.money">
+						<text class="iconfont icon-suo1"></text>
+					</view>
+				</view>
 			</view>
 		</view>
 		<!-- 标签区域 -->
@@ -197,13 +202,44 @@
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
+			overflow: hidden;
+			position: relative;
 			.content-img {
 				width: 330rpx;
 				height: 330rpx;
 				border-radius: 15rpx;
 				margin: 5rpx 0;
 			}
+			.blur-wrap {
+				position: absolute;
+				border-radius: 15rpx;
+				overflow: hidden;
+				top: 0;
+				bottom: 0;
+				width: 330rpx;
+				backdrop-filter: blur(10px);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				.iconfont {
+					color: #FFFFFF;
+					font-size: 60rpx;
+				}
+			}
 		}
+		// .blur-img {
+		// 	// filter: blur(20rpx);
+		// 	&:after {
+		// 		content: '';
+		// 		display: block;
+		// 		position: absolute;
+		// 		top: 0;
+		// 		bottom: 0;
+		// 		left: 0;
+		// 		right: 0;
+		// 		backdrop-filter: blur(10px);
+		// 	}
+		// }
 	}
 	.tag-wrap {
 		display: flex;

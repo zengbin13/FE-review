@@ -41,10 +41,10 @@
 			<u-cell-item title="优惠券" @click="handleJump" :index="1" v-if="!state.level && state.sex === 1">
 				<text slot="icon" class="iconfont icon-Setup"></text>
 			</u-cell-item>
-			<u-cell-item title="锁定会员" @click="handleJump" :index="2" v-if="state.state === 1">
+			<u-cell-item title="锁定会员" @click="handleJump" :index="2" v-if="state.state === 1 && state.level && state.sex === 1">
 				<text slot="icon" class="iconfont icon-huiyuan"></text>
 			</u-cell-item>
-			<u-cell-item title="解锁会员" @click="handleJump" :index="3" v-else>
+			<u-cell-item title="解锁会员" @click="handleJump" :index="3" v-if="state.state === 3 && state.level && state.sex === 1">
 				<text slot="icon" class="iconfont icon-huiyuan"></text>
 			</u-cell-item>
 			<u-cell-item title="地址管理" @click="handleJump" :index="4">
@@ -61,20 +61,45 @@
 		</u-cell-group>
 		<!-- logout  -->
 		<view class="logout-wrap">
-			<u-button class="logout" type="primary">退出登录</u-button>
+			<u-button class="logout" type="primary" @tap="logout">退出登录</u-button>
 		</view>
+		<!-- 锁定时间选择器 -->
+		<u-select v-model="show.time" :list="timeList" mode="single-column" @confirm="confirm"></u-select>
 	</view>
 </template>
 
 <script>
 import tags from '@/components/tags/tags.vue';
 import level from '@/components/level/level.vue';
-
+import moment from "@/static/js/moment.js"
+	
 export default {
 	data() {
 		return {
 			userInfo: {},
-			state: {}
+			state: {},
+			config: {},
+			timeList: [{
+					label: '15天',
+					value: 15
+				},
+				{
+					label: '30天',
+					value: 30
+				},
+				{
+					label: '45天',
+					value: 45
+				},
+				{
+					label: '60天',
+					value: 60
+				},
+			],
+			show: {
+				time: false
+			},
+			day: 0,
 		};
 	},
 	components: {
@@ -83,39 +108,64 @@ export default {
 	onLoad() {
 		this.userInfo = uni.getStorageSync('userInfo');
 		this.state = uni.getStorageSync('state');
+		this.config = uni.getStorageSync('config');
+		console.log(this.state);
 	},
 
 	methods: {
+		logout() {
+			this.$store.commit('logout')
+		},
+		confirm(e) {
+			this.day = e[0].value
+			let lockBalance = this.config.unlock_level.lock_number || 10
+			this.$utils.lockMember(`暂停会员将退出登录,并且停止${this.day}天会员权益 并扣除${lockBalance}个心动币 提前解锁心动币将不会返还`, this.lockLevel)
+		},
+		async lockLevel() {
+			let params = {
+				expire_time: moment().add(this.day, 'd').format("YYYY-MM-DD")
+			}
+			let res = await this.$service.profile.lock_level(params)
+			if(res.data.code === 0) {
+				this.$utils.showToast('暂停成功')
+				uni.reLaunch({
+					url: '../login/login'
+				})
+			}
+		},
 		// 跳转
 		handleJump(index) {
 			if(index === 1 ) {
 				uni.navigateTo({
-					url:'../wallet/wallet'
+					url:'./coupon'
 				})
 			}
+			if(index === 2 ) {
+				// 锁定会员
+				this.show.time = true
+			}
 			if(index === 3 ) {
+				// 解锁会员
 				uni.navigateTo({
-					url: '../member/member'
+					url:'../login/forget?mode=1'
 				})
 			}
 			if(index === 4 ) {
+				//地址管理
 				uni.navigateTo({
-					url:'./release'
+					url:'../mall/address-manage'
 				})
 			}
 			if(index === 5 ) {
+				//修改密码
 				uni.navigateTo({
-					url:'./apply'
+					url:'../login/forget'
 				})
 			}
 			if(index === 6 ) {
+				// 检查新版本
 				uni.navigateTo({
 					url:'./anonymous'
-				})
-			}
-			if(index === 7 ) {
-				uni.navigateTo({
-					url:'../setting/setting'
 				})
 			}
 		},

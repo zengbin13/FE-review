@@ -306,22 +306,23 @@
 					// #endif
 					return
 				}
+				if(this.state.state === 3) {
+					// #ifdef APP-NVUE
+					utils.lockState(`尊敬的会员,当前会员权益已被冻结
+					申请邀约,需要解锁会员`)
+					// #endif
+					// #ifndef APP-NVUE
+					this.$utils.lockState(`尊敬的会员,当前会员权益已被冻结
+					申请邀约,需要解锁会员`)
+					// #endif
+					return
+				}
 				// 性别为女
 				if(this.state.sex === 2) {
 					this.applyInvite()
 					return
-				}
-				// 余额不足
-				// if(this.balance < this.payNum){
-				// 	// #ifdef APP-NVUE
-				// 	utils.lowBalance(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`)
-				// 	// #endif
-				// 	// #ifndef APP-NVUE
-				// 	this.$utils.lowBalance(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`)
-				// 	// #endif
-				// 	return
-				// }
-				// 扣除心动币
+				}				
+				// 扣除心动币-已判断余额不足
 				// #ifdef APP-NVUE
 				utils.coinDeduction(`申请女生发布邀约将扣除${this.payNum}枚心动币,若女生拒绝申请或超时未回应将原路返回`,this.payNum, this.applyInvite)
 				// #endif
