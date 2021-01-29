@@ -14,7 +14,7 @@
 			v-else-if="squareInfo.sex === 2"
 			 src="@/static/images/index/n-female.png"  class="avatar"></image>
 			 
-			 
+
 			<view class="name-wrap">
 				<view class="name">
 					<text v-if="!squareInfo.anonymity" @tap="enterCard(squareInfo.uid)">{{squareInfo.nickname}}</text>
@@ -22,16 +22,21 @@
 				</view>
 				<tags :sex="squareInfo.sex" :age="squareInfo.end_time" ></tags>
 			</view>
+			<!-- 心动 -->
+			<view class="icon" @tap="showPopup">
+				<!-- <view class="t-icon t-icon-heart-"></view> -->
+				<text class="iconfont icon-love-yellow"></text>
+			</view>
 		</view>
 		<!-- 内容区域 -->
-		<view class="content-wrap" @tap="enterSquareDetail">
-			<text class="content-txt">{{squareInfo.content}}</text>
+		<view class="content-wrap">
+			<text class="content-txt" @tap="enterSquareDetail">{{squareInfo.content}}</text>
 			<view class="content-img-wrap" v-if="squareInfo.ncftpput.length">
 				<view class="img-wrap" v-for="(img, index) in squareInfo.ncftpput">
 					<u-image  class="content-img" :src="img.accesspath" :width="330" :height="330" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
 						<text slot="error" style="font-size: 24rpx;">加载失败</text>
 					</u-image>
-					<view class="blur-wrap" v-if="img.money">
+					<view class="blur-wrap" v-if="img.money && !img.is_pay" @tap="clickBlurImg(index)">
 						<text class="iconfont icon-suo1"></text>
 					</view>
 				</view>
@@ -68,6 +73,24 @@
 				{{squareInfo.likes}}
 			</view>
 		</view>
+		<!-- 置顶标签 -->
+		<view class="top" v-if="squareInfo.is_top || squareInfo.al_id">
+			{{topText}}
+		</view>
+		<!-- 心动币弹窗 -->
+		<u-popup v-model="show.reward" mode="center" border-radius="20" close-icon-color="#ff7243" :closeable="true">
+			<view class="reward-popup">
+				<view class="title">有鼓励, 更有动力</view>
+				<view class="reward-wrap">
+					<view class="reward-item" v-for="(item, index) in rewardList" :class="[rewardIndex === index ? 'reward-active' : '']"
+					@tap="rewardIndex = index"
+					>
+						{{item}}
+					</view>
+				</view>
+				<u-button type="primary" class="button" ripple @click="rewardSquare">打赏</u-button>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -89,7 +112,13 @@
 		},
 		data() {
 			return {
-				state: {}
+				state: {},
+				show: {
+					reward: false
+				},
+				rewardList: [1, 3, 5, 6, 8, 10],
+				rewardIndex: 0,
+				imgIndex: 0
 			};
 		},
 		created() {
@@ -106,6 +135,42 @@
 					}
 				});
 			},
+			// 解锁图片
+			clickBlurImg(index) {
+				this.imgIndex = index
+				this.$utils.coinDeduction(`查看当前图片将支付${this.currentImg.money}个心动币`, this.currentImg.money, this.payBlurImg)
+			},
+			async payBlurImg() {
+				//
+				let params = {
+					type: 3,
+					number: this.currentImg.money,
+					source_id: this.currentImg.id,
+				}
+				let res = await this.$service.common.reward(params)
+				if(res.data.code === 0) {
+					this.squareInfo.ncftpput[this.imgIndex].is_pay = 1
+					this.$store.dispatch('getUserInfo')
+				}
+			},
+			//打赏动态
+			showPopup() {
+				this.show.reward = true
+			},
+			async rewardSquare() {
+				this.show.reward = false
+				let params = {
+					type: 2,
+					number: this.rewardList[this.rewardIndex],
+					source_id: this.squareInfo.id,
+				}
+				let res = await this.$service.common.reward(params)
+				if(res.data.code === 0) {
+					this.$utils.showToast('打赏成功')
+					this.$store.dispatch('getUserInfo')
+				}
+			},
+			// 进入资料卡片
 			enterCard(uid) {
 				console.log(this.state);
 				if(!this.state.level) {
@@ -155,6 +220,13 @@
 			tagName() {
 				if(!this.squareInfo.tag_id) return false
 				return this.squareInfo.tag_desc.substring(1)
+			},
+			topText() {
+				if(this.squareInfo.is_top) return '置顶'
+				if(this.squareInfo.al_id) return '官方'
+			},
+			currentImg() {
+				return this.squareInfo.ncftpput[this.imgIndex]
 			}
 		},
 	}
@@ -165,7 +237,9 @@
 		background-color: #FFFFFF;
 		margin: 20rpx 24rpx 20rpx 20rpx;
 		border-radius: 30rpx;
-		padding: 20rpx
+		padding: 20rpx;
+		position: relative;
+		overflow: hidden;
 	}
 	.user-info-wrap {
 		display: flex;
@@ -177,6 +251,7 @@
 			margin-right: 20rpx;
 		}
 		.name-wrap {
+			flex: 1;
 			text {
 				font-size: 28rpx;
 				color: $sec-font-color;
@@ -188,6 +263,21 @@
 			padding-bottom: 5rpx;
 			text {
 				font-size: 30rpx;
+			}
+		}
+		.icon {
+			margin-right: 30rpx;
+			.t-icon {
+				width: 60rpx;
+				height: 60rpx;
+			}
+			.iconfont {
+				font-size: 40rpx;
+				color: #bfbfbf;
+				color: $main-color;
+			}
+			.active {
+				color: $main-color;
 			}
 		}
 	}
@@ -202,13 +292,15 @@
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
-			overflow: hidden;
-			position: relative;
+			.img-wrap {
+				overflow: hidden;
+				position: relative;
+				margin: 5rpx 0;
+			}
 			.content-img {
 				width: 330rpx;
 				height: 330rpx;
 				border-radius: 15rpx;
-				margin: 5rpx 0;
 			}
 			.blur-wrap {
 				position: absolute;
@@ -216,7 +308,8 @@
 				overflow: hidden;
 				top: 0;
 				bottom: 0;
-				width: 330rpx;
+				left: 0;
+				right: 0;
 				backdrop-filter: blur(10px);
 				display: flex;
 				align-items: center;
@@ -296,6 +389,53 @@
 		.iconfont {
 			font-size: 40rpx;
 			padding-right: 6rpx;
+		}
+	}
+	.top {
+		position: absolute;
+		background-color: $main-color;
+		font-size: 24rpx;
+		color: #FFFFFF;
+		top: 10rpx;
+		right: -550rpx;
+		left: 60rpx;
+		padding: 2rpx 0;
+		padding-left: 30rpx;
+		text-align: center;
+		transform: rotate(45deg);
+		box-shadow: 0rpx 0rpx 12rpx 0rpx rgba($color: #000000, $alpha: .3);
+	}
+	.reward-popup {
+		width: 500rpx;
+		padding: 20rpx;
+		.title {
+			font-size: 36rpx;
+			text-align: center;
+			padding-bottom: 30rpx;
+		}
+		.reward-wrap {
+			display: flex;
+			color: $main-color;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-evenly;
+		}
+		.reward-active {
+			color: #FFFFFF;
+			background-color: $main-color;
+		}
+		.reward-item {
+			border: 1px solid $main-color;
+			border-radius: 10rpx;
+			font-size: 30rpx;
+			padding: 10rpx 20rpx;
+			width: 26%;
+			margin: 10rpx 0;
+			text-align: center;
+		}
+		.button {
+			margin: 20rpx 20rpx 0;
+			height: 64rpx;
 		}
 	}
 </style>

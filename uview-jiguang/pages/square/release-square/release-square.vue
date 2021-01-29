@@ -7,11 +7,23 @@
 		</u-navbar>
 		<view class="content">			
 			<textarea placeholder="来吧,分享点什么..." v-model="releaseForm.content" class="text-area" maxlength="100"></textarea>
-			<u-upload :action="upload.action" :header="upload.header" name="image" ref="relUpload" :file-list="releaseForm.imgs" width="150" height="150" :source-type="['album']" del-bg-color="#ff7243" :custom-btn="true">
+			<u-upload :action="upload.action" :header="upload.header" name="image" ref="relUpload" :file-list="releaseForm.imgs" width="150" height="150" :source-type="['album']" del-bg-color="#ff7243" :custom-btn="true" :reward="true" @reward="handleReward" @on-success="changeFiles">
 				<view class="upload" slot="addBtn">
 					<text class="iconfont icon-shangchuantupian7"></text>
 				</view>
 			</u-upload>
+			<view v-for="(reward, indey) in files">
+				<view class="reward-wrap" v-if="reward.show">
+					<view class="title">
+						打赏可见
+					</view>
+					<view class="reward" >
+						<view class="reward-item" v-for="(item, index) in rewardList" :class="[index === reward.index ? 'active' : '']" @tap="changeReward(index)">
+							{{item}}
+						</view>
+					</view>
+				</view>
+			</view>
 			<u-cell-group :border="false" class="cell-group">
 				<u-cell-item title="所在位置" @click="areaShow = true" :value="releaseForm.area" :value-style="{color: '#ff7243'}">
 					<text slot="icon" class="iconfont icon-didian"></text>
@@ -45,6 +57,7 @@
 			return {
 				areaShow: false,
 				tagShow: false,
+				rewardShow: false,
 				releaseForm: {
 					content: "",
 					imgs: [],
@@ -63,6 +76,9 @@
 				},
 				areaList,
 				tagList: [],
+				rewardList: [1, 3, 5, 10],
+				rewardIndex: 0,
+				files: []
 			}
 		},
 		onLoad(options) {
@@ -98,20 +114,46 @@
 				}
 				return true
 			},
+			//是否加锁
+			changeFiles(res, index, lists, name) {
+				this.files = lists.map(item => {
+					item.response.data.index = -1 
+					item.response.data.playtour = 0 
+					item.response.data.show = false
+					return item.response.data
+				})
+			},
+			changeReward(index) {
+				console.log(index);
+				this.files[this.rewardIndex].index = index
+				this.files[this.rewardIndex].playtour = 1
+			},
+			handleReward(index) {
+				console.log(index);
+				this.rewardIndex = index
+				this.files.forEach(item => {
+					item.show = false
+				})
+				this.files[index].show = true
+			},
 			// 发布动态
 			async releaseSquare() {
 				let flag = this.checkSquare()
 				if(!flag) return false
 				
 				// 过滤图片数据
-				let files = this.$refs.relUpload.lists.filter(val => {
-					return val.progress == 100;
-				});
-				files.forEach(img => {
-					this.releaseForm.imgs.push({
-						id: img.response.data.id,
-						playtour: 0,
-					})
+				// let files = this.$refs.relUpload.lists.filter(val => {
+				// 	return val.progress == 100;
+				// });
+				// files.forEach(img => {
+				// 	this.releaseForm.imgs.push({
+				// 		id: img.response.data.id,
+				// 		playtour: 0,
+				// 	})
+				// })
+				this.releaseForm.imgs = this.files.map(item => {
+					item.money = this.rewardList[item.index]
+					return item
 				})
 				//发布
 				let params = {
@@ -148,7 +190,7 @@
 					return false 
 				}
 				return true
-			}
+			},
 		}
 	}
 </script>
@@ -195,6 +237,32 @@
 			padding-right: 20rpx;
 		}
 	}
-	
+	.reward-wrap {
+		display: flex;
+		align-items: center;
+		padding: 20rpx 0;
+		.title {
+			padding-left: 50rpx;
+			color: #606266;
+			font-size: 28rpx;
+		}
+		.reward {
+			flex: 1;
+			display: flex;
+			justify-content: space-evenly;
+		}
+		.reward-item {
+			min-width: 90rpx;
+			text-align: center;
+			color: $main-color;
+			border: 1px solid $main-color;
+			padding: 6rpx 20rpx;
+			border-radius: 10rpx;
+		}
+		.active {
+			background-color: $main-color;
+			color: #FFFFFF;
+		}
+	}
 	
 </style>

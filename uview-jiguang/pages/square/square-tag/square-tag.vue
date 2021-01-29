@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import squareItem from './square-item/square-item.vue'
+	import squareItem from '../square-item/square-item.vue'
 	export default {
 		data() {
 			return {
@@ -49,7 +49,7 @@
 				let params = {
 					limit: 10,
 					page: this.page,
-					tag_id: tagId,
+					tag_id: this.tagId,
 				}
 				this.status = 'loading'
 				let res = await this.$service.square.get_square_list(params)

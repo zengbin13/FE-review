@@ -152,6 +152,8 @@ const square = {
 const common = {
 	// 上传文件
 	upload_file: params => http.request('POST', '/api/uploadFile', params, '加载中...'),
+	// 支付打赏 
+	reward: params => http.request('POST', '/api/reward', params),
 }
 const seek = {
 	// 觅约列表

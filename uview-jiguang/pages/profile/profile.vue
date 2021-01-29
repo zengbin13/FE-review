@@ -74,10 +74,12 @@ export default {
 		tags
 	},
 	onLoad() {
+		
+	},
+	onShow() {
 		this.userInfo = uni.getStorageSync('userInfo');
 		this.state = uni.getStorageSync('state');
 	},
-
 	methods: {
 		// 跳转
 		handleJump(index) {

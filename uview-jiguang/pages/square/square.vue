@@ -6,7 +6,7 @@
 			</view>
 		</u-navbar>
 		<view class="tag-wrap">
-			<view class="tag" v-for="(tag, index) in tagList">
+			<view class="tag" v-for="(tag, index) in tagList" @click="chooseTag(index)">
 				<text class="iconfont icon-huati3"></text>
 				{{tag.title}}
 			</view>
@@ -51,13 +51,20 @@
 			this.getSquareList()
 		},
 		methods:{
+			//跳转标签
+			chooseTag(index) {
+				let tag = this.tagList[index]
+				console.log(tag);
+				uni.navigateTo({
+					url: `./square-tag/square-tag?title=${tag.title}&tagId=${tag.id}`
+				})
+			},
 			// 获取标签
 			async getTagList() {
 				let res = await this.$service.square.get_tag_list()
 				if(res.data.code === 0) {
 					this.$storage.set('tags', res.data.data)
 					this.tagList = res.data.data
-					console.log(222, this.tagList);
 				}
 			},
 			// 获取动态
@@ -132,12 +139,13 @@
 	.tag-wrap {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		background-color: #FFFFFF;
 		margin: 20rpx 24rpx 20rpx 20rpx;
-		padding: 30rpx 20rpx;
+		padding: 20rpx 20rpx;
 		border-radius: 30rpx;
 		.tag {
-			margin-right: 20rpx;
+			margin: 10rpx 20rpx 10rpx 0rpx;
 			padding: 6rpx 20rpx;
 			border-radius: 30rpx;
 			background-color: #f0f0f2;
