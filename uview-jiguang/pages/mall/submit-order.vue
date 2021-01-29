@@ -94,6 +94,7 @@ export default {
 			};
 			let res = await this.$service.mall.order_buy(params);
 			if(res.data.code === 0) {
+				this.$store.dispatch('getUserInfo')
 				uni.redirectTo({
 					url: './buy-tip'
 				})

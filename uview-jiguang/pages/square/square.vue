@@ -5,7 +5,7 @@
 				<text class="iconfont icon-jia1"></text>
 			</view>
 		</u-navbar>
-		<view class="tag-wrap">
+		<view class="tag-wrap" v-if="tagList.length">
 			<view class="tag" v-for="(tag, index) in tagList" @click="chooseTag(index)">
 				<text class="iconfont icon-huati3"></text>
 				{{tag.title}}

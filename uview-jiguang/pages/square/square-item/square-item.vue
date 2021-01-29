@@ -4,7 +4,7 @@
 		<view class="user-info-wrap">
 			<!-- 非匿名头像 -->
 			<image 
-			v-if="!squareInfo.anonymity"
+			v-if="!squareInfo.anonymity || self"
 			 :src="squareInfo.avatar"  class="avatar" @tap="enterCard(squareInfo.uid)"></image>
 			<!-- 匿名头像 -->
 			<image 
@@ -17,13 +17,13 @@
 
 			<view class="name-wrap">
 				<view class="name">
-					<text v-if="!squareInfo.anonymity" @tap="enterCard(squareInfo.uid)">{{squareInfo.nickname}}</text>
+					<text v-if="!squareInfo.anonymity || self" @tap="enterCard(squareInfo.uid)">{{squareInfo.nickname}}</text>
 					<text v-else>匿名用户</text>
 				</view>
 				<tags :sex="squareInfo.sex" :age="squareInfo.end_time" ></tags>
 			</view>
 			<!-- 心动 -->
-			<view class="icon" @tap="showPopup">
+			<view class="icon" @tap="showPopup" v-if="!self">
 				<!-- <view class="t-icon t-icon-heart-"></view> -->
 				<text class="iconfont icon-love-yellow"></text>
 			</view>
@@ -36,19 +36,19 @@
 					<u-image  class="content-img" :src="img.accesspath" :width="330" :height="330" border-radius="15" mode="aspectFill" @tap="previewImg(index)">
 						<text slot="error" style="font-size: 24rpx;">加载失败</text>
 					</u-image>
-					<view class="blur-wrap" v-if="img.money && !img.is_pay" @tap="clickBlurImg(index)">
+					<view class="blur-wrap" v-if="img.money && !img.is_pay && !self" @tap="clickBlurImg(index)">
 						<text class="iconfont icon-suo1"></text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<!-- 标签区域 -->
-		<view class="tag-wrap" @tap="enterSquareDetail">
-			<view class="location tag">
+		<view class="tag-wrap">
+			<view class="location tag" @tap="enterSquareDetail">
 				<text class="iconfont icon-dingwei3"></text>
 				{{squareInfo.areas_name}}
 			</view>
-			<view class="tag title" v-if="tagName">
+			<view class="tag title" v-if="tagName" @click="chooseTag">
 				<text class="iconfont icon-huati3"></text>
 				{{tagName}}
 			</view>
@@ -118,11 +118,17 @@
 				},
 				rewardList: [1, 3, 5, 6, 8, 10],
 				rewardIndex: 0,
-				imgIndex: 0
+				imgIndex: 0,
+				uid: 0,
+				self: false
 			};
 		},
 		created() {
 			this.state = uni.getStorageSync('state')
+			this.uid = uni.getStorageSync('uid')
+			if(this.uid == this.squareInfo.uid) {
+				this.self = true
+			}
 		},
 		methods:{
 			previewImg(index) {
@@ -170,11 +176,20 @@
 					this.$store.dispatch('getUserInfo')
 				}
 			},
+			//跳转标签
+			chooseTag() {
+				uni.navigateTo({
+					url: `/pages/square/square-tag/square-tag?title=${this.squareInfo.tag_title}&tagId=${this.squareInfo.tag_id}`
+				})
+			},
 			// 进入资料卡片
 			enterCard(uid) {
-				console.log(this.state);
 				if(!this.state.level) {
 					this.$utils.nonMember('查看资料卡,需要成为平台正式会员')
+					return
+				}
+				if(this.state.state === 3) {
+					this.$utils.lockState('查看资料卡,需要解锁')
 					return
 				}
 				uni.navigateTo({
@@ -213,7 +228,11 @@
 			imgList() {
 				let imgs = [];
 				this.squareInfo.ncftpput.forEach(item => {
-					imgs.push(item.accesspath);
+					if(this.self) {
+						imgs.push(item.accesspath);
+					} else if (item.money === 0 || item.is_pay){
+						imgs.push(item.accesspath);
+					}
 				});
 				return imgs;
 			},

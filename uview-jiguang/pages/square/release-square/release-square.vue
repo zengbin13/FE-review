@@ -173,7 +173,7 @@
 						uni.navigateBack({
 							delta: 1
 						})
-					}, 1500)
+					}, 11500)
 				}
 				
 			}
