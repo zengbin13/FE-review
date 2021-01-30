@@ -7629,6 +7629,13 @@ module.exports = {
   "nvue": {
     "fontSize": "24rpx"
   },
+  "main-color": {
+    "color": "#ff7243"
+  },
+  "main-bg": {
+    "backgroundColor": "#ff7243",
+    "color": "#FFFFFF"
+  },
   "status-bar": {
     "width": 100
   },
@@ -7640,6 +7647,11 @@ module.exports = {
     "alignItems": "center",
     "justifyContent": "center",
     "marginLeft": "10rpx"
+  },
+  "m-load": {
+    "display": "block",
+    "textAlign": "center",
+    "lineHeight": 3
   }
 }
 

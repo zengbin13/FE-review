@@ -74,13 +74,39 @@ export default {
 		tags
 	},
 	onLoad() {
-		
+		this.getList()
 	},
 	onShow() {
 		this.userInfo = uni.getStorageSync('userInfo');
 		this.state = uni.getStorageSync('state');
 	},
 	methods: {
+		// 从本地数据库中获取通知列表
+		getList: function() {
+			// #ifdef APP-PLUS
+			this.jpushIM.getFriends((res) => {
+				if (res.errorCode == 0) {
+					let friendList = res.data.map(item => {
+						if(item.isFriend) {
+							return item.username
+						}
+					})
+					uni.setStorage({
+						key:'friendList',
+						data: friendList
+					})
+				} else {
+					uni.showModal({
+						title: '获取失败',
+						content: "原因：" + res.errorMsg,
+						showCancel: false,
+						cancelText: '',
+						confirmText: '关闭'
+					});
+				}
+			})
+			// #endif
+		},
 		// 跳转
 		handleJump(index) {
 			if(index === 1 ) {
@@ -138,6 +164,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.my-btn {
+	position: relative;
+	border: 0upx;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 0 30upx;
+	font-size: 28upx;
+	height: 64upx;
+	line-height: 1;
+	text-align: center;
+	text-decoration: none;
+	overflow: visible;
+	margin-left: initial;
+	transform: translate(0upx, 0upx);
+	margin-right: initial;
+}
+
+
+.my-btn.button-hover {
+	transform: translate(1upx, 1upx);
+}
+
+
+
 .status-bar {
 	background-color: #FFFFFF;
 }

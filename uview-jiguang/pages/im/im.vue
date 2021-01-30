@@ -322,66 +322,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
-	
-	.m-load {
-		display: block;
-		text-align: center;
-		line-height: 3em;
-	}
-	.m-load.load-modal {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0rpx;
-		margin: auto;
-		z-index: 999;
-		width: 260rpx;
-		height: 260rpx;
-		border-radius: 10rpx;
-		background-color: #FFFFFF;
-		box-shadow: 0 0 0rpx 2000rpx rgba(0,0,0,.2);
-		
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 28rpx;
-		line-height: 2.4em;
-		
-		&::after {
-			content: "";
-			position: absolute;
-			background-color: #ffffff;
-			border-radius: 50%;
-			width: 200upx;
-			height: 200upx;
-			font-size: 10px;
-			border-top: 6upx solid rgba(0, 0, 0, 0.05);
-			border-right: 6upx solid rgba(0, 0, 0, 0.05);
-			border-bottom: 6upx solid rgba(0, 0, 0, 0.05);
-			border-left: 6upx solid #ffd833;
-			animation: spin 1s infinite linear;
-			z-index: -1;
-		}
-		
-		.t-icon {
-			width: 100rpx;
-			height: 100rpx;
-		}
-	}
-	@keyframes spin {
-		0% {
-			-webkit-transform: rotate(0);
-			transform: rotate(0);
-		}
-	
-		100% {
-			-webkit-transform: rotate(359deg);
-			transform: rotate(359deg);
-		}
-	}
-	
+<style lang="scss" scoped>	
 	page {
 		background-color: $page-bg-color;
 	}

@@ -165,47 +165,16 @@
 				}
 				return true
 			},
-			// 余额不足
-			lowBalance() {
-				let tip = {
-					title: '余额不足',
-					icon: 't-icon-emoji6',
-					content: `发布邀约将扣除${this.payNum}心动币,每天可以发布两次`,
-					event: 'LowBalance',
-					button: '充值'
-				}
-				this.$utils.showTipCard(tip, () => {
-					uni.redirectTo({
-						url: '../../pages/member/member'
-					})
-				})
-			},
-			// 扣除心动币
-			coinDeduction() {
-				let tip = {
-					title: '扣除心动币',
-					icon: 't-icon-emoji6',
-					content: `发布邀约将扣除${this.payNum}心动币,每天可以发布两次`,
-					event: 'CoinDeduction',
-				}
-				this.$utils.showTipCard(tip, () => {
-					uni.navigateBack()
-					this.releaseInvite()
-				})
-			},
 			release() {
 				let flag = this.checkInvite()
 				if(!flag) return false
-				console.log(222222, this.$store.state.userInfo.balance);
 				// 判断金额 男会员
-				if(this.state.sex === 1 && this.$store.state.userInfo.balance < this.payNum) {
-					this.lowBalance()
-					return
+				if(this.state.sex === 1 ) {
+					this.$utils.coinDeduction(`发布邀约将扣除${this.payNum}心动币,每天可以发布两次`, this.payNum, this.releaseInvite)
+				} else {
+					this.releaseInvite()
 				}
-				if(this.state.sex === 1 && this.$store.state.userInfo.balance >= this.payNum) {
-					this.coinDeduction()
-					return
-				}
+				
 			},
 			// 发布邀约
 			async releaseInvite() {

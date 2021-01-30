@@ -27,7 +27,7 @@
 		
 		<!-- seiper -->
 		<swiper  
-			:duration="1000"
+			:duration="600"
 			:current="currentIndex"
 			@change="changeTabIndex"
 			@transition="scrollTab"
@@ -48,7 +48,7 @@
 					</view>
 					<view v-if="index === 0">
 						<template v-for="(invite, indey) in item.content">
-							<invite-item :inviteData="invite" :type='0' :self='true' class="invite-item"/>
+							<invite-item :inviteData="invite" :type='0' :self='true' class="invite-item" @click.stop.native="enterInviteDetail(invite)"/>
 						</template>
 					</view>
 					<view v-if="index === 1">
@@ -104,6 +104,8 @@
 			inviteItem
 		},
 		methods:{
+			enterInviteDetail(invite) {
+			},
 			async getMyInvite() {
 				let params = {
 					type: 1,

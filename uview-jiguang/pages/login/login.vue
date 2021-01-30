@@ -90,11 +90,11 @@
 				//用户/电话
 				// phoneData:'17338674728', 
 				// #ifndef H5
-				phoneData:'13618335210',
+				phoneData:'17338674728',
 				// phoneData:'15824369452',
 				// #endif
 				// #ifdef H5
-				phoneData:'17338674728',
+				phoneData:'15824369452',
 				// #endif
 				passData:'', //密码
 				isRotate: false, //是否加载旋转

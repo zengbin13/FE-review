@@ -13,7 +13,14 @@ const index = {
 	release_dynamic: params => http.request('POST', '/api/issueDynamic', params, '加载中...'),
 	//申请邀约
 	apply_invite: params => http.request('POST', '/api/addApplyfor', params),
-
+	// 获取申请列表
+	apply_list: params => http.request('GET', '/api/getMyApplyforList', params),
+	// 获取发布邀约申请详情
+	apply_detail: params => http.request('GET', '/api/getContentApplyforList', params),
+	// 是否同意用户邀约
+	apply_audit: params => http.request('POST', '/api/audit', params),
+	//获取其他用户邀约 
+	other_invite_list: params => http.request('GET', '/api/getToUserDynamicList', params),
 }
 const login = {
 	//获取验证码

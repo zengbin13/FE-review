@@ -414,12 +414,15 @@ import store from './store'
 <style lang="scss">
 @import 'uview-ui/index.scss';
 
-/*每个页面公共css */
+// 字体图标
 @import '@/static/css/iconfont.css';
 //多色图标
 @import '@/static/css/iconfont-weapp-icon.css';
 //动画
 @import '@/static/css/animation.css';
+
+/*每个页面公共css */
+@import './app.scss';
 
 // IM
 @import "colorui/main.css";
@@ -454,27 +457,4 @@ import store from './store'
 	}
 }
 
-page {
-	background-color: $page-bg-color;
-}
-.status-bar {
-  height: var(--status-bar-height);
-  width: 100%;
-}
-
-.upload {
-	background-color: $light-main-color;
-	width: 150rpx;
-	height: 150rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	// opacity: .9;
-	margin-left: 10rpx;
-	.iconfont {
-		color: #FFFFFF;
-		// font-weight: 600;
-		font-size: 60rpx;
-	}
-}
 </style>

@@ -1,57 +1,74 @@
 <template>
 	<view>
-		<cu-custom bgImage="https://yoyocmf.oss-cn-beijing.aliyuncs.com/20200418/YjJopipz40rkdn1QRzblQjSmPbUW9p0LjeRCuEpN.jpg" :isBack="true"><block slot="backText">返回</block>
+		<cu-custom bgColor="m-bg-color"
+		 :isBack="true">
+			<block slot="backText">返回</block>
 			<block slot="content">通讯录</block>
-			
 			<block slot="right">
-				<view class="action">
-					<text class="cuIcon-more" @click="showMenu = !showMenu"></text>
-				</view>
+				<button class="cu-btn right-button shadow-blur round"  v-show="isSearchMode" @click="isSearchMode = false">退出</button>
 			</block>
-			
 		</cu-custom>
+
 		
 		<view class="cu-bar bg-white search fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入搜索的关键词" confirm-type="search"></input>
+				<input type="text" placeholder="输入搜索的关键词" confirm-type="search" v-model="searchText"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-orange shadow-blur round">搜索</button>
+				<button class="cu-btn bg-gradual-orange shadow-blur round" @click="searchUser">搜索</button>
 			</view>
 		</view>
 		
 		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:'calc(100vh - '+ CustomBar + 'px - 50px)'}]"
 		 :scroll-with-animation="true" :enable-back-to-top="true">
-		 
-			<block v-for="(item,key) in listData" :key="key">
-				<view :class="'indexItem-' + key" :id="'indexes-' + key" :data-index="key">
-					<view class="padding">{{key}}</view>
-					<view class="cu-list menu-avatar no-padding">
-						<view class="cu-item menuArrow" v-for="(sub,index) in item" :key="index" @click="skipToSingleChat(key,index)" @longpress.stop="showDialog2(key,index)">
-							<view class="cu-avatar lg round" :style="[{backgroundImage:'url('+ sub.avatar +')'}]"></view>
-							<view class="content">
-								<view class="text-grey">{{sub.noteName?sub.noteName:sub.nickname}}<text class="text-abc text-df">（{{sub.username}})</text></view>
-								<!-- <view class="text-gray text-sm">
-									个性签名：{{sub.signature}}
-								</view> -->
-							</view>
-							<view class="action" style="width: 350rpx;">
-								<button class="cu-btn round bg-grey shadow" @tap.stop="showDialog2(key,index)">备注</button>
+			<view v-show="!isSearchMode">
+				<block v-for="(item,key) in listData" :key="key" >
+					<view :class="'indexItem-' + key" :id="'indexes-' + key" :data-index="key">
+						<view class="padding main-color">{{key}}</view>
+						<view class="cu-list menu-avatar no-padding">
+							<view class="cu-item menuArrow" v-for="(sub,index) in item" :key="index" @click="skipToSingleChat(key,index)" @longpress.stop="showDialog2(key,index)">
+								<view class="cu-avatar lg round" :style="[{backgroundImage:'url('+ sub.avatar +')'}]"></view>
+								<view class="content">
+									<view class="text-grey">{{sub.noteName?sub.noteName:sub.nickname}}<text class="text-abc text-df">（{{sub.username}})</text></view>
+									<!-- <view class="text-gray text-sm">
+										个性签名：{{sub.signature}}
+									</view> -->
+								</view>
+								<view class="action" style="width: 350rpx;">
+									<!-- <button class="cu-btn round bg-grey shadow" @tap.stop="showDialog2(key,index)">备注</button> -->
+								</view>
 							</view>
 						</view>
 					</view>
-				</view>
-			</block>
+				</block>
+			</view>
+			<view v-show="isSearchMode">
+				<block>
+					<view class="cu-list menu-avatar no-padding">
+						<view class="cu-item menuArrow" v-for="(sub,index) in searchList" :key="index" @click="skipToSingleChat2(index)">
+							<view class="cu-avatar lg round" :style="[{backgroundImage:'url('+ sub.avatar +')'}]"></view>
+							<view class="content">
+								<view class="text-grey">{{sub.noteName?sub.noteName:sub.nickname}}<text class="text-abc text-df">（{{sub.username}})</text></view>
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+			
 		</scroll-view>
 		
-		<view class="indexBar" :style="[{height:'calc(100vh - ' + CustomBar + 'px - 50px)'}]">
+		<view class="indexBar" :style="[{height:'calc(100vh - ' + CustomBar + 'px - 50px)'}]" v-show="!isSearchMode">
 			<view class="indexBar-box" @touchstart="tStart" @touchend="tEnd" @touchmove.stop="tMove">
 				<view class="indexBar-item" v-for="(item,index) in list" :key="index" :id="index" @touchstart="getCur" @touchend="setCur"> {{item.name}}</view>
 			</view>
 		</view>
+		<!-- 加载中 -->
+		<view class="m-load load-modal" v-if="loadModal">
+			<view class="t-icon t-icon-emoji8 animate__animated animate__bounce animate__infinite infinite"></view>
+		</view>
 		<!--选择显示-->
-		<view v-show="!hidden" class="indexToast">
+		<view v-show="!hidden" class="indexToast main-color">
 			{{listCur}}
 		</view>
 		
@@ -155,6 +172,7 @@
 </template>
 
 <script>
+	let friendList = [];
 	import pinyin from 'pinyin'
 	
 	// #ifdef H5
@@ -190,6 +208,11 @@
 				show3:false,	// 显示申请加群模态框
 				groupId:"",		// 申请加群ID
 				groupReason:"",	// 申请加群理由
+				
+				loadModal: false,
+				searchText: '',
+				isSearchMode: false,
+				searchList: [],
 			};
 		},
 		onShow() {
@@ -206,6 +229,22 @@
 		},
 		
 		methods: {
+			//查找用户
+			searchUser() {
+				if(!this.searchText) {
+					this.$utils.showToast('请输入搜索内容')
+					return
+				}
+				this.isSearchMode = true
+				// #ifdef H5
+				friendList = mock.friendList
+				// #endif
+				this.searchList = friendList.filter(item => {
+					if(item.nickname.includes(this.searchText) || item.noteName.includes(this.searchText)) return item
+				})
+				this.searchText = ''
+				console.log(this.searchList);
+			},
 			init:function(){
 				
 				if(!this.hasLogin){
@@ -229,20 +268,20 @@
 					// 	fail: () => {},
 					// 	complete: () => {}
 					// });
-					return false;
+					// return false;
 				}
+				this.loadModal = true
 				this.getList();
 				this.friendReason = "HI, 我是" + this.nickname;
-				
 			},
 			// 从本地数据库中获取通知列表
 			getList: function() {
-				// var list = [];
 				// #ifdef APP-PLUS
+				var list = []
 				this.jpushIM.getFriends((res) => {
 					if (res.errorCode == 0) {
-						var list = res.data;
-						this.listData = this.setList(list);
+						friendList = res.data;
+						this.listData = this.setList(friendList);
 						
 						list = [];
 						for(let key in this.listData){
@@ -304,6 +343,7 @@
 					newItems = this.imUtils.data_letter_sort(newItems, 'pinyinName');
 					console.log(newItems.C);
 				}
+				this.loadModal = false
 				return newItems;
 			},
 			//获取文字信息
@@ -409,6 +449,25 @@
 			// 创建会话
 			skipToSingleChat: function(key,index) {
 				this.currentItem = this.listData[key][index];
+				var item = this.currentItem;
+				let title = item.nickname ? item.nickname : item.nickname;
+				
+				// #ifdef APP-PLUS
+				this.jpushIM.skipToSingleChat(item.username, (res) => {
+					uni.navigateTo({
+						url: '../im-chat/im-chat?title=' + title + '&fromUser=' + item.username
+					});
+				}, (err) => {
+					uni.showToast({
+						title: "创建 [" + item.username + "] 会话失败:" + err.errorMsg,
+						icon: "none"
+					});
+				})
+				// #endif
+				
+			},
+			skipToSingleChat2: function(index) {
+				this.currentItem = this.searchList[index];
 				var item = this.currentItem;
 				let title = item.nickname ? item.nickname : item.nickname;
 				
@@ -540,6 +599,13 @@
 </script>
 
 <style lang="scss" scoped>
+	.m-bg-color {
+		background-color: #ff886a !important;
+	}
+	.right-button {
+		color: $main-color;
+		margin-right: 30rpx;
+	}
 	page {
 		padding-top: 100rpx;
 	}
@@ -614,6 +680,4 @@
 		text-align: center;
 		font-size: 48upx;
 	}
-	
-	
 </style>

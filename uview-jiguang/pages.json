@@ -594,6 +594,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/profile/invite-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "邀约详情",
+                "enablePullDownRefresh": true
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

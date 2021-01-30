@@ -89,7 +89,10 @@
 			
 			<text style="font-size: 30rpx; padding-left: 10rpx; color: #858585;">{{ inviteData.cate_title }}</text>
 			<view class="invite-count">
-				<text v-if="inviteData.invite_count && type === 0" style="font-size: 28rpx; color: #858585; padding-left: 20rpx;">已有{{inviteData.invite_count}}人发出邀约</text>
+				<text v-if="inviteData.invite_count && !self" style="font-size: 28rpx; color: #858585; padding-left: 20rpx;">已有{{inviteData.invite_count}}人发出邀约</text>
+				<view class="invite-detail" v-if="self && type !== 2" @click="enterInviteDetail" style="font-size: 28rpx; color: #FF7243; padding-right: 20rpx; text-align: right;">
+					点击查看邀约详情
+				</view>
 			</view>
 			<!-- <text v-if="type===0" class="watch">点击查看详情</text> -->
 			<!-- #ifdef APP-NVUE -->
@@ -122,6 +125,7 @@
 				default: 0,
 				//0 不具有申请按钮
 				//1 具有申请按钮
+				//2 邀约详情
 			},
 			self: {
 				type: Boolean,
@@ -181,6 +185,12 @@
 			}
 		},
 		methods:{
+			enterInviteDetail() {
+				let id = this.inviteData.id
+				uni.navigateTo({
+					url: `/pages/profile/invite-detail?id=${id}`
+				})
+			},
 			async getBalanceLog() {
 				let params = {
 					limit: 1,
