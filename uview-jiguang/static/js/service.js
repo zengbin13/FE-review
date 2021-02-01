@@ -75,40 +75,48 @@ const im = {
 	//发送文件信息
 	send_file_msg: params => http.request('POST', '/im/sendFileMsg', params),
 	//发送文字消息
-	sendMessage: params => http.request('POST', '/im/sendMessage', params),
+	send_message: params => http.request('POST', '/im/sendMessage', params),
 	//获取资料卡
 	get_user_info: account => http.request('GET', '/im/getUserInfo', {
 		account_number: account
 	}),
 	//修改好友备注
-	editRemarks: (params) => http.request('POST', '/im/editRemarks', params),
+	edit_remarks: params => http.request('POST', '/im/editRemarks', params),
 	//上线通知
-	onlineNotice: (params) => http.request('POST', '/im/onlineNotice', params),
+	online_notice: params => http.request('POST', '/im/onlineNotice', params),
 	//判断是否为好友
-	ifUserFriend: (uid) => http.request('GET', '/im/ifUserFriend', {
-		uid
-	}),
+	is_friend: (uid) => http.request('GET', '/im/ifUserFriend', {uid}),
 	//上传cid
-	unipush: (cid) => http.request('POST', '/api/updateDeviceId', {
-		cid
-	}),
+	unipush: (cid) => http.request('POST', '/api/updateDeviceId', {cid}),
 	//删除好友
-	delFriend: (to_uid) => http.request('POST', '/im/delFriend', {
-		to_uid
-	}),
+	del_friend: (to_uid) => http.request('POST', '/im/delFriend', {to_uid}),
 	//推送
-	mgsUserPush: (params) => http.request('POST', '/im/mgsUserPush', params),
+	mgs_user_push: params => http.request('POST', '/im/mgsUserPush', params),
 	//消息置顶
-	friendToTop: (params) => http.request('POST', '/im/friendToTop', params),
+	friend_to_top: params => http.request('POST', '/im/friendToTop', params),
+	//获取状态
+	get_im_state: () => http.request('GET', '/im/getImState'),
+	//认证提醒
+	examine_time: params => http.request('POST', '/im/examineTime', params),
+	//退出清除设备缓存
+	login_out: () => http.request('GET', '/api/user/loginOut'),
+	// 发消息，不会发送，作为本地服务器储存
+	txt_send: params => http.request('POST', '/im/ji/txt/send', params),
+	// 发消息，不会发送，作为本地服务器储存(图片，视频，语音)
+	file_send: params => http.request('POST', '/im/ji/file/send', params),
+	//获取专属客服信息
+	get_user_airlines: () => http.request('GET', '/im/getUserAirlines'),
+	//获取用户登录状态 
+	get_user_status: account_number => http.request('GET', '/im/ji/status/user', {account_number}),
 }
 
 const profile = {
 	// 资料信息
 	get_card_info: () => http.request('GET', '/api/getInfo'),
 	// 编辑资料信息
-	save_user_info: (params) => http.request('POST', '/api/saveUserInfo', params),
+	save_user_info: params => http.request('POST', '/api/saveUserInfo', params),
 	// 获取其他人资料卡
-	get_other_card_info: (params) => http.request('GET', '/api/myselfInviteDesc', params),
+	get_other_card_info: params => http.request('GET', '/api/myselfInviteDesc', params),
 	//获取其他用户邀约
 	other_invite_list: params => http.request('GET', '/api/getToUserDynamicList', params),
 	// 获取自己邀约列表
