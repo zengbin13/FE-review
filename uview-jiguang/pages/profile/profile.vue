@@ -54,6 +54,7 @@
 		<u-cell-group :border="false" class="cell-group">
 			<u-cell-item title="匿名保护" @click="handleJump" :index="6"><text slot="icon" class="iconfont icon-baohu"></text></u-cell-item>
 			<u-cell-item title="设置" @click="handleJump" :index="7"><text slot="icon" class="iconfont icon-Setup"></text></u-cell-item>
+			<u-cell-item title="测试" @click="handleJump" :index="8"><text slot="icon" class="iconfont icon-Setup"></text></u-cell-item>
 		</u-cell-group>
 		<!--  -->
 	</view>
@@ -137,6 +138,11 @@ export default {
 			if(index === 7 ) {
 				uni.navigateTo({
 					url:'../setting/setting'
+				})
+			}
+			if(index === 8 ) {
+				uni.navigateTo({
+					url:'../test/test'
 				})
 			}
 		},

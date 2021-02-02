@@ -3,7 +3,7 @@
 
 		<view class="flex padding justify-center">
 			
-			<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (info.avatar?info.avatar:'/static/images/im/face.jpg') + ')' }]">
+			<view class="cu-avatar round lg" :style="[{ backgroundImage:'url(' + (chatInfo.avatar?chatInfo.avatar:'/static/images/im/face.jpg') + ')' }]">
 				<view class="cu-tag badge" :class="info.gender=='female'?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 			</view>
 			
@@ -34,13 +34,25 @@
 				<view class="flex-sub padding-sm margin-xs">性别</view>
 				<view class="flex-twice padding-sm margin-xs">{{gender}}</view>
 			</view>
+			<view class="flex p-xs margin-bottom-sm mb-sm">
+				<view class="flex-sub padding-sm margin-xs">等级</view>
+				<view class="flex-twice padding-sm margin-xs">{{chatInfo.level_t}}</view>
+			</view>
+			<view class="flex p-xs margin-bottom-sm mb-sm">
+				<view class="flex-sub padding-sm margin-xs">余额</view>
+				<view class="flex-twice padding-sm margin-xs">{{chatInfo.balance}}</view>
+			</view>
+			<view class="flex p-xs margin-bottom-sm mb-sm" v-if="chatInfo.level">
+				<view class="flex-sub padding-sm margin-xs">会员状态</view>
+				<view class="flex-twice padding-sm margin-xs">{{chatInfo.state ? '正常' : '锁定'}}</view>
+			</view>
 		</view>
 		
-		<view class="flex padding justify-center margin-top bg-white">
+		<!-- <view class="flex padding justify-center margin-top bg-white">
 			<button class="cu-btn bg-blue" @click="showDialog1" v-if="info.isFriend == false && info.isInBlackList == false">添加好友</button>
 			<button class="cu-btn margin-left bg-green" @click="skip">发送消息</button>
 			<button class="cu-btn margin-left bg-red" @click="deleteUser" v-if="info.isFriend == true">删除好友</button>
-		</view>
+		</view> -->
 
 		<!-- 申请加好友 -->
 		<view class="cu-modal" :class="show1?'show':''">
@@ -77,9 +89,15 @@
 	import uniDialog from '@/components/im-chat/uni-dialog.vue'
 	
 	export default {
-		components: {
-			uniDialog
+		data() {
+			return {
+				info: {},
+				show1: false,
+				friendReason: "",
+				chatInfo: {}
+			}
 		},
+
 		onLoad(option) {
 			// 设置标题
 			if (!option.fromUser) {
@@ -102,7 +120,8 @@
 			let param = {
 				"username": option.fromUser
 			};
-			
+			this.chatInfo = JSON.parse(option.info)
+			console.log(this.chatInfo);
 			// #ifdef APP-PLUS
 			this.jpushIM.getUserInfo({"username":chatUsername}, (res) => {
 				this.info = res.data;
@@ -114,13 +133,6 @@
 			// #endif
 			
 		},
-		data() {
-			return {
-				info: {},
-				show1: false,
-				friendReason: "",
-			}
-		},
 		computed:{
 			gender:function(){
 				return this.imUtils.getGender(this.info.gender);
@@ -128,6 +140,9 @@
 			friendUsername:function(){
 				return this.info.username;
 			},
+		},
+		components: {
+			uniDialog
 		},
 		methods:{
 			skip: function(index) {

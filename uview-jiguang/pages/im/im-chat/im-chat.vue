@@ -95,6 +95,10 @@
 								<view v-if="row.messageType=='file'" class="bubble" @tap="showFile(row.content)">
 									[ 文件消息 ]
 								</view>
+								<!-- 定位信息 -->
+								<view v-if="row.messageType=='location'">
+									<!-- <map :latitude="29.530663" :longitude="106.482983"></map> -->
+								</view>
 							</view>
 							<!-- 右-头像 -->
 							<view class="right">
@@ -130,6 +134,7 @@
 								<view v-if="row.messageType=='file'" class="bubble" @tap="showFile(row.content)">
 									[ 文件消息 ]
 								</view>
+								
 							</view>
 						</view>
 					</block>
@@ -264,6 +269,8 @@
 				selfTitle: "", // 自定义标题
 				onlineStatus: false,
 				operationMenuIndex: -1,
+				isServiceAccount: false,
+				airlinesLook: {},
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
 				//文字消息
@@ -319,6 +326,7 @@
 		onLoad(option) {
 			_self = this;
 			this.state = uni.getStorageSync('state')
+			this.getUserStatus(option.fromUser)
 			// 设置标题
 			if (!option.fromUser) {
 				uni.showModal({
@@ -396,14 +404,24 @@
 		},
 		onShow() {
 			this.scrollTop = 9999999;
-			this.getUserStatus(this.chatUsername)
+			this.getChatUserInfo()
 		},
 		methods: {
 			...mapMutations(['login', 'logout']),
-			// 获取客服数据
-			// async get_user_airlines() {
-			// 	get_user_airlines
-			// },
+			// 获取专属客服数据
+			async getUserAirlines() {
+				let res = await this.$service.im.get_user_airlines()
+			},
+			//获取聊天用户基本数据，判断是否为客户
+			async getChatUserInfo() {
+				let res = await this.$service.im.get_user_info(this.chatUsername)
+				if(Array.isArray(res.data.data.airlinesLook)) {
+					this.isServiceAccount = false
+				} else {
+					this.isServiceAccount = true
+					this.airlinesLook = res.data.data.airlinesLook
+				}
+			},
 			// 进入资料卡
 			enterCard(type) {
 				// 0自己 1 他人
@@ -462,11 +480,14 @@
 				let msg = this.msgList[index]
 				let isRetract = this.imUtils.withinMinute(msg.originCreateTime, 2);
 				this.$set(msg, 'isRetract', isRetract)
-				console.log(msg);
 				this.operationMenuIndex = index
 			},
 			// 获取用户状态
 			async getUserStatus(chatUsername) {
+				if(chatUsername.indexOf('admin') !== -1) {
+					this.onlineStatus = true
+					return
+				}
 				let res = await this.$service.im.get_user_status(chatUsername)
 				this.onlineStatus = res.data.data.online
 			},
@@ -508,9 +529,13 @@
 			},
 			// 查看聊天用户信息
 			viewUser() {
-				uni.navigateTo({
-					url: './im-user?title=' + this.chatUser.nickname + "&fromUser=" + this.chatUsername
-				});
+				if(this.isServiceAccount) {
+					uni.navigateTo({
+						url: `./im-user?title=${this.chatUser.nickname}&fromUser=${this.chatUsername}&info=${JSON.stringify(this.airlinesLook)}`
+					});
+				} else {
+					this.enterCard(1)
+				}
 			},
 			// 接受消息(筛选处理)
 			screenMsg(msg) {
@@ -856,15 +881,24 @@
 			// 发送地理位置数据模拟，需要自行添加地图组件
 			chooseLocation(){
 				let msg = {
-					latitude: 39.945919,// 纬度信息
-					longitude: 116.412893, // 经度信息
+					latitude: 0,// 纬度信息
+					longitude: 0, // 经度信息
 					scale: 1,// 地图缩放比例
-					address: "xxxx地址", //详细地址信息
+					address: "", //详细地址信息
 					extras: {// 自定义键值对，可以不传
-						"test":"123"	
 					},
 				};
-				this.sendMsg(msg, 'location');
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success: res => {
+						msg.latitude = res.latitude
+						msg.longitude = res.longitude
+						msg.address = res.address.city + res.address.district + res.address.street
+						console.log(msg);
+						this.sendMsg(msg, 'location');
+					}
+				})
 			},
 			//拍照发送
 			camera() {
