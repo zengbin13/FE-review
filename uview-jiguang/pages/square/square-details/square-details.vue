@@ -48,10 +48,8 @@
 			};
 		},
 		onLoad(options) {
-			this.squareInfo = JSON.parse(options.squareInfo)
-			uni.setNavigationBarTitle({
-				title: this.squareInfo.nickname
-			})
+			this.id = options.id
+			this.getSquareDetails()
 			uni.getStorage({
 				key:'userInfo',
 				success: (value) => {
@@ -75,18 +73,27 @@
 			this.page += 1
 			this.getComment()
 		},
-		methods:{			
+		methods:{
+			// 详情
+			async getSquareDetails(id) {
+				console.log(id);
+				let res = await this.$service.square.get_square_details({id: this.id})
+				this.squareInfo = res.data.data
+				uni.setNavigationBarTitle({
+					title: this.squareInfo.nickname
+				})
+			},
 			// 查看动态
 			async seeComment() {
 				let params = {
-					content_id: this.squareInfo.id,
+					content_id: this.id,
 				}
 				let res = await this.$service.square.see_comment(params)
 			},
 			// 获取评论 
 			async getComment() {
 				let params = {
-					content_id: this.squareInfo.id,
+					content_id: this.id,
 					limit: 20,
 					page: this.page
 				}

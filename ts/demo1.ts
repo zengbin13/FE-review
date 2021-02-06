@@ -1,5 +1,7 @@
-function add({ one: number, two: number }) {
-    return one + two;
-  }
-  
-  const total = add({ one: 1, two: 2 });
+function greeter(person: string) {
+  return "Hello, " + person;
+}
+
+let user = [0, 1, 2];
+
+document.body.innerHTML = greeter(user);

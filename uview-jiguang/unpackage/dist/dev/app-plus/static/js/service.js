@@ -163,6 +163,8 @@ const square = {
 	reply_list: params => http.request('GET', '/api/square/get/comment/reply', params),
 	// 动态访问量 
 	see_comment: params => http.request('POST', '/api/square/browse', params),
+	// 广场详情
+	get_square_details: params => http.request('GET', '/api/square/details', params),
 }
 const common = {
 	// 上传文件

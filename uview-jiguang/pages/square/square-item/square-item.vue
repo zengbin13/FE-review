@@ -54,7 +54,7 @@
 			</view>
 		</view>
 		<!-- 评论列表 -->
-		<view class="comment-list" v-if="squareInfo.comment_list.length && mode === 1" @tap="enterSquareDetail">
+		<view class="comment-list" v-if="squareInfo.comment_list && squareInfo.comment_list.length && mode === 1" @tap="enterSquareDetail">
 			<view class="comment-item" v-for="(item, index) in squareInfo.comment_list">
 				<text class="nickname">{{item.nickname}} :</text>
 				<text class="content">{{item.content}}</text>
@@ -199,9 +199,9 @@
 			// 进入动态详情
 			enterSquareDetail() {
 				if(!this.enter) return false
-				let currentSquare = JSON.stringify(this.squareInfo)
+				// let currentSquare = JSON.stringify(this.squareInfo)
 				uni.navigateTo({
-					url: `/pages/square/square-details/square-details?squareInfo=${currentSquare}`
+					url: `/pages/square/square-details/square-details?id=${this.squareInfo.id}`
 				})
 			},
 			// 点赞

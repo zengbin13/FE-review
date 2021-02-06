@@ -109,7 +109,9 @@
 						<view class="other" v-if="row.isReceived == true">
 							<!-- 左-头像 -->
 							<view class="left">
-								<image :src="row.fromUser.avatar" @tap="enterCard(1)"></image>
+								<image src="@/static/images/im/admin1.png" v-if="isAdmin === 1" style="background-color: #FFFFFF; border-radius: 50%;"></image>
+								<image src="@/static/images/im/admin2.png" v-else-if="isAdmin === 2" style="background-color: #FFFFFF; border-radius: 50%;"></image>
+								<image :src="row.fromUser.avatar" @tap="enterCard(1)" v-else></image>
 							</view>
 							<!-- 右-用户名称-时间-消息 -->
 							<view class="right">
@@ -117,9 +119,10 @@
 									<view class="name">{{row.fromUser.nickname?row.fromUser.nickname:row.fromUser.username}}</view>
 									<view class="time">{{row.createTime}}</view>
 								</view>
-								<!-- 文字消息 -->
+								<!-- 文字消息  -->
 								<view v-if="row.messageType=='text'" class="bubble" @longpress="showOperationMenu(index)">
-									<rich-text :nodes="row.content.text"></rich-text>
+									<rich-text :nodes="row.content.text" v-if="isAdmin === 2" :class="[Array.isArray(JSON.parse(row.extras.jump_scene)) ? '' : 'admin-text']" @tap="linkTap(index)"></rich-text>
+									<rich-text :nodes="row.content.text" v-else></rich-text>
 								</view>
 								<!-- 语音消息 -->
 								<view v-if="row.messageType=='voice'" class="bubble voice" @tap="playVoice(index)" :class="playMsgid == row.msgId?'play':''" @longpress="showOperationMenu(index)">
@@ -265,6 +268,7 @@
 		},
 		data() {
 			return {
+				isAdmin: 0,
 				state: {},
 				selfTitle: "", // 自定义标题
 				onlineStatus: false,
@@ -327,6 +331,9 @@
 			_self = this;
 			this.state = uni.getStorageSync('state')
 			this.getUserStatus(option.fromUser)
+			if(option.admin) {
+				this.isAdmin = Number(option.admin)
+			}
 			// 设置标题
 			if (!option.fromUser) {
 				uni.showModal({
@@ -408,6 +415,35 @@
 		},
 		methods: {
 			...mapMutations(['login', 'logout']),
+			// 点击链接跳转
+			linkTap(index) {
+				let msg = this.msgList[index]
+				let jumpScene = JSON.parse(msg.extras.jump_scene)
+				let type = jumpScene.type
+				console.log(msg.extras.jump_scene, type);
+				if(type === 1) {
+					//广场打赏
+					uni.navigateTo({
+						url: '/pages/profile/cardInfo?uid=' + jumpScene.uid
+					})
+				} else if(type === 2) {
+					// 邀约申请
+					let id = jumpScene.id
+					uni.navigateTo({
+						url: `/pages/profile/invite-detail?id=${id}`
+					})
+				} else if(type === 3) {
+					uni.switchTab({
+						url:'/pages/im/im'
+					})
+				} else if(type === 5 || type === 4) {
+					// 评论回复
+					let id = jumpScene.content_id
+					uni.navigateTo({
+						url: `/pages/square/square-details/square-details?id=${id}`
+					})
+				}
+			},
 			// 获取专属客服数据
 			async getUserAirlines() {
 				let res = await this.$service.im.get_user_airlines()
@@ -1424,6 +1460,10 @@
 	}
 	.row {
 		position: relative;
+	}
+	.admin-text {
+		color: $main-color;
+		text-decoration: underline;
 	}
 	.operation-menu {
 		position: absolute;

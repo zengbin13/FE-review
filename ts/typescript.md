@@ -227,3 +227,63 @@ const total = getTotal(1, 2);
 
 - 数组中对象类型
 
+  ```ts
+  const xiaoJieJies: {name: string, age: number}[] = [
+      {name: '小鱼', age: 18},
+      {name: 'xiayu', age: 22}
+  ]
+  ```
+
+**类型别名 type alias**
+
+```ts
+type Lady = {name: string, age: number}
+const xiaoJieJies: Lady[] = [
+    {name: '小鱼', age: 18},
+    {name: 'xiayu', age: 22}
+]
+//或者
+class Lady {
+    name: string;
+    age: number
+}
+const xiaoJieJies: Lady[] = [
+    {name: '小鱼', age: 18},
+    {name: 'xiayu', age: 22}
+]
+```
+
+
+
+## 元组以及类型约束
+
+**元组**——数据源为 `cvs`格式时，规定数据的格式顺序
+
+```ts
+const xiaojiejie: (string | number)[] = ["dajiao", "teacher", 28];
+const xiaojiejie: [string, string, number] = ["dajiao", "teacher", 28];
+```
+
+
+
+## TypeScript中interface 接口
+
+TypeScript 中的接口——用来规范类型的
+
+```ts
+//定义接口
+interface Girl {
+    name: string;
+    age: number;
+    bust: number;
+    waistline ？: number;  // ?表示非必选属性值
+	[propname: string]: any; //属性为字符形式,属性值为任意类型
+	say(): string;
+}
+//定义接口 用于消除重复的类型注解
+
+```
+
+- 非必须值：`waistline ？: number;`
+- 加入任意值：`[propname: string]: any;`
+- 接口可以定义方法
