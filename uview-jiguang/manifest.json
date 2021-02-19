@@ -24,7 +24,8 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Payment" : {}
+            "Payment" : {},
+            "Maps" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -43,6 +44,7 @@
                     "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
                     "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
@@ -50,6 +52,7 @@
                     "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
@@ -74,7 +77,13 @@
                         "UniversalLinks" : "https://www.liangbian.club/"
                     }
                 },
-                "ad" : {}
+                "ad" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "f3fc5b2faa89f81ad0e6b6260e6b0ad8",
+                        "appkey_android" : "f3fc5b2faa89f81ad0e6b6260e6b0ad8"
+                    }
+                }
             }
         },
         "nativePlugins" : {

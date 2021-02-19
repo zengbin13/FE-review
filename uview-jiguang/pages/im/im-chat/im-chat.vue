@@ -3,7 +3,7 @@
 		<cu-custom bgColor="m-bg-color"
 		 :isBack="true">
 			<block slot="backText">返回</block>
-			<block slot="content">{{selfTitle}}</block>
+			<block slot="content">{{selfTitle}} - {{onlineStatus ? '在线' : '离线'}}</block>
 			<block slot="right">
 				<view class="action">
 					<text class="cuIcon-profile" @click="viewUser"></text>
@@ -11,13 +11,13 @@
 			</block>
 		</cu-custom>
 
-		<view class="content" @touchstart="hideDrawer">
+		<view class="content" @touchstart="hideDrawer" @click="operationMenuIndex = -1">
 			<scroll-view class="msg-list" scroll-y="true" :scroll-with-animation="scrollAnimation" :scroll-top="scrollTop"
 			 :scroll-into-view="scrollToView" upper-threshold="50" :style="[{top:CustomBar + 'px'}]">
 
-				<!-- 加载历史数据waitingUI -->
+				<!-- 加载历史数据waitingUI start-->
 				<view class="loading" v-if="ifHaveMore==true" @click="loadHistory">
-					<button class="mini-btn" type="default" size="mini" v-if="isHistoryLoading == false">查看更多</button>
+					<button class="mini-btn u-m-t-20" type="default" size="mini" v-if="isHistoryLoading == false">查看更多</button>
 					<view class="spinner" v-if="isHistoryLoading == true">
 						<view class="rect1"></view>
 						<view class="rect2"></view>
@@ -33,10 +33,27 @@
 						<view class="text">暂无更多记录</view>
 					</view>
 				</view>
+				<!-- 加载历史数据waitingUI end-->
 
 				<view class="row" v-for="(row,index) in msgList" :key="index" :id="row.msgId">
 					
-
+					<!-- 操作菜单 -->
+					<view class="operation-menu" v-if="operationMenuIndex === index" :class="[ !row.isReceived ? 'self' : 'not-self']">
+						<view class="operation-item" v-if="row.messageType == 'text'" @tap="copyItem(index)">
+							<text class="iconfont icon-fuzhi1"></text>
+							<text>复制</text>
+						</view>
+						<view class="operation-item" v-if="!row.isReceived && row.isRetract" @tap="retract(index)">
+							<text class="iconfont icon-chehui1-01"></text>
+							<text>撤回</text>
+						</view>
+						<view class="operation-item" @tap="deleteItem(index)">
+							<text class="iconfont icon-shanchu1"></text>
+							<text>删除</text>
+						</view>
+					</view>
+					
+					
 					<view class="system" v-if="row.messageType == 'event'">
 						<!-- 行为消息 -->
 						<view class="text">{{row.content.text}}</view>
@@ -58,36 +75,43 @@
 									<uni-load-more :contentText="loadingText" iconType="spinner" status="loading" />
 								</view>
 								<!-- 文字消息 -->
-								<view v-if="row.messageType=='text'" class="bubble">
-									<view class="retractMessageBtn" v-show="row.showRetractBtn==true" @click="retract(index)">撤回</view>
-									<view class="forwardMessageBtn" v-show="row.forwardMessageBtn==true" @click="forward(index)">转发到个人</view>
-									<view class="forwardMessageToGroupBtn" v-show="row.forwardMessageToGroupBtn==true" @click="forwardToGroup(index)">转发到群</view>
+								<view v-if="row.messageType=='text'" class="bubble" @longpress="showOperationMenu(index)">
+							<!-- 		<view class="forwardMessageBtn" v-show="row.forwardMessageBtn==true" @click="forward(index)">转发到个人</view>
+									<view class="retractMessageBtn" v-show="row.showRetractBtn == true" @click="retract(index)">撤回</view>
+									<view class="forwardMessageBtn" v-show="row.forwardMessageBtn==true" @click="forward(index)">转发到个人</view> -->
+									<!-- <view class="forwardMessageToGroupBtn" v-show="row.forwardMessageToGroupBtn==true" @click="forwardToGroup(index)">转发到群</view> -->
 									<rich-text :nodes="row.content.text" @click="textMessageTouch(index)"></rich-text>
 								</view>
 								<!-- 语音消息 -->
-								<view v-if="row.messageType=='voice'" class="bubble voice" @tap="playVoice(index)" :class="playMsgid == row.msgId?'play':''">
+								<view v-if="row.messageType=='voice'" class="bubble voice" @tap="playVoice(index)" :class="playMsgid == row.msgId?'play':''" @longpress="showOperationMenu(index)">
 									<view class="length">{{row.content.length}}</view>
 									<view class="icon my-voice"></view>
 								</view>
 								<!-- 图片消息 -->
-								<view v-if="row.messageType=='image'" class="bubble img" @tap="showPic(row.content)">
+								<view v-if="row.messageType=='image'" class="bubble img" @tap="showPic(row.content)" @longpress="showOperationMenu(index)">
 									<image :src="row.content.url" :style="{'width': row.content.w+'px','height': row.content.h+'px'}"></image>
 								</view>
 								<!-- 文件消息 -->
 								<view v-if="row.messageType=='file'" class="bubble" @tap="showFile(row.content)">
 									[ 文件消息 ]
 								</view>
+								<!-- 定位信息 -->
+								<view v-if="row.messageType=='location'">
+									<!-- <map :latitude="29.530663" :longitude="106.482983"></map> -->
+								</view>
 							</view>
 							<!-- 右-头像 -->
 							<view class="right">
-								<image :src="row.fromUser.avatar"></image>
+								<image :src="row.fromUser.avatar" @tap="enterCard(0)"></image>
 							</view>
 						</view>
 						<!-- 别人发出的消息 -->
 						<view class="other" v-if="row.isReceived == true">
 							<!-- 左-头像 -->
 							<view class="left">
-								<image :src="chatUserAvatar || row.fromUser.avatar"></image>
+								<image src="@/static/images/im/admin1.png" v-if="isAdmin === 1" style="background-color: #FFFFFF; border-radius: 50%;"></image>
+								<image src="@/static/images/im/admin2.png" v-else-if="isAdmin === 2" style="background-color: #FFFFFF; border-radius: 50%;"></image>
+								<image :src="chatUserAvatar || row.fromUser.avatar" @tap="enterCard(1)" v-else></image>
 							</view>
 							<!-- 右-用户名称-时间-消息 -->
 							<view class="right">
@@ -95,23 +119,25 @@
 									<view class="name">{{row.fromUser.nickname?row.fromUser.nickname:row.fromUser.username}}</view>
 									<view class="time">{{row.createTime}}</view>
 								</view>
-								<!-- 文字消息 -->
-								<view v-if="row.messageType=='text'" class="bubble">
-									<rich-text :nodes="row.content.text"></rich-text>
+								<!-- 文字消息  -->
+								<view v-if="row.messageType=='text'" class="bubble" @longpress="showOperationMenu(index)">
+									<rich-text :nodes="row.content.text" v-if="isAdmin === 2" :class="[Array.isArray(JSON.parse(row.extras.jump_scene)) ? '' : 'admin-text']" @tap="linkTap(index)"></rich-text>
+									<rich-text :nodes="row.content.text" v-else></rich-text>
 								</view>
 								<!-- 语音消息 -->
-								<view v-if="row.messageType=='voice'" class="bubble voice" @tap="playVoice(index)" :class="playMsgid == row.msgId?'play':''">
+								<view v-if="row.messageType=='voice'" class="bubble voice" @tap="playVoice(index)" :class="playMsgid == row.msgId?'play':''" @longpress="showOperationMenu(index)">
 									<view class="icon other-voice"></view>
 									<view class="length">{{row.content.length}}</view>
 								</view>
 								<!-- 图片消息 -->
-								<view v-if="row.messageType=='image'" class="bubble img" @tap="showPic(row.content)">
+								<view v-if="row.messageType=='image'" class="bubble img" @tap="showPic(row.content)" @longpress="showOperationMenu(index)">
 									<image :src="row.content.url" :style="{'width': row.content.w+'px','height': row.content.h+'px'}"></image>
 								</view>
 								<!-- 文件消息 -->
 								<view v-if="row.messageType=='file'" class="bubble" @tap="showFile(row.content)">
 									[ 文件消息 ]
 								</view>
+								
 							</view>
 						</view>
 					</block>
@@ -223,6 +249,7 @@
 		},
 		onUnload() {
 			// #ifdef APP-PLUS
+		
 			// 获取未读消息总数后赋值给tabbar
 			this.jpushIM.getAllUnreadCount((count) => {
 				if (count < 1) {
@@ -241,7 +268,13 @@
 		},
 		data() {
 			return {
+				isAdmin: 0,
+				state: {},
 				selfTitle: "", // 自定义标题
+				onlineStatus: false,
+				operationMenuIndex: -1,
+				isServiceAccount: false,
+				airlinesLook: {},
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
 				chatUserAvatar: '',
@@ -292,12 +325,17 @@
 				hideMore: true,
 				//表情定义
 				hideEmoji: true,
+				
 			};
 		},
 		onLoad(option) {
 			_self = this;
+			this.state = uni.getStorageSync('state')
+			this.getUserStatus(option.fromUser)
+			if(option.admin) {
+				this.isAdmin = Number(option.admin)
+			}
 			// 设置标题
-			console.log(option);
 			if (!option.fromUser) {
 				uni.showModal({
 					title: '错误',
@@ -343,6 +381,7 @@
 						icon: 'none'
 					});
 					this.login(response.username);
+					// 登录后,首次获取聊天信息
 					this.getMsgList();
 				}, response => {
 					uni.showToast({
@@ -374,11 +413,124 @@
 		},
 		onShow() {
 			this.scrollTop = 9999999;
+			this.getChatUserInfo()
 		},
 		methods: {
 			...mapMutations(['login', 'logout']),
+			// 点击链接跳转
+			linkTap(index) {
+				let msg = this.msgList[index]
+				let jumpScene = JSON.parse(msg.extras.jump_scene)
+				let type = jumpScene.type
+				console.log(msg.extras.jump_scene, type);
+				if(type === 1) {
+					//广场打赏
+					uni.navigateTo({
+						url: '/pages/profile/cardInfo?uid=' + jumpScene.uid
+					})
+				} else if(type === 2) {
+					// 邀约申请
+					let id = jumpScene.id
+					uni.navigateTo({
+						url: `/pages/profile/invite-detail?id=${id}`
+					})
+				} else if(type === 3) {
+					uni.switchTab({
+						url:'/pages/im/im'
+					})
+				} else if(type === 5 || type === 4) {
+					// 评论回复
+					let id = jumpScene.content_id
+					uni.navigateTo({
+						url: `/pages/square/square-details/square-details?id=${id}`
+					})
+				}
+			},
+			// 获取专属客服数据
+			async getUserAirlines() {
+				let res = await this.$service.im.get_user_airlines()
+			},
+			//获取聊天用户基本数据，判断是否为客户
+			async getChatUserInfo() {
+				let res = await this.$service.im.get_user_info(this.chatUsername)
+				if(Array.isArray(res.data.data.airlinesLook)) {
+					this.isServiceAccount = false
+				} else {
+					this.isServiceAccount = true
+					this.airlinesLook = res.data.data.airlinesLook
+				}
+			},
+			// 进入资料卡
+			enterCard(type) {
+				// 0自己 1 他人
+				if(!this.state.level) {
+					this.$utils.nonMember('查看资料卡,需要成为平台正式会员')
+					return
+				}
+				if(this.state.state === 3) {
+					this.$utils.lockState('查看资料卡,需要解锁')
+					return
+				}
+				
+				let chatUser = JSON.parse(this.chatUser.extras)
+				let uid = type ? chatUser.uid.split('.')[0] : 0
+				if(type) {
+					uni.navigateTo({
+						url: `/pages/profile/cardInfo?uid=${parseInt(uid)}`
+					})
+				} else {
+					uni.navigateTo({
+						url: `/pages/profile/cardInfo`
+					})
+				}
+				
+			},
+			// 剪切板复制消息
+			copyItem(index) {
+				let msg = this.msgList[index]
+				uni.setClipboardData({
+					data: msg.messageString,
+					success: () => {
+						this.operationMenuIndex = -1
+						this.$utils.showToast('复制成功')
+					}
+				})				
+			},
+			deleteItem(index) {
+				let msg = this.msgList[index]
+				let params = {
+					"type": "single", 
+					"username": msg.isReceived ? msg.fromUser.username : msg.target.username, 
+					"messageId": msg.messageId 
+				}
+				this.jpushIM.deleteMessageById(params, (res) => {
+					if (res.errorCode == 0) {
+						this.$utils.showToast('已删除')
+						this.msgList.splice(index, 1);
+						this.operationMenuIndex = -1
+					} else {
+						console.info(res.errorMsg);
+					}
+				})
+			},
+			// 显示操作菜单
+			showOperationMenu(index) {
+				let msg = this.msgList[index]
+				let isRetract = this.imUtils.withinMinute(msg.originCreateTime, 2);
+				this.$set(msg, 'isRetract', isRetract)
+				this.operationMenuIndex = index
+			},
+			// 获取用户状态
+			async getUserStatus(chatUsername) {
+				if(chatUsername.indexOf('admin') !== -1) {
+					this.onlineStatus = true
+					return
+				}
+				let res = await this.$service.im.get_user_status(chatUsername)
+				this.onlineStatus = res.data.data.online
+			},
+			// 设为消息已读
 			setMessageHaveRead(id){
-				// 设为消息已读
 				let params = {
 					'type': 'single',
 					'username' : this.chatUsername,
@@ -407,16 +559,21 @@
 					
 				});
 			},
+			// 返回
 			back() {
-				// 返回
 				uni.navigateBack({
 					delta: 1
 				});
 			},
+			// 查看聊天用户信息
 			viewUser() {
-				uni.navigateTo({
-					url: './im-user?title=' + this.chatUser.nickname + "&fromUser=" + this.chatUsername
-				});
+				if(this.isServiceAccount) {
+					uni.navigateTo({
+						url: `./im-user?title=${this.chatUser.nickname}&fromUser=${this.chatUsername}&info=${JSON.stringify(this.airlinesLook)}`
+					});
+				} else {
+					this.enterCard(1)
+				}
 			},
 			// 接受消息(筛选处理)
 			screenMsg(msg) {
@@ -476,7 +633,7 @@
 						"limit": _self.loadHistoryLimit, // 历史记录每次加载10条
 					};
 					
-					console.log(params);
+					console.log('请求历史消息参数',params);
 					_self.jpushIM.getHistoryMessages(params, (res) => {
 						if (res.errorCode == 0) {
 							if (res.data.length < 1) {
@@ -485,6 +642,8 @@
 								return false;
 							}
 							var list = _self.setList(res.data);
+							// 翻转数组顺序
+							list.reverse()
 							let Viewid = list[0].msgId; //记住获取到历史消息第一个信息ID
 							// 获取消息中的图片,并处理显示尺寸
 							for (let i = 0; i < list.length; i++) {
@@ -530,6 +689,7 @@
 				// 滚动到底部
 				this.$nextTick(function() {
 					//进入页面滚动到底部
+					this.scrollAnimation = true;
 					this.scrollTop = 9999;
 					this.$nextTick(function() {
 						this.scrollAnimation = true;
@@ -549,9 +709,9 @@
 					"from": this.offset, // 从第几条开始
 					"limit": this.loadHistoryLimit, // 历史记录每次加载10条
 				};
+				console.log('请求消息参数', params);
 				this.jpushIM.getHistoryMessages(params, (res) => {
 					if (res.errorCode == 0) {
-						console.log(22, res.data);
 						if (res.data.length < 1) {
 							// 没有历史记录
 							this.ifHaveMore = false;
@@ -570,7 +730,6 @@
 						// 滚动到底部
 						this.$nextTick(function() {
 							//进入页面滚动到底部
-							this.scrollTop = 9999;
 							this.$nextTick(function() {
 								this.scrollAnimation = true;
 							});
@@ -612,6 +771,7 @@
 				});
 				return newItems;
 			},
+			// 处理sdk中的单条消息
 			setSingItem: function(item) {
 				var content = {}; // 组合消息内容
 				this.offset++;
@@ -759,15 +919,24 @@
 			// 发送地理位置数据模拟，需要自行添加地图组件
 			chooseLocation(){
 				let msg = {
-					latitude: 39.945919,// 纬度信息
-					longitude: 116.412893, // 经度信息
+					latitude: 0,// 纬度信息
+					longitude: 0, // 经度信息
 					scale: 1,// 地图缩放比例
-					address: "xxxx地址", //详细地址信息
+					address: "", //详细地址信息
 					extras: {// 自定义键值对，可以不传
-						"test":"123"	
 					},
 				};
-				this.sendMsg(msg, 'location');
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success: res => {
+						msg.latitude = res.latitude
+						msg.longitude = res.longitude
+						msg.address = res.address.city + res.address.district + res.address.street
+						console.log(msg);
+						this.sendMsg(msg, 'location');
+					}
+				})
 			},
 			//拍照发送
 			camera() {
@@ -1085,6 +1254,7 @@
 				const msg = this.msgList[index];
 				// console.log("JMessagePlugin textMessageTouch",msg);
 				//createTime在setItem里面处理过，凡是10分钟内不显示时间，所以可以再次判断，加一个是否在3分钟内
+				console.log(msg);
 				if (!msg.createTime) {
 					// 如果在3分钟内，则显示撤回按钮
 					let isThreeMin = this.imUtils.withinMinute(msg.originCreateTime, 3);
@@ -1286,6 +1456,60 @@
 <style lang="scss">
 	.m-bg-color {
 		background-color: #ff886a;
+	}
+	.bubble {
+		max-width: 84% !important;
+	}
+	.row {
+		position: relative;
+	}
+	.admin-text {
+		color: $main-color;
+		text-decoration: underline;
+	}
+	.operation-menu {
+		position: absolute;
+		text-align: center;
+		background: #4c4c4c;
+		font-size: 28rpx;
+		color: #FFFFFF;
+		padding: 12rpx;
+		border-radius: 10rpx;
+		display: flex;
+		align-items: center;
+		z-index: 99;
+		.operation-item {
+			padding: 0 10rpx;
+			.iconfont {
+				padding-right: 6rpx;
+			}
+		}
+	}
+	.operation-menu:after{
+		content:" ";
+		position: absolute;
+		bottom: -5px;
+		// border-bottom: 1px solid #eee;
+		display:inline-block;
+		width:0;
+		height:0;
+		border-left:10px solid transparent;
+		border-right: 10px solid transparent;
+		border-top:10px solid #4c4c4c;
+	}
+	.operation-menu.not-self {
+		left: 90rpx;
+		top: -14rpx;
+	}
+	.operation-menu.not-self:after {
+		left: 10%;
+	}
+	.operation-menu.self {
+		top: -52rpx;
+		right: 90rpx
+	}
+	.operation-menu.self:after {
+		right: 10%;
 	}
 	@import "@/common/style.scss"; 
 </style>

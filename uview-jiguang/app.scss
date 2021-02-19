@@ -90,3 +90,20 @@ page {
 		transform: rotate(359deg);
 	}
 }
+// 空白图标
+.empty {
+	width: 100%; 
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.empty-img {
+		width: 300rpx;
+		margin-top: 200rpx;
+	}
+	.empty-txt {
+		font-size: 30rpx;
+		line-height: 50rpx;
+		color: $sec-font-color;
+	}
+}

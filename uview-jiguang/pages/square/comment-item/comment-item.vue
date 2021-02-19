@@ -1,7 +1,7 @@
 <template>
 	<view class="comment-item">
 		<view class="info-line">
-			<u-image :src="commentAvatar" width="60" height="60" shape="circle"></u-image>
+			<u-image :src="commentAvatar" width="80" height="80" shape="circle"></u-image>
 			<text class="name" @tap="reply">{{commentInfo.anonymity ? '匿名用户' : commentInfo.user_info.nickname}}</text>
 			<text class="time">{{$u.timeFrom(Date.parse(commentInfo.ctime))}}</text>	
 		</view>

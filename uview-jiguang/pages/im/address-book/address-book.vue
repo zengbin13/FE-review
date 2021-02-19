@@ -53,6 +53,13 @@
 							</view>
 						</view>
 					</view>
+					<view v-if="!searchList.length" class="empty">
+						<image 
+							src="@/static/images/empty/empty4.png" 
+							mode="widthFix" 
+							class="empty-img"></image>
+						<text class="empty-txt" >暂无该联系人</text>
+					</view>
 				</block>
 			</view>
 			
@@ -215,6 +222,9 @@
 				searchList: [],
 			};
 		},
+		onLoad() {
+			this.loadModal = true
+		},
 		onShow() {
 			this.init();
 		},
@@ -270,7 +280,6 @@
 					// });
 					// return false;
 				}
-				this.loadModal = true
 				this.getList();
 				this.friendReason = "HI, 我是" + this.nickname;
 			},

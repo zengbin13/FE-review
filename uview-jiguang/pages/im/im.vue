@@ -13,11 +13,11 @@
 					<text class="iconfont icon-icon-right"></text>
 				</text>
 			</view>
-			<view class="current">
+			<!-- <view class="current">
 				最近联系好友
 				<u-button @click="clickLog">log日志</u-button>
 				<u-button @click="clickChat">chat</u-button>
-			</view>
+			</view> -->
 		</view>
 		<!-- admin消息 -->
 		<view class="admin" v-for="(admin, index) in adminList" :key="admin.title" @click="adminToSingleChat(index)">
@@ -52,7 +52,7 @@
 					<view class="cu-tag round bg-red sm" v-if="item.unreadCount">{{item.unreadCount}}</view>
 				</view>
 				<view class="move">
-					<view class="bg-grey">置顶</view>
+					<view class="bg-grey" @tap.stop="topConversation(index)">置顶</view>
 					<view class="bg-red" @tap.stop="deleteConversation(index)">删除</view>
 				</view>
 			</view>
@@ -122,13 +122,10 @@
 			}
 		},
 		onLoad() {
-			uni.showLoading({
-				title: '加载中...',
-				mask: true
-			});
+			this.loadModal = true;
 		},
 		onReady: function() {
-			uni.hideLoading();
+			this.loadModal = false;
 		},
 		onPullDownRefresh() {
 			// 下拉刷新
@@ -145,6 +142,9 @@
 		},
 		methods:{
 			...mapMutations(['login', 'logout']),
+			topConversation() {
+				
+			},
 			clickLog() {
 				uni.navigateTo({
 					url:'./log/log'
@@ -178,9 +178,7 @@
 				}
 				this.listTouchDirection = null
 			},
-			deleteConversation(index) {
-				this.loadModal = true;
-		
+			deleteConversation(index) {		
 				let item = this.lists[index];
 				// 删除会话
 				var params = {
@@ -230,6 +228,7 @@
 					var list = this.setList(callback);
 					this.lists = list.filter(im => {
 						if(im.target.username.indexOf('admin') !== -1) {
+							console.log(im);
 							// 系统消息
 							im.target.username === 'admin001' ? this.adminList[0] = im : '';
 							// 互动消息
@@ -238,8 +237,7 @@
 							return im
 						}
 					})
-					console.log(222, this.lists);
-					console.log(333, this.adminList);
+					console.log(333, this.lists[2] );
 				})
 				// #endif
 		
@@ -292,7 +290,7 @@
 					// 单聊会话
 					let title = item.target.nickname ? item.target.nickname : item.target.username;
 					uni.navigateTo({
-						url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
+						url: `./im-chat/im-chat?title=${title}&fromUser=${item.target.username}&admin=${index + 1}`
 					});
 				} else if (item.conversationType == "group") {
 					// 群聊会话

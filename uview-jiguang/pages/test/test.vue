@@ -1,28 +1,35 @@
 <template>
 	<view>
-		<button @click="upload">上传文件</button>
-		<tantan></tantan>
+		<map :latitude="latitude" :longitude="longitude"></map>
 	</view>
 </template>
 
 <script>
-	import tantan from "@/components/k-tantan/k-tantan";
 	export default {
 		data() {
 			return {
-				
+				latitude: 0,
+				longitude: 0,
 			};
 		},
+		onLoad() {
+			this.getLocation()
+		},
 		methods:{
-			upload(){
-				uni.chooseVideo({
-					
+			getLocation() {
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success: res => {
+						console.log(res);
+						this.latitude = res.latitude
+						this.longitude = res.longitude
+					}
 				})
-			},
+			}
 		},
 		components: {
-		    tantan
-		  }
+		}
 	}
 </script>
 
