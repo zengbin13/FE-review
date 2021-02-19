@@ -87,7 +87,7 @@
 						<view class="other" v-if="row.isReceived == true">
 							<!-- 左-头像 -->
 							<view class="left">
-								<image :src="row.fromUser.avatar"></image>
+								<image :src="chatUserAvatar || row.fromUser.avatar"></image>
 							</view>
 							<!-- 右-用户名称-时间-消息 -->
 							<view class="right">
@@ -244,6 +244,7 @@
 				selfTitle: "", // 自定义标题
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
+				chatUserAvatar: '',
 				//文字消息
 				textMsg: '',
 				//消息列表
@@ -308,6 +309,7 @@
 				return;
 			}
 			this.selfTitle = option.title
+			this.chatUserAvatar = option.avatar
 			// uni.setNavigationBarTitle({
 			// 	title: option.title
 			// });

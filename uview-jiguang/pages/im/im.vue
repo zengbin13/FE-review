@@ -309,7 +309,8 @@
 					// 单聊会话
 					let title = item.target.nickname ? item.target.nickname : item.target.username;
 					uni.navigateTo({
-						url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
+						// url: './im-chat/im-chat?title=' + title + '&fromUser=' + item.target.username
+						url: `./im-chat/im-chat?title=${title}&fromUser=${item.target.username}&avatar=${item.avatar}`
 					});
 				} else if (item.conversationType == "group") {
 					// 群聊会话
