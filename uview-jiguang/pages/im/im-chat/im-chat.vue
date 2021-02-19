@@ -111,7 +111,7 @@
 							<view class="left">
 								<image src="@/static/images/im/admin1.png" v-if="isAdmin === 1" style="background-color: #FFFFFF; border-radius: 50%;"></image>
 								<image src="@/static/images/im/admin2.png" v-else-if="isAdmin === 2" style="background-color: #FFFFFF; border-radius: 50%;"></image>
-								<image :src="chatUserAvatar || row.fromUser.avatar" @tap="enterCard(1)" v-else></image>
+								<image :src="row.fromUser.avatar" @tap="enterCard(1)" v-else></image>
 							</view>
 							<!-- 右-用户名称-时间-消息 -->
 							<view class="right">
@@ -348,6 +348,7 @@
 			}
 			this.selfTitle = option.title
 			this.chatUserAvatar = option.avatar
+			console.log(222, this.chatUserAvatar);
 			// uni.setNavigationBarTitle({
 			// 	title: option.title
 			// });

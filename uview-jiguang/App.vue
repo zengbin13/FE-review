@@ -145,7 +145,8 @@ import store from './store'
 			
 			// #ifdef APP-PLUS
 			// 初始化一定要在APP刚启动的时候就调用，这里是示例按钮，用于注册接上消息事件
-			jpushIM.init();
+			// jpushIM.init();
+			jpushIM.init({isOpenMessageRoaming: true});
 			// 点击通知栏，跳转链接，这里的跳转会保留当前页面（支持Android）
 			jpushIM.addClickMessageNotificationListener(function (notification) {
 				// console.log(notification);
@@ -386,7 +387,6 @@ import store from './store'
 		},
 		onShow: function() {
 			console.log('App show')
-			
 			// #ifdef APP-PLUS
 			// 获取未读消息总数后赋值给tabbar
 			jpushIM.getAllUnreadCount((count) => {

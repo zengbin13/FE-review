@@ -13,14 +13,16 @@ var EventHandlers = {
 	receiveGroupAdminReject: [], // 监听管理员拒绝入群申请事件
 	receiveGroupAdminApproval: [], // 监听管理员同意入群申请事件
 	chatRoomMessage: [], // 收到聊天室消息
+	receiveMessageTransparent:[], // 透传消息监听（待完善）
+	receiveMessageRefresh:[],	// 消息漫游刷新回调
 }
 
 const jpushIM = {
 	/**
 	 * 初始化 , JPushIM 必须先初始化才能执行其他操作(比如接收事件传递)
 	 */
-	init: function() {
-		jpushIMWeexPlugin.setup(function(notification) {
+	init: function(params) {
+		jpushIMWeexPlugin.setup(params,function(notification) {
 			for (var index in EventHandlers.receiveMessage) {
 				EventHandlers.receiveMessage[index].apply(undefined, [notification])
 			}
@@ -34,7 +36,6 @@ const jpushIM = {
 			for (var index in EventHandlers.clickMessageNotification) {
 				EventHandlers.clickMessageNotification[index].apply(undefined, [notification])
 			}
-
 		}, function(notification) {
 			// uni.$emit('loginStateChanged', notification)
 			console.log("JMessagePlugin 登录状态变更: " + JSON.stringify(notification));
@@ -75,6 +76,16 @@ const jpushIM = {
 		}, function(notification) {
 			for (var index in EventHandlers.chatRoomMessage) {
 				EventHandlers.chatRoomMessage[index].apply(undefined, [notification])
+			}
+		}, function(notification) {
+			console.log("JMessagePlugin 透传消息监听：" + JSON.stringify(notification));
+			for (var index in EventHandlers.receiveMessageTransparent) {
+				EventHandlers.receiveMessageTransparent[index].apply(undefined, [notification])
+			}
+		}, function(notification){
+			console.log("JMessagePlugin 消息漫游刷新回调：" + JSON.stringify(notification));
+			for (var index in EventHandlers.receiveMessageRefresh) {
+				EventHandlers.receiveMessageRefresh[index].apply(undefined, [notification])
 			}
 		});
 	},
@@ -1204,6 +1215,32 @@ const jpushIM = {
 		var handlerIndex = EventHandlers.chatRoomMessage.indexOf(listener);
 		if (handlerIndex >= 0) {
 			EventHandlers.chatRoomMessage.splice(handlerIndex, 1);
+		}
+	},
+	/**
+	 * 消息透传事件监听
+	 * @param {Object} listener
+	 */
+	addReceiveMessageTransparentListener: function(listener) {
+		EventHandlers.receiveMessageTransparent.push(listener);
+	},
+	removeReceiveMessageTransparentListener: function(listener) {
+		var handlerIndex = EventHandlers.receiveMessageTransparent.indexOf(listener);
+		if (handlerIndex >= 0) {
+			EventHandlers.receiveMessageTransparent.splice(handlerIndex, 1);
+		}
+	},
+	/**
+	 * 同步漫游消息通知
+	 * @param {Object} listener
+	 */
+	addReceiveMessageRefreshListener: function(listener) {
+		EventHandlers.receiveMessageRefresh.push(listener);
+	},
+	removeReceiveMessageRefreshListener: function(listener) {
+		var handlerIndex = EventHandlers.receiveMessageRefresh.indexOf(listener);
+		if (handlerIndex >= 0) {
+			EventHandlers.receiveMessageRefresh.splice(handlerIndex, 1);
 		}
 	},
 }
