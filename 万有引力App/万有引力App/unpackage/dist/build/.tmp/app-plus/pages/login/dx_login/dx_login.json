@@ -1,9 +1,0 @@
-{
-  "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "短信登录",
-  "bounce": "none",
-  "titleNView": false,
-  "usingComponents": {
-    "navigation": "/components/navigation"
-  }
-}

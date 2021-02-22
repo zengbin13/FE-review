@@ -1,1 +1,0 @@
-<block wx:if="{{level==1||level==2}}"><image class="level_img" src="{{levelString}}" mode="widthFix" data-event-opts="{{[['tap',[['_eventTap',['$event']]]]]}}" bindtap="__e"></image></block>

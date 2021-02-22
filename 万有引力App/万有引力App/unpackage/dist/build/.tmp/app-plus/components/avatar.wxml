@@ -1,1 +1,0 @@
-<block wx:if="{{vip&&src}}"><view class="avatar_vip"><image class="avatar_img" src="{{src}}" mode="aspectFill"></image></view></block><block wx:else><block wx:if="{{src}}"><image class="avatar_img" src="{{src}}" mode="aspectFill"></image></block></block>

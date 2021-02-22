@@ -1,1 +1,0 @@
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/circle/circle_list/bounty_pay/bounty_pay.wxml') } }));
