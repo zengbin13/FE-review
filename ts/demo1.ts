@@ -1,7 +1,7 @@
-function greeter(person: string) {
-  return "Hello, " + person;
+enum Gender {
+  Male = 1,
+  Female = 2
 }
-
-let user = [0, 1, 2];
-
-document.body.innerHTML = greeter(user);
+let user: {name: string, gender: Gender}
+user = {name: 'xiaoyu', gender: Gender.Male}
+console.log(user);
