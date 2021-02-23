@@ -1,2 +1,0 @@
-setCssToHead(["body { background-color: #F9F9F9; }\n.",[1],"circle_type { top: ",[0,130],"; position: relative; }\n.",[1],"circle_list { width: ",[0,326],"; height: ",[0,187],"; display: block; margin: 0 auto; margin-bottom: ",[0,68],"; }\n.",[1],"circle_list .",[1],"img { width: ",[0,326],"; height: ",[0,187],"; display: block; }\n",],undefined,{path:"./pages/circleCreate/circleCreate.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/circleCreate/circleCreate.wxml') } }));

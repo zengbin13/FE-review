@@ -1,9 +1,0 @@
-{
-  "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "圈子二维码",
-  "bounce": "none",
-  "titleNView": false,
-  "usingComponents": {
-    "navigation": "/components/navigation"
-  }
-}

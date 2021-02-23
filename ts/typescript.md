@@ -25,7 +25,7 @@
    ```shell
    d:
    mkdir TypeScriptDemo
-   tsc Demo1.ts
+   tsc Demo1.ts //将ts代码编译为js代码
    ```
 
 4. ts-node 安装与使用
@@ -116,7 +116,7 @@ const xiaoYu: {
     name: string,
     age: number
 } = {
-    name: 'xoaoYu',
+    name: 'xiaoYu',
     age: 18
 }
 

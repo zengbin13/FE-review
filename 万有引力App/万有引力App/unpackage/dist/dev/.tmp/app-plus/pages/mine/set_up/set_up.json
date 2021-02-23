@@ -1,8 +1,0 @@
-{
-  "navigationBarTextStyle": "black",
-  "navigationBarBackgroundColor": "#fff",
-  "backgroundColor": "#fff",
-  "navigationBarTitleText": "设置",
-  "bounce": "none",
-  "usingComponents": {}
-}

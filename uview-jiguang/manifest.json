@@ -88,8 +88,6 @@
         },
         "nativePlugins" : {
             "YOYO-JPushIM" : {
-                "channel" : "HBuildX",
-                "app_key" : "06199d2d0fe76791ff27a418",
                 "__plugin_info__" : {
                     "name" : "极光IM原生SDK整合 - Android/iOS - [试用版，仅用于自定义调试基座]",
                     "description" : "即时通讯聊天 极光IM即时通讯",
@@ -101,18 +99,11 @@
                     "bought" : 0,
                     "pid" : "886",
                     "parameters" : {
-                        "channel" : {
-                            "des" : "渠道，如：any channel",
-                            "key" : "YOYO-JPushIM:channel",
-                            "value" : ""
-                        },
-                        "app_key" : {
-                            "des" : "极光IM的key",
-                            "key" : "YOYO-JPushIM:app_key",
-                            "value" : ""
-                        }
+                        "app_key" : "06199d2d0fe76791ff27a418"
                     }
-                }
+                },
+                "app_key" : "06199d2d0fe76791ff27a418",
+                "channel" : "HBuildx"
             }
         }
     },

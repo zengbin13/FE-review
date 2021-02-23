@@ -1,8 +1,0 @@
-{
-  "navigationBarTextStyle": "black",
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "backgroundColor": "#FFFFFF",
-  "navigationBarTitleText": "支付成功",
-  "bounce": "none",
-  "usingComponents": {}
-}

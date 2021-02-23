@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "black",
-  "navigationBarTitleText": "公告详情",
-  "titleNView": false,
-  "usingComponents": {
-    "load-more": "/components/load-more"
-  }
-}

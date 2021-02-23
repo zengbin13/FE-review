@@ -1,8 +1,0 @@
-{
-  "navigationBarTextStyle": "black",
-  "navigationBarBackgroundColor": "#FFFFFF",
-  "backgroundColor": "#FFFFFF",
-  "navigationBarTitleText": "设置付费信息",
-  "bounce": "none",
-  "usingComponents": {}
-}

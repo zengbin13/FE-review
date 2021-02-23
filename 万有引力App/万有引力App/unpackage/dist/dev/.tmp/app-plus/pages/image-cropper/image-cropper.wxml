@@ -1,1 +1,0 @@
-<view><image-cropper vue-id="1" src="{{tempFilePath}}" cropWidth="{{cropWidth}}" cropHeight="{{cropHeight}}" data-event-opts="{{[['^confirm',[['confirm']]],['^cancel',[['cancel']]]]}}" bind:confirm="__e" bind:cancel="__e" bind:__l="__l"></image-cropper></view>

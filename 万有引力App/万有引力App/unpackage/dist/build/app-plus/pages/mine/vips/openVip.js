@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"openVip .",[1],"p { width: 100%; }\n.",[1],"openVip .",[1],"btn { left: 5%; width: 90%; z-index: 99; color: #fff; bottom: ",[0,30],"; height: ",[0,100],"; position: fixed; font-size: ",[0,32],"; text-align: center; line-height: ",[0,100],"; border-radius: ",[0,10],"; background-color: #34cc93; }\n",],undefined,{path:"./pages/mine/vips/openVip.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/mine/vips/openVip.wxml') } }));

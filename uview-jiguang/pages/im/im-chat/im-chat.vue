@@ -277,6 +277,7 @@
 				airlinesLook: {},
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
+				chatUserAvatar: '',
 				//文字消息
 				textMsg: '',
 				//消息列表
@@ -346,6 +347,8 @@
 				return;
 			}
 			this.selfTitle = option.title
+			this.chatUserAvatar = option.avatar
+			console.log(222, this.chatUserAvatar);
 			// uni.setNavigationBarTitle({
 			// 	title: option.title
 			// });
